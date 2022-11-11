@@ -5,6 +5,8 @@ import com.example.eunboard.domain.dto.response.MemberResponseDTO;
 import com.example.eunboard.domain.entity.Member;
 import com.example.eunboard.domain.repository.member.MemberRepository;
 
+import com.example.eunboard.exception.ErrorCode;
+import com.example.eunboard.exception.custom.CustomException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -53,7 +55,8 @@ public class MemberService {
         requestDTO.setMemberId(memberId);
         requestDTO.setMember(true);
 
-        Member member = memberRepository.findById(memberId).get();
+        // 존재하지 않는 멤버일시 runtime exception
+        Member member = memberRepository.findById(memberId).orElseThrow(()->new CustomException(ErrorCode.MEMBER_NOT_FOUND.getMessage(), ErrorCode.MEMBER_NOT_FOUND));
 
         copyNonNullProperties(requestDTO, member);
 
