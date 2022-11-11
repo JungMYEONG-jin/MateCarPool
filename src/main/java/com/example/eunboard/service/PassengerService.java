@@ -4,8 +4,8 @@ import org.springframework.stereotype.Service;
 
 import com.example.eunboard.domain.dto.request.PassengerRequestDTO;
 import com.example.eunboard.domain.entity.Passenger;
-import com.example.eunboard.domain.repository.PassengerQueryRepository;
-import com.example.eunboard.domain.repository.PassengerRepository;
+import com.example.eunboard.domain.repository.passenger.PassengerQueryRepository;
+import com.example.eunboard.domain.repository.passenger.PassengerRepository;
 import com.example.eunboard.exception.ErrorCode;
 import com.example.eunboard.exception.custom.CustomException;
 

@@ -1,4 +1,4 @@
-package com.example.eunboard.domain.repository;
+package com.example.eunboard.domain.repository.ticket;
 
 import com.example.eunboard.domain.entity.Withdrawal;
 import org.springframework.data.jpa.repository.JpaRepository;

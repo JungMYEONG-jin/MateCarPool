@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import com.example.eunboard.domain.dto.request.MemberTimetableRequestDTO;
 import com.example.eunboard.domain.entity.Member;
 import com.example.eunboard.domain.entity.MemberTimetable;
-import com.example.eunboard.domain.repository.MemberTimetableRepository;
+import com.example.eunboard.domain.repository.member.MemberTimetableRepository;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

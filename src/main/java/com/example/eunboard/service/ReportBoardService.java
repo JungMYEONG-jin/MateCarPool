@@ -2,7 +2,7 @@ package com.example.eunboard.service;
 
 import com.example.eunboard.domain.dto.ReportBoardDTO;
 import com.example.eunboard.domain.entity.ReportBoard;
-import com.example.eunboard.domain.repository.ReportBoardRepository;
+import com.example.eunboard.domain.repository.board.ReportBoardRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

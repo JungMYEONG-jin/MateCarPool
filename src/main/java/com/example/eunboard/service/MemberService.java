@@ -3,7 +3,7 @@ package com.example.eunboard.service;
 import com.example.eunboard.domain.dto.request.MemberRequestDTO;
 import com.example.eunboard.domain.dto.response.MemberResponseDTO;
 import com.example.eunboard.domain.entity.Member;
-import com.example.eunboard.domain.repository.MemberRepository;
+import com.example.eunboard.domain.repository.member.MemberRepository;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

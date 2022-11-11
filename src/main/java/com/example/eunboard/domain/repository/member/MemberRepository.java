@@ -1,4 +1,4 @@
-package com.example.eunboard.domain.repository;
+package com.example.eunboard.domain.repository.member;
 
 import com.example.eunboard.domain.entity.Member;
 

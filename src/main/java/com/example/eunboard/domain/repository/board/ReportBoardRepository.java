@@ -1,4 +1,4 @@
-package com.example.eunboard.domain.repository;
+package com.example.eunboard.domain.repository.board;
 
 import com.example.eunboard.domain.entity.QuestionBoard;
 import com.example.eunboard.domain.entity.ReportBoard;

@@ -60,9 +60,9 @@ public class MemberAPI {
         // FileUploadUtils.cleanDir("/image/profiles");
         if (multipartFile != null) {
             String originName = multipartFile.getOriginalFilename();
-            String ext = originName.substring(originName.lastIndexOf(".") + 1);
+            String ext = originName.substring(originName.lastIndexOf(".") + 1); // 확장자
 
-            String newFileName = new MD5Generator(originName).toString() + "." + ext;
+            String newFileName = new MD5Generator(originName).toString() + "." + ext; // 파일 해쉬
             FileUploadUtils.saveFile("/image/profiles/" + memberId, newFileName, multipartFile);
 
             memberService.updateProfileImage(memberId, "/" + memberId + "/" + newFileName);

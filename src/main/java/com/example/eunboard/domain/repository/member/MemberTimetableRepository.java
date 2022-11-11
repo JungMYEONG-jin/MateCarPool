@@ -1,4 +1,4 @@
-package com.example.eunboard.domain.repository;
+package com.example.eunboard.domain.repository.member;
 
 import java.util.List;
 

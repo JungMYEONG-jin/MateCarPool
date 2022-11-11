@@ -4,6 +4,8 @@ import com.example.eunboard.domain.entity.Member;
 import com.example.eunboard.domain.entity.MemberRole;
 import com.example.eunboard.domain.entity.Ticket;
 import com.example.eunboard.domain.entity.TicketStatus;
+import com.example.eunboard.domain.repository.member.MemberRepository;
+import com.example.eunboard.domain.repository.ticket.TicketRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

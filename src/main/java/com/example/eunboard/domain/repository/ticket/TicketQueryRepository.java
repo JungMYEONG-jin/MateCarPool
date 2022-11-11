@@ -1,31 +1,37 @@
-package com.example.eunboard.domain.repository;
+package com.example.eunboard.domain.repository.ticket;
 
-import com.example.eunboard.domain.entity.QMember;
-import com.example.eunboard.domain.entity.QPassenger;
 import com.example.eunboard.domain.entity.Ticket;
 import com.example.eunboard.domain.entity.TicketStatus;
+import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-
 
 import java.util.List;
 
-import static com.example.eunboard.domain.entity.QMember.*;
-import static com.example.eunboard.domain.entity.QPassenger.*;
+import static com.example.eunboard.domain.entity.QMember.member;
+import static com.example.eunboard.domain.entity.QPassenger.passenger;
 import static com.example.eunboard.domain.entity.QTicket.ticket;
 
 @Transactional
 @RequiredArgsConstructor
 @Slf4j
-@Repository
-public class TicketQueryRepository {
+public class TicketQueryRepository implements CustomTicketRepository{
 
     private final JPAQueryFactory queryFactory;
 
+    private BooleanExpression statusEq(TicketStatus ticketStatus){
+        return ticket.status.eq(ticketStatus);
+    }
+
+    private BooleanExpression statusEqNot(TicketStatus ticketStatus){
+        return ticket.status.eq(ticketStatus).not();
+    }
+
+
     @Transactional(readOnly = true)
+    @Override
     public List<Ticket> findAll() {
         return queryFactory
                 .selectFrom(ticket)
@@ -33,15 +39,16 @@ public class TicketQueryRepository {
                 .fetchJoin()
                 .leftJoin(ticket.member, member)
                 .fetchJoin()
-                .where(ticket.status.eq(TicketStatus.AFTER).not())
+                .where(statusEqNot(TicketStatus.AFTER))
                 .fetch();
     }
 
+    @Override
     public Boolean existTicket(Long memberId) {
         return queryFactory
                 .selectFrom(ticket)
                 .where(ticket.status.eq(TicketStatus.BEFORE)
-                        .and(ticket.status.eq(TicketStatus.ING))
+                        .and(statusEq(TicketStatus.ING))
                         .and(ticket.member.memberId.eq(memberId)))
                 .fetchOne() != null;
     }

@@ -22,7 +22,31 @@
 #    spring.redis.host=localhost
 #    spring.redis.port=6379
 
-spring:
-  profiles: mj
+server:
+  port: 8080
+  tomcat:
+    max-http-form-post-size: 25MB
 
+spring:
+  servlet:
+    max-file-size: 20MB
+    max-request-size: 25MB
+  datasource:
+      url: jdbc:h2:tcp://localhost/~/mate
+      username: sa
+      password:
+      driver-class-name: org.h2.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: create
+
+    properties:
+      hibernate:
+        format_sql: true
+        show_sql: true
+
+logging:
+  level:
+    org.hibernate.SQL: debug
 
