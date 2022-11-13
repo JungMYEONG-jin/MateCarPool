@@ -50,3 +50,7 @@ logging:
   level:
     org.hibernate.SQL: debug
 
+# password is echo 'mate-carpool' | base64
+jwt:
+  secret: bWF0ZS1jYXJwb29sCg==
+

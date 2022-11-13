@@ -29,8 +29,6 @@ public class SecurityConfig {
                 //.authorizeRequests().antMatchers("/kakaoLogin", "/member/profile/**") // 카카오로그인만 접근허용되어있음
                 .permitAll()
                 .anyRequest().authenticated();
-
-
         http.addFilterAfter(
                 jwtAuthenticationFilter,
                 CorsFilter.class);
