@@ -14,7 +14,6 @@ import java.time.LocalDateTime;
 @EntityListeners(value = {AuditingEntityListener.class})
 @Getter
 public class BaseEntity {
-
     @CreatedDate
     @Column(name="create_date",updatable=false)
     private LocalDateTime createDate; //작성일
@@ -22,5 +21,4 @@ public class BaseEntity {
     @LastModifiedDate
     @Column(name="update_date")
     private LocalDateTime updateDate; //수정일
-
 }
