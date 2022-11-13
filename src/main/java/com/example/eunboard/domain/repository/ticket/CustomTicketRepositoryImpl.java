@@ -17,7 +17,7 @@ import static com.example.eunboard.domain.entity.QTicket.ticket;
 @Transactional
 @RequiredArgsConstructor
 @Slf4j
-public class TicketQueryRepository implements CustomTicketRepository{
+public class CustomTicketRepositoryImpl implements CustomTicketRepository{
 
     private final JPAQueryFactory queryFactory;
 

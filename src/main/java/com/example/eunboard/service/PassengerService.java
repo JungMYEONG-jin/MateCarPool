@@ -4,7 +4,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.eunboard.domain.dto.request.PassengerRequestDTO;
 import com.example.eunboard.domain.entity.Passenger;
-import com.example.eunboard.domain.repository.passenger.PassengerQueryRepository;
+import com.example.eunboard.domain.repository.passenger.CustomPassengerRepositoryImpl;
 import com.example.eunboard.domain.repository.passenger.PassengerRepository;
 import com.example.eunboard.exception.ErrorCode;
 import com.example.eunboard.exception.custom.CustomException;
@@ -18,7 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 public class PassengerService {
 
   private final PassengerRepository passengerRepository;
-  private final PassengerQueryRepository passengerQueryRepository;
+  private final CustomPassengerRepositoryImpl passengerQueryRepository;
 
   public void save(PassengerRequestDTO requestDTO) {
     if (passengerQueryRepository.findRide(PassengerRequestDTO.toEntity(requestDTO))) {

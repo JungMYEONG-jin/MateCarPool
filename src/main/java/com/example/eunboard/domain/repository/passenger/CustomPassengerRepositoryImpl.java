@@ -12,7 +12,7 @@ import static com.example.eunboard.domain.entity.QTicket.ticket;
 
 @Transactional
 @RequiredArgsConstructor
-public class PassengerQueryRepository implements CustomPassengerRepository{
+public class CustomPassengerRepositoryImpl implements CustomPassengerRepository{
 
   private final JPAQueryFactory queryFactory;
 

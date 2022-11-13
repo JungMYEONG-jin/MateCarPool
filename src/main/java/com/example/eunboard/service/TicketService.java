@@ -6,7 +6,7 @@ import com.example.eunboard.domain.entity.Member;
 import com.example.eunboard.domain.entity.Ticket;
 import com.example.eunboard.domain.entity.TicketStatus;
 import com.example.eunboard.domain.repository.member.MemberRepository;
-import com.example.eunboard.domain.repository.ticket.TicketQueryRepository;
+import com.example.eunboard.domain.repository.ticket.CustomTicketRepositoryImpl;
 import com.example.eunboard.domain.repository.ticket.TicketRepository;
 import com.example.eunboard.exception.ErrorCode;
 import com.example.eunboard.exception.custom.CustomException;
@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
 @Service
 public class TicketService {
     private final TicketRepository ticketRepository;
-    private final TicketQueryRepository ticketQueryRepository;
+    private final CustomTicketRepositoryImpl ticketQueryRepository;
 
     private final MemberRepository memberRepository;
 
