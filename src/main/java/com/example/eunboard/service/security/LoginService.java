@@ -53,7 +53,7 @@ public class LoginService {
             Member savedMember = memberRepository.save(member);
             List<MemberTimetableRequestDTO> memberTimeTable = memberRequestDTO.getMemberTimeTable();
             // 시간표 미 설정 유저
-            if (memberTimeTable.isEmpty())
+            if (memberTimeTable==null)
                 return MemberResponseDTO.toDTO(savedMember, null);
             // 시간표 설정 유저
             List<MemberTimetable> timetableEntities = new ArrayList<>();

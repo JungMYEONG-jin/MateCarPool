@@ -27,3 +27,4 @@ https://github.com/ParkJiwoon/practice-codes/tree/master/spring-security-jwt/src
 - 토큰 만료 시간 O
 - 토큰으로 접속 정보 가져오기 O
 - 토큰 재발급 O
+- 가입시 시간표 안고르고 선택해도 가입 O

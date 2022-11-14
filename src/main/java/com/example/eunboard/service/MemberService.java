@@ -101,7 +101,7 @@ public class MemberService {
 
     public MemberResponseDTO getMember(String studentnumber){
         return memberRepository.findByStudentNumber(studentnumber).map(member -> {
-                    if (member.getMemberTimeTableList().isEmpty())
+                    if (member.getMemberTimeTableList()==null)
                     {
                         return MemberResponseDTO.toDTO(member, null);
                     }
