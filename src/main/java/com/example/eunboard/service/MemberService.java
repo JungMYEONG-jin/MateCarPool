@@ -53,7 +53,7 @@ public class MemberService {
         return MemberResponseDTO.toDTO(memberRepository.findById(id).get(), null);
     }
 
-    public void updatMember(final Long memberId, final MemberRequestDTO requestDTO) {
+    public void updateMember(final Long memberId, final MemberRequestDTO requestDTO) {
         if (null == requestDTO) {
             throw new RuntimeException("Invalid arguments");
         }
@@ -99,9 +99,15 @@ public class MemberService {
         memberRepository.save(member);
     }
 
-    public MemberResponseDTO getMember(String phoneNumber){
-        return memberRepository.findByPhoneNumber(phoneNumber).map(member -> MemberResponseDTO.toDTO(member, null)).
-                orElseThrow(()->new RuntimeException("유저 정보가 없습니다."));
+    public MemberResponseDTO getMember(String studentnumber){
+        return memberRepository.findByStudentNumber(studentnumber).map(member -> {
+                    if (member.getMemberTimeTableList().isEmpty())
+                    {
+                        return MemberResponseDTO.toDTO(member, null);
+                    }
+                    return MemberResponseDTO.toDTOWithTimeTable(member, null);
+                }).
+                orElseThrow(()->new CustomException(ErrorCode.MEMBER_NOT_FOUND.getMessage(), ErrorCode.MEMBER_NOT_FOUND));
     }
 
     public MemberResponseDTO getMyInfo(){

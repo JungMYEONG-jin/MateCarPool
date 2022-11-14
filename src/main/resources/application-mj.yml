@@ -52,5 +52,5 @@ logging:
 
 # password is echo 'mate-carpool' | base64
 jwt:
-  secret: bWF0ZS1jYXJwb29sLWZmYWRzYWRhc2Rhc2Rhc2Rhc2RzYWRhc2Rhc2Rhc2Rhc2Rhcwo=
+  secret: bWF0ZS1jYXJwb29sLWp3dC10b2tlbi1zaWduLWtleS1lbHNlLWNlcnQtcDEyLWFhYWFiZGV3cmZkc2Zkc3JlZHNzZHNhCg==
 

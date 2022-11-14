@@ -15,6 +15,7 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
     // 회원 검증 id가 이름인데 중복이 가능
     List<Member> findByMemberName(String memberName);
     Optional<Member> findByPhoneNumber(String phoneNumber);
+    Optional<Member> findByStudentNumber(String studentNumber);
     // id가 중복이라 phone으로 구분해야할듯
     Boolean existsByPhoneNumber(String phoneNumber);
 }

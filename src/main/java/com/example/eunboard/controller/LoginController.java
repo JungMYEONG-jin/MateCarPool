@@ -4,6 +4,7 @@ import com.example.eunboard.domain.dto.request.MemberRequestDTO;
 import com.example.eunboard.domain.dto.response.MemberResponseDTO;
 import com.example.eunboard.domain.dto.token.TokenDto;
 import com.example.eunboard.domain.dto.token.TokenRequestDto;
+import com.example.eunboard.service.MemberTimetableService;
 import com.example.eunboard.service.security.LoginService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +21,8 @@ public class LoginController {
 
     @PostMapping("/signup")
     public ResponseEntity<MemberResponseDTO> signup(@RequestBody MemberRequestDTO memberRequestDTO){
-        return ResponseEntity.ok(loginService.signup(memberRequestDTO));
+        MemberResponseDTO signup = loginService.signup(memberRequestDTO);
+        return ResponseEntity.ok(signup);
     }
 
     @PostMapping("/login")

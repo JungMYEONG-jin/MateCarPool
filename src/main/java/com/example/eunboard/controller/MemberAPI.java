@@ -69,7 +69,7 @@ public class MemberAPI {
         }
 
         memberTimetableService.saveAll(memberId, requestDTO.getMemberTimeTable());
-        memberService.updatMember(memberId, requestDTO);
+        memberService.updateMember(memberId, requestDTO);
     }
 
     @GetMapping("profile/{id}/{imagename}")
@@ -92,8 +92,8 @@ public class MemberAPI {
         return ResponseEntity.ok(memberService.getMyInfo());
     }
 
-    @GetMapping("/{phone}")
-    public ResponseEntity<MemberResponseDTO> getMemberInfo(@PathVariable String phone){
-        return ResponseEntity.ok(memberService.getMember(phone));
+    @GetMapping("/{studentnum}")
+    public ResponseEntity<MemberResponseDTO> getMemberInfo(@PathVariable String studentnum){
+        return ResponseEntity.ok(memberService.getMember(studentnum));
     }
 }

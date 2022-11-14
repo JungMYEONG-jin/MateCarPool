@@ -14,7 +14,8 @@ public enum ErrorCode {
     TICKET_PASS_NOT_FOUND(404, "TICKET-PASS-ERR-404", "티켓패스를 찾을 수 없습니다."),
     MEMBER_NOT_FOUND(404, "COMMON-ERR-404", "사용자를 찾을 수 없습니다"),
     MEMBER_NOT_AUTHORITY(500, "COMMON-ERR-500", "권한이 없습니다."),
-    REFRESH_TOKEN_INVALID(401, "TOKEN_INVALID", "The Given Token is invalid");
+    REFRESH_TOKEN_INVALID(401, "REFRESH_TOKEN_INVALID", "The Refresh Token is invalid"),
+    TOKEN_INVALID(401, "TOKEN_INVALID", "The Token is invalid");
     private int status;
     private String errorCode;
     private String message;
