@@ -12,8 +12,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 @RestController
 public class MateAPI {
-
-
     @GetMapping("/auth/test")
     public String authTest() {
         return "인증 불필요 성공";
@@ -23,4 +21,5 @@ public class MateAPI {
     public String authTest(@AuthenticationPrincipal long memberId) {
         return "인증 필요 성공";
     }
+
 }

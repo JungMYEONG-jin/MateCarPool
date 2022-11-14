@@ -65,8 +65,8 @@ public class MemberResponseDTO {
                 .profileImage(entity.getProfileImage())
                 .isMember(entity.isMember())
                 .area(entity.getArea())
-                .memberTimeTable(entity.getMemberTimeTableList().stream().map(MemberTimetableResponseDTO::toDTO)
-                        .collect(Collectors.toList()))
+//                .memberTimeTable(entity.getMemberTimeTableList().stream().map(MemberTimetableResponseDTO::toDTO)
+//                        .collect(Collectors.toList()))
                 .build();
     }
 }

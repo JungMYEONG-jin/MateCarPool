@@ -86,4 +86,14 @@ public class MemberAPI {
         }
         return result;
     }
+
+    @GetMapping("/me")
+    public ResponseEntity<MemberResponseDTO> getMyInfo(){
+        return ResponseEntity.ok(memberService.getMyInfo());
+    }
+
+    @GetMapping("/{phone}")
+    public ResponseEntity<MemberResponseDTO> getMemberInfo(@PathVariable String phone){
+        return ResponseEntity.ok(memberService.getMember(phone));
+    }
 }

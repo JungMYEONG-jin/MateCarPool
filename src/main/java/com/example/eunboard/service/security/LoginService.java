@@ -31,9 +31,14 @@ public class LoginService {
 
         // 회원 가입
         public MemberResponseDTO signup(MemberRequestDTO memberRequestDTO){
-                // 번호로 구분하자
+            // 번호로 구분하자
             if (memberRepository.existsByPhoneNumber(memberRequestDTO.getPhoneNumber())){
                     throw new CustomException(ErrorCode.PHONE_IS_EXIST.getMessage(), ErrorCode.PHONE_IS_EXIST);
+            }
+            boolean isDup = memberRepository.findByMemberName(memberRequestDTO.getMemberName()).stream().
+                    anyMatch(member -> member.getStudentNumber().equals(memberRequestDTO.getStudentNumber()));
+            if (isDup){
+                throw new CustomException(ErrorCode.MEMBER_IS_EXIST.getMessage(), ErrorCode.MEMBER_IS_EXIST);
             }
             Member member = MemberRequestDTO.toMember(memberRequestDTO, passwordEncoder);
             return MemberResponseDTO.toDTO(memberRepository.save(member), null);

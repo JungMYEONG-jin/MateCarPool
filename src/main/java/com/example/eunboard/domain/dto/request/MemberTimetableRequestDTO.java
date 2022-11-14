@@ -33,4 +33,11 @@ public class MemberTimetableRequestDTO {
         .dayCode(dto.dayCode)
         .build();
   }
+
+  public static MemberTimetable toDefault(MemberTimetableRequestDTO dto){
+    return MemberTimetable.builder()
+            .member(Member.builder().memberId(dto.memberId).build())
+            .dayCode("1")
+            .build();
+  }
 }

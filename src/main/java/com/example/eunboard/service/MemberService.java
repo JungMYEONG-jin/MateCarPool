@@ -14,14 +14,19 @@ import java.beans.PropertyDescriptor;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.apache.catalina.security.SecurityUtil;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.BeanWrapperImpl;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @RequiredArgsConstructor
 @Service
+@Transactional
 public class MemberService {
 
     private final MemberRepository memberRepository;
@@ -93,5 +98,26 @@ public class MemberService {
 
         memberRepository.save(member);
     }
+
+    public MemberResponseDTO getMember(String phoneNumber){
+        return memberRepository.findByPhoneNumber(phoneNumber).map(member -> MemberResponseDTO.toDTO(member, null)).
+                orElseThrow(()->new RuntimeException("유저 정보가 없습니다."));
+    }
+
+    public MemberResponseDTO getMyInfo(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null || authentication.getName() == null){
+            throw new RuntimeException("인증 정보가 없습니다.");
+        }
+        // name is id
+        long id = Long.parseLong(authentication.getName());
+        Member member = memberRepository.findByMemberId(id);
+        if (member==null)
+        {
+            throw new RuntimeException("ID와 매치되는 유저가 존재하지 않습니다.");
+        }
+        return MemberResponseDTO.toDTO(member, null);
+    }
+
 
 }

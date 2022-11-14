@@ -67,8 +67,8 @@ public class MemberRequestDTO {
 
     public static Member toMember(MemberRequestDTO dto, PasswordEncoder passwordEncoder){
         return Member.builder()
-                .memberTimeTableList(dto.memberTimeTable.stream().map(MemberTimetableRequestDTO::toEntity)
-                        .collect(Collectors.toList()))
+//                .memberTimeTableList(dto.memberTimeTable.stream().map(MemberTimetableRequestDTO::toEntity)
+//                        .collect(Collectors.toList()))
                 .memberId(dto.memberId)
                 .password(passwordEncoder.encode(dto.password))
                 .studentNumber(dto.studentNumber)
