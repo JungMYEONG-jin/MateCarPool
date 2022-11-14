@@ -32,7 +32,7 @@ public class TokenProvider {
 
   private static final String AUTHORITIES_KEY = "auth";
   private static final String BEARER_TYPE = "Bearer";
-  private static final long TOKEN_EXPIRE_TIME = 1000 * 60 * 30; // 실제 운영시
+  private static final long TOKEN_EXPIRE_TIME = 1000 * 60 ; // 실제 운영시
   private static final long REFRESH_TOKEN_EXPIRE_TIME = 1000 * 60 * 60 * 24 * 7; // 7일
 
   // 임시
@@ -108,8 +108,6 @@ public class TokenProvider {
       return e.getClaims();
     }
   }
-
-
 
 
   public String create(Member member) {

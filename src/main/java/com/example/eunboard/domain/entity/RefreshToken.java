@@ -3,6 +3,7 @@ package com.example.eunboard.domain.entity;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -13,7 +14,9 @@ import javax.persistence.Table;
 @NoArgsConstructor
 @Table(name = "refresh_token")
 @Entity
-public class RefreshToken {
+@Builder
+@ToString
+public class RefreshToken extends BaseEntity{
 
     @Id
     @Column(name = "refresh_key")

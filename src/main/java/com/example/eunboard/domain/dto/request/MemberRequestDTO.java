@@ -5,6 +5,8 @@ import com.example.eunboard.domain.entity.MemberRole;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.*;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -63,11 +65,12 @@ public class MemberRequestDTO {
                 .build();
     }
 
-    public static Member toEntity(MemberRequestDTO dto) {
+    public static Member toMember(MemberRequestDTO dto, PasswordEncoder passwordEncoder){
         return Member.builder()
                 .memberTimeTableList(dto.memberTimeTable.stream().map(MemberTimetableRequestDTO::toEntity)
                         .collect(Collectors.toList()))
                 .memberId(dto.memberId)
+                .password(passwordEncoder.encode(dto.password))
                 .studentNumber(dto.studentNumber)
                 .email(dto.email)
                 .memberName(dto.memberName)
@@ -77,6 +80,10 @@ public class MemberRequestDTO {
                 .profileImage(dto.profileImage)
                 .area(dto.area)
                 .build();
+    }
+
+    public UsernamePasswordAuthenticationToken toAuthentication(){
+        return new UsernamePasswordAuthenticationToken(phoneNumber, password);
     }
 
 }
