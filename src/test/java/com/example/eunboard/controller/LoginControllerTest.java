@@ -13,6 +13,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 
@@ -24,6 +25,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
+@Transactional
 class LoginControllerTest {
     @Autowired
     MockMvc mockMvc;
@@ -38,6 +40,7 @@ class LoginControllerTest {
                 .andDo(print());
     }
 
+    @Description("회원가입")
     @Test
     void signUpTest() throws Exception {
         MemberRequestDTO mj = MemberRequestDTO.builder().studentNumber("2015").password("2015")
@@ -55,6 +58,7 @@ class LoginControllerTest {
                 andExpect(jsonPath("phoneNumber").value("010"));
     }
 
+    @Description("회원가입 후 로그인")
     @Test
     void signAndLoginTest() throws Exception {
         MemberRequestDTO mj = MemberRequestDTO.builder().studentNumber("2015").password("2015")
@@ -75,6 +79,7 @@ class LoginControllerTest {
         String result = perform2.toString();
     }
 
+    @Description("이름 중복 허용 테스트")
     @Test
     void signDuplicateMemberNameTest() throws Exception {
         MemberRequestDTO mj = MemberRequestDTO.builder().studentNumber("2015").password("2015")
@@ -114,6 +119,7 @@ class LoginControllerTest {
     }
 
 
+    @Description("학번 중복 실패 테스트")
     @Test
     void signDuplicateStudentNumberTest() throws Exception {
         MemberRequestDTO mj = MemberRequestDTO.builder().studentNumber("2015").password("2015")
@@ -122,8 +128,6 @@ class LoginControllerTest {
                 .phoneNumber("010")
                 .memberTimeTable(new ArrayList<>())
                 .build();
-
-
 
         MemberRequestDTO test = MemberRequestDTO.builder().studentNumber("2015").password("2015")
                 .auth(MemberRole.PASSENGER)
@@ -145,11 +149,4 @@ class LoginControllerTest {
 
         perform2.andDo(print());
     }
-
-
-
-
-
-
-
 }
