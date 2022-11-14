@@ -2,12 +2,13 @@ package com.example.eunboard.domain.dto.request;
 
 import com.example.eunboard.domain.entity.Member;
 import com.example.eunboard.domain.entity.MemberRole;
+import com.example.eunboard.validation.stdnum.StudentNumUnique;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import lombok.*;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import javax.validation.constraints.NotBlank;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -27,6 +28,8 @@ public class MemberRequestDTO {
     private String token;
 
     /** 학번 */
+    @NotBlank
+    @StudentNumUnique
     private String studentNumber;
 
     /** 이메일 */

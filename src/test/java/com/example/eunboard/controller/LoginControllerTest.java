@@ -10,6 +10,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Description;
 import org.springframework.http.MediaType;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
@@ -39,44 +40,116 @@ class LoginControllerTest {
 
     @Test
     void signUpTest() throws Exception {
-        MemberRequestDTO memberRequestDTO = new MemberRequestDTO();
-        memberRequestDTO.setArea("대덕");
-        memberRequestDTO.setMemberName("mj");
-        memberRequestDTO.setAuth(MemberRole.PASSENGER);
-        memberRequestDTO.setDepartment("software");
-        memberRequestDTO.setEmail("abc@abc.com");
-        memberRequestDTO.setPassword("2011");
-        memberRequestDTO.setPhoneNumber("01045444544");
-        memberRequestDTO.setMemberTimeTable(new ArrayList<>());
+        MemberRequestDTO mj = MemberRequestDTO.builder().studentNumber("2015").password("2015")
+                .auth(MemberRole.PASSENGER)
+                .memberName("mj")
+                .phoneNumber("010")
+                .memberTimeTable(new ArrayList<>())
+                .build();
 
         ResultActions perform = this.mockMvc.perform(post("/auth/signup").
                 contentType(MediaType.APPLICATION_JSON)
-                .content(this.objectMapper.writeValueAsString(memberRequestDTO)));
+                .content(this.objectMapper.writeValueAsString(mj)));
         perform.andExpect(status().isOk()).
                 andExpect(jsonPath("memberName").value("mj")).
-                andExpect(jsonPath("phoneNumber").value("01045444544"));
+                andExpect(jsonPath("phoneNumber").value("010"));
     }
 
     @Test
     void signAndLoginTest() throws Exception {
-        MemberRequestDTO memberRequestDTO = new MemberRequestDTO();
-        memberRequestDTO.setArea("대덕");
-        memberRequestDTO.setMemberName("mj");
-        memberRequestDTO.setAuth(MemberRole.PASSENGER);
-        memberRequestDTO.setDepartment("software");
-        memberRequestDTO.setEmail("abc@abc.com");
-        memberRequestDTO.setPassword("2011");
-        memberRequestDTO.setPhoneNumber("01045444544");
-        memberRequestDTO.setMemberTimeTable(new ArrayList<>());
+        MemberRequestDTO mj = MemberRequestDTO.builder().studentNumber("2015").password("2015")
+                .auth(MemberRole.PASSENGER)
+                .memberName("mj")
+                .phoneNumber("010")
+                .memberTimeTable(new ArrayList<>())
+                .build();
 
         ResultActions perform = this.mockMvc.perform(post("/auth/signup").
                 contentType(MediaType.APPLICATION_JSON)
-                .content(this.objectMapper.writeValueAsString(memberRequestDTO)));
+                .content(this.objectMapper.writeValueAsString(mj)));
 
         ResultActions perform2 = this.mockMvc.perform(post("/auth/login").
                 contentType(MediaType.APPLICATION_JSON)
-                .content(this.objectMapper.writeValueAsString(memberRequestDTO)));
+                .content(this.objectMapper.writeValueAsString(mj)));
         perform2.andExpect(status().isOk());
-
+        String result = perform2.toString();
     }
+
+    @Test
+    void signDuplicateMemberNameTest() throws Exception {
+        MemberRequestDTO mj = MemberRequestDTO.builder().studentNumber("2015").password("2015")
+                .auth(MemberRole.PASSENGER)
+                .memberName("mj")
+                .phoneNumber("010")
+                .memberTimeTable(new ArrayList<>())
+                .build();
+
+        MemberRequestDTO test = MemberRequestDTO.builder().studentNumber("20151").password("20151")
+                .auth(MemberRole.PASSENGER)
+                .memberName("mj")
+                .phoneNumber("01044")
+                .memberTimeTable(new ArrayList<>())
+                .build();
+
+        ResultActions perform = this.mockMvc.perform(post("/auth/signup").
+                contentType(MediaType.APPLICATION_JSON)
+                .content(this.objectMapper.writeValueAsString(mj)));
+
+        ResultActions perform2 = this.mockMvc.perform(post("/auth/signup").
+                contentType(MediaType.APPLICATION_JSON)
+                .content(this.objectMapper.writeValueAsString(test)));
+
+        perform.andExpect(status().isOk()).
+                andExpect(jsonPath("memberName").value("mj")).
+                andExpect(jsonPath("phoneNumber").value("010")).
+                andExpect(jsonPath("studentNumber").value("2015"));
+        perform.andDo(print());
+
+        perform2.andExpect(status().isOk()).
+                andExpect(jsonPath("memberName").value("mj")).
+                andExpect(jsonPath("phoneNumber").value("01044")).
+                andExpect(jsonPath("studentNumber").value("20151"));
+
+        perform2.andDo(print());
+    }
+
+
+    @Test
+    void signDuplicateStudentNumberTest() throws Exception {
+        MemberRequestDTO mj = MemberRequestDTO.builder().studentNumber("2015").password("2015")
+                .auth(MemberRole.PASSENGER)
+                .memberName("mj")
+                .phoneNumber("010")
+                .memberTimeTable(new ArrayList<>())
+                .build();
+
+
+
+        MemberRequestDTO test = MemberRequestDTO.builder().studentNumber("2015").password("2015")
+                .auth(MemberRole.PASSENGER)
+                .memberName("mj")
+                .phoneNumber("01044")
+                .memberTimeTable(new ArrayList<>())
+                .build();
+
+        ResultActions perform = this.mockMvc.perform(post("/auth/signup").
+                contentType(MediaType.APPLICATION_JSON)
+                .content(this.objectMapper.writeValueAsString(mj)));
+
+        perform.andDo(print());
+
+
+        ResultActions perform2 = this.mockMvc.perform(post("/auth/signup").
+                contentType(MediaType.APPLICATION_JSON)
+                .content(this.objectMapper.writeValueAsString(test)));
+
+        perform2.andDo(print());
+    }
+
+
+
+
+
+
+
 }

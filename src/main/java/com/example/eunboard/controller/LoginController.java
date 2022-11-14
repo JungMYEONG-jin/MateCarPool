@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/auth")
@@ -20,7 +22,7 @@ public class LoginController {
     private final LoginService loginService;
 
     @PostMapping("/signup")
-    public ResponseEntity<MemberResponseDTO> signup(@RequestBody MemberRequestDTO memberRequestDTO){
+    public ResponseEntity<MemberResponseDTO> signup(@RequestBody @Valid MemberRequestDTO memberRequestDTO){
         MemberResponseDTO signup = loginService.signup(memberRequestDTO);
         return ResponseEntity.ok(signup);
     }
