@@ -34,4 +34,6 @@ https://github.com/ParkJiwoon/practice-codes/tree/master/spring-security-jwt/src
 ## 헥사고날 아키텍처
 - 헥사고날 아키텍쳐의 특징은 어플리케이션의 핵심인 비지니스로직이 아무런 의존성을 갖지 않는 도메인에 집중된다는 것이다.
 - 즉 기술적인 코드와 분리 가능!
-
+## 로그아웃
+- redis 로 구현해야 할 것 같음.
+- 논의가 필요함
