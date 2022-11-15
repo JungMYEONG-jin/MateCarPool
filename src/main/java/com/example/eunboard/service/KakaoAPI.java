@@ -16,7 +16,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-import com.example.eunboard.domain.dto.request.MemberRequestDTO;
+import com.example.eunboard.member.application.port.in.MemberRequestDTO;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 

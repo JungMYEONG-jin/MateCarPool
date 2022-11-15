@@ -1,4 +1,4 @@
-package com.example.eunboard.domain.dto.token;
+package com.example.eunboard.auth.application.port.in;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

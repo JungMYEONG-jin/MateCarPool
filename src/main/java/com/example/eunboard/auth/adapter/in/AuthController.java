@@ -1,11 +1,10 @@
-package com.example.eunboard.controller;
+package com.example.eunboard.auth.adapter.in;
 
-import com.example.eunboard.domain.dto.request.MemberRequestDTO;
-import com.example.eunboard.domain.dto.response.MemberResponseDTO;
-import com.example.eunboard.domain.dto.token.TokenDto;
-import com.example.eunboard.domain.dto.token.TokenRequestDto;
-import com.example.eunboard.service.MemberTimetableService;
-import com.example.eunboard.service.security.LoginService;
+import com.example.eunboard.auth.application.port.in.TokenDto;
+import com.example.eunboard.auth.application.port.in.TokenRequestDto;
+import com.example.eunboard.auth.application.port.in.TokenUseCase;
+import com.example.eunboard.member.application.port.in.MemberRequestDTO;
+import com.example.eunboard.member.application.port.in.MemberResponseDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,8 +17,8 @@ import javax.validation.Valid;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/auth")
-public class LoginController {
-    private final LoginService loginService;
+public class AuthController {
+    private final TokenUseCase loginService;
 
     @PostMapping("/signup")
     public ResponseEntity<MemberResponseDTO> signup(@RequestBody @Valid MemberRequestDTO memberRequestDTO){

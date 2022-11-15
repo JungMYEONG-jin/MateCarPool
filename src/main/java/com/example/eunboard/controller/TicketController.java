@@ -17,7 +17,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/ticket")
 @RestController
-public class TicketAPI {
+public class TicketController {
 
   private final TicketService ticketService;
 

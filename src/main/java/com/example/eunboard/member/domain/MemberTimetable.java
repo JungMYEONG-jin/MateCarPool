@@ -1,5 +1,6 @@
-package com.example.eunboard.domain.entity;
+package com.example.eunboard.member.domain;
 
+import com.example.eunboard.member.domain.Member;
 import lombok.*;
 
 import javax.persistence.*;

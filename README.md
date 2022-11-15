@@ -28,3 +28,10 @@ https://github.com/ParkJiwoon/practice-codes/tree/master/spring-security-jwt/src
 - 토큰으로 접속 정보 가져오기 O
 - 토큰 재발급 O
 - 가입시 시간표 안고르고 선택해도 가입 O
+
+
+# 11/15
+## 헥사고날 아키텍처
+- 헥사고날 아키텍쳐의 특징은 어플리케이션의 핵심인 비지니스로직이 아무런 의존성을 갖지 않는 도메인에 집중된다는 것이다.
+- 즉 기술적인 코드와 분리 가능!
+

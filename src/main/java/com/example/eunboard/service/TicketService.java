@@ -2,10 +2,10 @@ package com.example.eunboard.service;
 
 import com.example.eunboard.domain.dto.request.TicketRequestDTO;
 import com.example.eunboard.domain.dto.response.TicketResponseDTO;
-import com.example.eunboard.domain.entity.Member;
+import com.example.eunboard.member.domain.Member;
 import com.example.eunboard.domain.entity.Ticket;
 import com.example.eunboard.domain.entity.TicketStatus;
-import com.example.eunboard.domain.repository.member.MemberRepository;
+import com.example.eunboard.member.adapter.out.repository.MemberRepository;
 import com.example.eunboard.domain.repository.ticket.CustomTicketRepositoryImpl;
 import com.example.eunboard.domain.repository.ticket.TicketRepository;
 import com.example.eunboard.exception.ErrorCode;

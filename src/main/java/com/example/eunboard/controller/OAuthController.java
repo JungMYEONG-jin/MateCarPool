@@ -1,10 +1,10 @@
 package com.example.eunboard.controller;
 
-import com.example.eunboard.domain.dto.response.MemberResponseDTO;
-import com.example.eunboard.domain.entity.Member;
+import com.example.eunboard.member.application.port.in.MemberResponseDTO;
+import com.example.eunboard.member.domain.Member;
 import com.example.eunboard.security.TokenProvider;
 import com.example.eunboard.service.KakaoAPI;
-import com.example.eunboard.service.MemberService;
+import com.example.eunboard.member.application.service.MemberService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;

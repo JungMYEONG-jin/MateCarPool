@@ -10,9 +10,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-import static com.example.eunboard.domain.entity.QMember.member;
 import static com.example.eunboard.domain.entity.QPassenger.passenger;
 import static com.example.eunboard.domain.entity.QTicket.ticket;
+import static com.example.eunboard.member.domain.QMember.member;
 
 @Transactional
 @RequiredArgsConstructor

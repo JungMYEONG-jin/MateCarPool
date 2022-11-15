@@ -1,6 +1,6 @@
 package com.example.eunboard.domain.dto.response;
 
-import com.example.eunboard.domain.entity.MemberTimetable;
+import com.example.eunboard.member.domain.MemberTimetable;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.AllArgsConstructor;

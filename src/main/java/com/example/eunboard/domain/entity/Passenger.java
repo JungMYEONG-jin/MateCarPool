@@ -1,5 +1,6 @@
 package com.example.eunboard.domain.entity;
 
+import com.example.eunboard.member.domain.Member;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 

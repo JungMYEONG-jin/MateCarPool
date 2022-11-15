@@ -1,6 +1,6 @@
-package com.example.eunboard.domain.repository.member;
+package com.example.eunboard.member.adapter.out.repository;
 
-import com.example.eunboard.domain.entity.Member;
+import com.example.eunboard.member.domain.Member;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Optional;
 
 public interface MemberRepository extends JpaRepository<Member, Long> {
-
     Member findByMemberId(Long memberId);
     Member findByEmail(String email);
     Boolean existsByEmail(String email);

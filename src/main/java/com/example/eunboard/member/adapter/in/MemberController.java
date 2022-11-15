@@ -1,8 +1,9 @@
-package com.example.eunboard.controller;
+package com.example.eunboard.member.adapter.in;
 
-import com.example.eunboard.domain.dto.request.MemberRequestDTO;
-import com.example.eunboard.domain.dto.response.MemberResponseDTO;
-import com.example.eunboard.service.MemberService;
+import com.example.eunboard.member.application.port.in.MemberRequestDTO;
+import com.example.eunboard.member.application.port.in.MemberResponseDTO;
+import com.example.eunboard.member.application.port.in.MemberUseCase;
+import com.example.eunboard.member.application.service.MemberService;
 import com.example.eunboard.service.MemberTimetableService;
 import com.example.eunboard.util.FileUploadUtils;
 import com.example.eunboard.util.MD5Generator;
@@ -33,9 +34,9 @@ import org.springframework.web.multipart.MultipartFile;
 @RequiredArgsConstructor
 @RequestMapping("/member")
 @RestController
-public class MemberAPI {
+public class MemberController {
 
-    private final MemberService memberService;
+    private final MemberUseCase memberService;
 
     private final MemberTimetableService memberTimetableService;
 

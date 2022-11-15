@@ -1,5 +1,6 @@
-package com.example.eunboard.domain.entity;
+package com.example.eunboard.auth.domain;
 
+import com.example.eunboard.domain.entity.BaseEntity;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,7 +17,7 @@ import javax.persistence.Table;
 @Entity
 @Builder
 @ToString
-public class RefreshToken extends BaseEntity{
+public class RefreshToken extends BaseEntity {
 
     @Id
     @Column(name = "refresh_key")

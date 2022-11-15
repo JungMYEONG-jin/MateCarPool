@@ -1,6 +1,6 @@
 package com.example.eunboard.domain.dto.request;
 
-import com.example.eunboard.domain.entity.Member;
+import com.example.eunboard.member.domain.Member;
 import com.example.eunboard.domain.entity.Ticket;
 import com.example.eunboard.domain.entity.TicketStatus;
 import lombok.*;

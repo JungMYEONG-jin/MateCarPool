@@ -1,6 +1,6 @@
-package com.example.eunboard.domain.entity;
+package com.example.eunboard.member.domain;
 
-import com.example.eunboard.validation.stdnum.StudentNumUnique;
+import com.example.eunboard.domain.entity.BaseEntity;
 import lombok.*;
 
 import java.util.ArrayList;
@@ -8,11 +8,8 @@ import java.util.Date;
 import java.util.List;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.ColumnDefault;
-import org.hibernate.validator.constraints.UniqueElements;
 
 @Getter
 @Setter

@@ -1,7 +1,8 @@
-package com.example.eunboard.domain.dto.request;
+package com.example.eunboard.member.application.port.in;
 
-import com.example.eunboard.domain.entity.Member;
-import com.example.eunboard.domain.entity.MemberRole;
+import com.example.eunboard.domain.dto.request.MemberTimetableRequestDTO;
+import com.example.eunboard.member.domain.Member;
+import com.example.eunboard.member.domain.MemberRole;
 import com.example.eunboard.validation.stdnum.StudentNumUnique;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;

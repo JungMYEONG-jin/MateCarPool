@@ -1,14 +1,13 @@
 package com.example.eunboard.domain.entity;
 
+import com.example.eunboard.member.domain.Member;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
 
 import org.hibernate.annotations.ColumnDefault;
-import org.hibernate.annotations.DynamicInsert;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 

@@ -1,7 +1,7 @@
 package com.example.eunboard.service.security;
 
-import com.example.eunboard.domain.entity.Member;
-import com.example.eunboard.domain.repository.member.MemberRepository;
+import com.example.eunboard.member.domain.Member;
+import com.example.eunboard.member.adapter.out.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

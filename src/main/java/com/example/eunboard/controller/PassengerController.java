@@ -16,7 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 @RequestMapping("/ride")
 @RestController
-public class PassengerAPI {
+public class PassengerController {
 
   private final PassengerService passengerService;
 

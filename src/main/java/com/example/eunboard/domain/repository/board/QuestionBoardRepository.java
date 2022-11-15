@@ -1,8 +1,6 @@
 package com.example.eunboard.domain.repository.board;
 
-import com.example.eunboard.domain.entity.Member;
 import com.example.eunboard.domain.entity.QuestionBoard;
-import com.example.eunboard.domain.entity.ReportBoard;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

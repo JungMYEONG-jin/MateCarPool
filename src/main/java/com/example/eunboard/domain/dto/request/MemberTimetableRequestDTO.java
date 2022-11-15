@@ -1,7 +1,7 @@
 package com.example.eunboard.domain.dto.request;
 
-import com.example.eunboard.domain.entity.Member;
-import com.example.eunboard.domain.entity.MemberTimetable;
+import com.example.eunboard.member.domain.Member;
+import com.example.eunboard.member.domain.MemberTimetable;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.AllArgsConstructor;

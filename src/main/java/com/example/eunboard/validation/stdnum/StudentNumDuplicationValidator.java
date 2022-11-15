@@ -1,7 +1,6 @@
 package com.example.eunboard.validation.stdnum;
 
-import com.example.eunboard.domain.repository.member.MemberRepository;
-import lombok.RequiredArgsConstructor;
+import com.example.eunboard.member.adapter.out.repository.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import javax.validation.ConstraintValidator;

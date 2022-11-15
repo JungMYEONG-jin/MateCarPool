@@ -9,7 +9,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.example.eunboard.domain.dto.token.TokenDto;
+import com.example.eunboard.auth.application.port.in.TokenDto;
 import com.example.eunboard.exception.ErrorCode;
 import com.example.eunboard.exception.custom.CustomException;
 import io.jsonwebtoken.*;
@@ -24,7 +24,7 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
-import com.example.eunboard.domain.entity.Member;
+import com.example.eunboard.member.domain.Member;
 
 @Slf4j
 @Service

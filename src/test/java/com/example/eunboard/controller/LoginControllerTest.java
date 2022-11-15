@@ -1,8 +1,7 @@
 package com.example.eunboard.controller;
 
-import com.example.eunboard.domain.dto.request.MemberRequestDTO;
-import com.example.eunboard.domain.entity.MemberRole;
-import com.fasterxml.jackson.core.JsonProcessingException;
+import com.example.eunboard.member.application.port.in.MemberRequestDTO;
+import com.example.eunboard.member.domain.MemberRole;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +9,6 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Description;
 import org.springframework.http.MediaType;
-import org.springframework.test.annotation.Rollback;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.transaction.annotation.Transactional;

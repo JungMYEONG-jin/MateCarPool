@@ -1,10 +1,10 @@
 package com.example.eunboard.domain.repository;
 
-import com.example.eunboard.domain.entity.Member;
-import com.example.eunboard.domain.entity.MemberRole;
+import com.example.eunboard.member.domain.Member;
+import com.example.eunboard.member.domain.MemberRole;
 import com.example.eunboard.domain.entity.Ticket;
 import com.example.eunboard.domain.entity.TicketStatus;
-import com.example.eunboard.domain.repository.member.MemberRepository;
+import com.example.eunboard.member.adapter.out.repository.MemberRepository;
 import com.example.eunboard.domain.repository.ticket.TicketRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
