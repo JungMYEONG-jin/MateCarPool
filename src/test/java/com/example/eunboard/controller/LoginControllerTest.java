@@ -147,6 +147,7 @@ class LoginControllerTest {
                 contentType(MediaType.APPLICATION_JSON)
                 .content(this.objectMapper.writeValueAsString(test)));
 
+        perform2.andExpect(status().isBadRequest());
         perform2.andDo(print());
     }
 }

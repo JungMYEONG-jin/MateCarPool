@@ -26,6 +26,8 @@ server:
   port: 8080
   tomcat:
     max-http-form-post-size: 25MB
+  error:
+    include-stacktrace: ON_PARAM
 
 spring:
   servlet:

@@ -45,11 +45,10 @@ public class LoginService {
                     throw new CustomException(ErrorCode.PHONE_IS_EXIST.getMessage(), ErrorCode.PHONE_IS_EXIST);
             }
             // DTO validation 체크로 해당 부분 제거해도 될듯
-//            boolean isDup = memberRepository.findByMemberName(memberRequestDTO.getMemberName()).stream().
-//                    anyMatch(member -> member.getStudentNumber().equals(memberRequestDTO.getStudentNumber()));
-//            if (isDup){
+//            if (memberRepository.existsByStudentNumber(memberRequestDTO.getStudentNumber())){
 //                throw new CustomException(ErrorCode.MEMBER_IS_EXIST.getMessage(), ErrorCode.MEMBER_IS_EXIST);
 //            }
+
             Member member = MemberRequestDTO.toMember(memberRequestDTO, passwordEncoder);
             Member savedMember = memberRepository.save(member);
             List<MemberTimetableRequestDTO> memberTimeTable = memberRequestDTO.getMemberTimeTable();
