@@ -8,6 +8,7 @@ import com.example.eunboard.member.domain.Member;
 
 import com.example.eunboard.exception.ErrorCode;
 import com.example.eunboard.exception.custom.CustomException;
+import com.example.eunboard.timetable.application.port.out.MemberTimetableRepositoryPort;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -36,6 +37,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class MemberService implements MemberUseCase {
 
     private final MemberRepositoryPort memberRepository;
+    private final MemberTimetableRepositoryPort memberTimetableRepositoryPort;
 
     public void copyNonNullProperties(Object src, Object target) {
         BeanUtils.copyProperties(src, target, getNullPropertyNames(src));
@@ -130,13 +132,14 @@ public class MemberService implements MemberUseCase {
         }
         // name is id
         long id = Long.parseLong(authentication.getName());
-        Member member = memberRepository.findByMemberId(id);
-        if (member==null)
-        {
-            throw new CustomException(ErrorCode.MEMBER_NOT_FOUND.getMessage(), ErrorCode.MEMBER_NOT_FOUND);
-        }
-        return MemberResponseDTO.toDTO(member, null);
+        return memberRepository.findById(id).map(member -> {
+                    if (member.getMemberTimeTableList()==null)
+                    {
+                        return MemberResponseDTO.toDTO(member, null);
+                    }
+                    return MemberResponseDTO.toDTOWithTimeTable(member, null);
+                }).
+                orElseThrow(()->new CustomException(ErrorCode.MEMBER_NOT_FOUND.getMessage(), ErrorCode.MEMBER_NOT_FOUND));
     }
-
 
 }

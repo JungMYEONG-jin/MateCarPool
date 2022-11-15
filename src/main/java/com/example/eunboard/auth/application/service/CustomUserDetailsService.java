@@ -1,4 +1,4 @@
-package com.example.eunboard.service.security;
+package com.example.eunboard.auth.application.service;
 
 import com.example.eunboard.member.domain.Member;
 import com.example.eunboard.member.adapter.out.repository.MemberRepository;

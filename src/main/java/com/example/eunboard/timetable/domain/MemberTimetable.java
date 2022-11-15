@@ -1,4 +1,4 @@
-package com.example.eunboard.member.domain;
+package com.example.eunboard.timetable.domain;
 
 import com.example.eunboard.member.domain.Member;
 import lombok.*;

@@ -3,8 +3,8 @@ package com.example.eunboard.member.adapter.in;
 import com.example.eunboard.member.application.port.in.MemberRequestDTO;
 import com.example.eunboard.member.application.port.in.MemberResponseDTO;
 import com.example.eunboard.member.application.port.in.MemberUseCase;
-import com.example.eunboard.member.application.service.MemberService;
-import com.example.eunboard.service.MemberTimetableService;
+import com.example.eunboard.timetable.application.port.in.MemberTimetableUseCase;
+import com.example.eunboard.timetable.application.service.MemberTimetableService;
 import com.example.eunboard.util.FileUploadUtils;
 import com.example.eunboard.util.MD5Generator;
 
@@ -38,7 +38,7 @@ public class MemberController {
 
     private final MemberUseCase memberService;
 
-    private final MemberTimetableService memberTimetableService;
+    private final MemberTimetableUseCase memberTimetableService;
 
     @GetMapping
     public MemberResponseDTO selectMember(@AuthenticationPrincipal long memberId) {
