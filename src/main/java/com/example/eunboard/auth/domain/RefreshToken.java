@@ -1,6 +1,6 @@
 package com.example.eunboard.auth.domain;
 
-import com.example.eunboard.domain.entity.BaseEntity;
+import com.example.eunboard.old.domain.entity.BaseEntity;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

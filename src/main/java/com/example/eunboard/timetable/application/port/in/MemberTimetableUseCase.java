@@ -1,6 +1,6 @@
 package com.example.eunboard.timetable.application.port.in;
 
-import com.example.eunboard.domain.dto.request.MemberTimetableRequestDTO;
+import com.example.eunboard.old.domain.dto.request.MemberTimetableRequestDTO;
 
 import java.util.List;
 

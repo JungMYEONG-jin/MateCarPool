@@ -4,9 +4,8 @@ import com.example.eunboard.member.application.port.in.MemberRequestDTO;
 import com.example.eunboard.member.application.port.in.MemberResponseDTO;
 import com.example.eunboard.member.application.port.in.MemberUseCase;
 import com.example.eunboard.timetable.application.port.in.MemberTimetableUseCase;
-import com.example.eunboard.timetable.application.service.MemberTimetableService;
-import com.example.eunboard.util.FileUploadUtils;
-import com.example.eunboard.util.MD5Generator;
+import com.example.eunboard.shared.util.FileUploadUtils;
+import com.example.eunboard.shared.util.MD5Generator;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

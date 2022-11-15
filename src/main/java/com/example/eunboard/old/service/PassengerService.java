@@ -1,0 +1,41 @@
+package com.example.eunboard.old.service;
+
+import com.example.eunboard.old.domain.entity.Passenger;
+import com.example.eunboard.old.domain.repository.passenger.PassengerRepository;
+import org.springframework.stereotype.Service;
+
+import com.example.eunboard.old.domain.dto.request.PassengerRequestDTO;
+import com.example.eunboard.old.domain.repository.passenger.CustomPassengerRepositoryImpl;
+import com.example.eunboard.shared.exception.ErrorCode;
+import com.example.eunboard.shared.exception.custom.CustomException;
+
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
+@RequiredArgsConstructor
+@Service
+public class PassengerService {
+
+  private final PassengerRepository passengerRepository;
+  private final CustomPassengerRepositoryImpl passengerQueryRepository;
+
+  public void save(PassengerRequestDTO requestDTO) {
+    if (passengerQueryRepository.findRide(PassengerRequestDTO.toEntity(requestDTO))) {
+      ErrorCode err = ErrorCode.TICKET_PASS_EXIST;
+      throw new CustomException(err.getMessage(), err);
+    }
+    passengerRepository.save(PassengerRequestDTO.toEntity(requestDTO));
+  }
+
+  public void takeDown(PassengerRequestDTO requestDTO) {
+    Passenger entity = passengerQueryRepository.findMyPassenger(PassengerRequestDTO.toEntity(requestDTO));
+    if (entity == null) {
+      ErrorCode err = ErrorCode.TICKET_PASS_NOT_FOUND;
+      throw new CustomException(err.getMessage(), err);
+    }
+    entity.setIsCancel(1);
+    passengerRepository.save(entity);
+  }
+
+}

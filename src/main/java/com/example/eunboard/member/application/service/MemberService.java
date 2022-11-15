@@ -6,8 +6,8 @@ import com.example.eunboard.member.application.port.in.MemberUseCase;
 import com.example.eunboard.member.application.port.out.MemberRepositoryPort;
 import com.example.eunboard.member.domain.Member;
 
-import com.example.eunboard.exception.ErrorCode;
-import com.example.eunboard.exception.custom.CustomException;
+import com.example.eunboard.shared.exception.ErrorCode;
+import com.example.eunboard.shared.exception.custom.CustomException;
 import com.example.eunboard.timetable.application.port.out.MemberTimetableRepositoryPort;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

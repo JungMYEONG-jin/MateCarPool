@@ -1,6 +1,6 @@
 package com.example.eunboard.member.domain;
 
-import com.example.eunboard.domain.entity.BaseEntity;
+import com.example.eunboard.old.domain.entity.BaseEntity;
 import com.example.eunboard.timetable.domain.MemberTimetable;
 import lombok.*;
 
