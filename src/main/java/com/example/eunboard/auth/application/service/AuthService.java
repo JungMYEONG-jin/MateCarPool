@@ -1,22 +1,21 @@
 package com.example.eunboard.auth.application.service;
 
-import com.example.eunboard.auth.application.port.in.TokenUseCase;
-import com.example.eunboard.auth.application.port.out.TokenRepositoryPort;
-import com.example.eunboard.member.application.port.in.MemberRequestDTO;
-import com.example.eunboard.old.domain.dto.request.MemberTimetableRequestDTO;
-import com.example.eunboard.member.application.port.in.MemberResponseDTO;
 import com.example.eunboard.auth.application.port.in.TokenDto;
 import com.example.eunboard.auth.application.port.in.TokenRequestDto;
+import com.example.eunboard.auth.application.port.in.TokenUseCase;
+import com.example.eunboard.member.application.port.in.MemberRequestDTO;
+import com.example.eunboard.member.application.port.in.MemberResponseDTO;
 import com.example.eunboard.member.application.port.out.MemberRepositoryPort;
 import com.example.eunboard.member.domain.Member;
-import com.example.eunboard.timetable.domain.MemberTimetable;
-import com.example.eunboard.auth.domain.RefreshToken;
-import com.example.eunboard.timetable.adapter.out.repository.MemberTimetableRepository;
+import com.example.eunboard.old.domain.dto.request.MemberTimetableRequestDTO;
 import com.example.eunboard.shared.exception.ErrorCode;
 import com.example.eunboard.shared.exception.custom.CustomException;
 import com.example.eunboard.shared.security.TokenProvider;
+import com.example.eunboard.timetable.adapter.out.repository.MemberTimetableRepository;
+import com.example.eunboard.timetable.domain.MemberTimetable;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
@@ -26,6 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 @Service
 @RequiredArgsConstructor
@@ -36,8 +36,10 @@ public class AuthService implements TokenUseCase {
     private final MemberRepositoryPort memberRepository;
     private final PasswordEncoder passwordEncoder;
     private final TokenProvider tokenProvider;
-    private final TokenRepositoryPort refreshTokenRepository;
     private final MemberTimetableRepository memberTimetableRepository;
+    private final RedisTemplate redisTemplate;
+
+    private static String refreshTokenPrefix = "RT:";
 
     // 회원 가입
     @Override
@@ -66,6 +68,7 @@ public class AuthService implements TokenUseCase {
     }
 
     /**
+     * request : memberName, password, phoneNumber
      * token은 폰번호, 학번을 기반으로 생성된다.
      * 만약 추가적으로 다른 정보도 필요하다면 수정이 필요할듯
      * @param memberRequestDTO
@@ -73,17 +76,23 @@ public class AuthService implements TokenUseCase {
      */
     @Override
     public TokenDto login(MemberRequestDTO memberRequestDTO){
+        //find phoneNumber
+        if (!memberRepository.existsByPhoneNumber(memberRequestDTO.getPhoneNumber())){
+            throw new CustomException(ErrorCode.MEMBER_NOT_FOUND.getMessage(), ErrorCode.MEMBER_NOT_FOUND);
+        }
         // phone, password based token
         UsernamePasswordAuthenticationToken authenticationToken = memberRequestDTO.toAuthentication();
         // run CustomUserDetailsService.loadUserByUsername
         Authentication authenticate = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
         // create token
         TokenDto tokenDto = tokenProvider.generateToken(authenticate);
-        // save refresh token
-        RefreshToken refreshToken = RefreshToken.builder().key(authenticate.getName())
-                    .value(tokenDto.getRefreshToken())
-                    .build();
-        refreshTokenRepository.save(refreshToken);
+        // save refresh token to DB
+//        RefreshToken refreshToken = RefreshToken.builder().key(authenticate.getName())
+//                    .value(tokenDto.getRefreshToken())
+//                    .build();
+//        refreshTokenRepository.save(refreshToken);
+        // save refresh token to redis
+        redisTemplate.opsForValue().set(refreshTokenPrefix+authenticate.getName(), tokenDto.getRefreshToken(), tokenDto.getRefreshTokenExpiresIn(), TimeUnit.MILLISECONDS);
         // return token
         return tokenDto;
     }
@@ -97,19 +106,47 @@ public class AuthService implements TokenUseCase {
         }
         // get memberId
         Authentication authentication = tokenProvider.getAuthentication(tokenRequestDto.getAccessToken());
-        RefreshToken refreshToken = refreshTokenRepository.findByKey(authentication.getName()).orElseThrow(() -> new RuntimeException("This User is not logged in"));
-
+        // DB version
+//        RefreshToken refreshToken = refreshTokenRepository.findByKey(authentication.getName()).orElseThrow(() -> new RuntimeException("This User is not logged in"));
+        // redis
+        String refreshToken = (String)redisTemplate.opsForValue().get(refreshTokenPrefix + authentication.getName());
         //token check
-        if (!refreshToken.getValue().equals(tokenRequestDto.getRefreshToken())){
+        if (!refreshToken.equals(tokenRequestDto.getRefreshToken())){
             throw new RuntimeException("토큰 정보가 일치하지 않습니다.");
         }
 
         // generate new token
         TokenDto tokenDto = tokenProvider.generateToken(authentication);
         // update repo
-        RefreshToken newToken = refreshToken.updateValue(tokenDto.getRefreshToken());
-        refreshTokenRepository.save(newToken); // 이미 id 존재하므로 update 시킴
-
+//        RefreshToken newToken = refreshToken.updateValue(tokenDto.getRefreshToken());
+//        refreshTokenRepository.save(newToken); // 이미 id 존재하므로 update 시킴
+        // update redis
+        redisTemplate.opsForValue().set(refreshTokenPrefix+authentication.getName(), tokenDto.getRefreshToken(), tokenDto.getRefreshTokenExpiresIn(), TimeUnit.MILLISECONDS);
         return tokenDto;
     }
+
+
+//    public ResponseEntity<?> logout(UserRequestDto.Logout logout) {
+//        // 1. Access Token 검증
+//        if (!jwtTokenProvider.validateToken(logout.getAccessToken())) {
+//            return response.fail("잘못된 요청입니다.", HttpStatus.BAD_REQUEST);
+//        }
+//
+//        // 2. Access Token 에서 User email 을 가져옵니다.
+//        Authentication authentication = jwtTokenProvider.getAuthentication(logout.getAccessToken());
+//
+//        // 3. Redis 에서 해당 User email 로 저장된 Refresh Token 이 있는지 여부를 확인 후 있을 경우 삭제합니다.
+//        if (redisTemplate.opsForValue().get("RT:" + authentication.getName()) != null) {
+//            // Refresh Token 삭제
+//            redisTemplate.delete("RT:" + authentication.getName());
+//        }
+//
+//        // 4. 해당 Access Token 유효시간 가지고 와서 BlackList 로 저장하기
+//        Long expiration = jwtTokenProvider.getExpiration(logout.getAccessToken());
+//        redisTemplate.opsForValue()
+//                .set(logout.getAccessToken(), "logout", expiration, TimeUnit.MILLISECONDS);
+//
+//        return response.success("로그아웃 되었습니다.");
+//    }
+
 }

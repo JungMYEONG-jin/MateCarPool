@@ -12,6 +12,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
+import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -40,20 +41,13 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
       // 유효 검증
       if (StringUtils.hasText(token) && tokenProvider.validateToken(token)) {
 
-        Authentication authentication = tokenProvider.getAuthentication(token);
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-//        Long memberId = tokenProvider.validateAndGetMemberId(token);
-//        log.info("Authenticated member ID : " + memberId);
-//
-//        AbstractAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
-//            memberId,
-//            null,
-//            AuthorityUtils.NO_AUTHORITIES);
-//
-//        authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-//        SecurityContext securityContext = SecurityContextHolder.createEmptyContext();
-//        securityContext.setAuthentication(authentication);
-//        SecurityContextHolder.setContext(securityContext);
+        // logout 여부 확인
+        String isLogout = (String)redisTemplate.opsForValue().get(token);
+        if (ObjectUtils.isEmpty(isLogout)){
+          // 토큰이 유효할 경우 저장
+          Authentication authentication = tokenProvider.getAuthentication(token);
+          SecurityContextHolder.getContext().setAuthentication(authentication);
+        }
       }
     } catch (Exception e) {
       logger.error("Could not set member authentication in security context", e);

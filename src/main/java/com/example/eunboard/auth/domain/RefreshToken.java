@@ -13,8 +13,6 @@ import javax.persistence.Table;
 
 @Getter
 @NoArgsConstructor
-@Table(name = "refresh_token")
-@Entity
 @Builder
 @ToString
 public class RefreshToken extends BaseEntity {
