@@ -1,5 +1,6 @@
 package com.example.eunboard.auth.adapter.in;
 
+import com.example.eunboard.member.application.port.in.LoginRequestDto;
 import com.example.eunboard.auth.application.port.in.TokenDto;
 import com.example.eunboard.auth.application.port.in.TokenRequestDto;
 import com.example.eunboard.auth.application.port.in.TokenUseCase;
@@ -27,13 +28,18 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<TokenDto> login(@RequestBody MemberRequestDTO memberRequestDTO){
-        return ResponseEntity.ok(loginService.login(memberRequestDTO));
+    public ResponseEntity<TokenDto> login(@RequestBody LoginRequestDto loginRequestDto){
+        return ResponseEntity.ok(loginService.login(loginRequestDto));
     }
 
     @PostMapping("/reissue")
     public ResponseEntity<TokenDto> reissue(@RequestBody TokenRequestDto tokenRequestDto){
         return ResponseEntity.ok(loginService.reissue(tokenRequestDto));
+    }
+
+    @PostMapping("/logout")
+    public ResponseEntity<String> logout(@RequestBody TokenRequestDto tokenRequestDto){
+        return ResponseEntity.ok(loginService.logout(tokenRequestDto));
     }
 
 }

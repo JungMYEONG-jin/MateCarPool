@@ -1,5 +1,6 @@
 package com.example.eunboard.controller;
 
+import com.example.eunboard.member.application.port.in.LoginRequestDto;
 import com.example.eunboard.member.application.port.in.MemberRequestDTO;
 import com.example.eunboard.member.domain.MemberRole;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -122,12 +123,14 @@ class LoginControllerTest {
         ResultActions perform = this.mockMvc.perform(post("/auth/signup").
                 contentType(MediaType.APPLICATION_JSON)
                 .content(this.objectMapper.writeValueAsString(mj)));
+        perform.andDo(print());
 
+        LoginRequestDto login = LoginRequestDto.builder().password("2015").memberName("명진").phoneNumber("010").build();
         ResultActions perform2 = this.mockMvc.perform(post("/auth/login").
                 contentType(MediaType.APPLICATION_JSON)
-                .content(this.objectMapper.writeValueAsString(mj)));
+                .content(this.objectMapper.writeValueAsString(login)));
         perform2.andExpect(status().isOk());
-        String result = perform2.toString();
+        perform2.andDo(print());
     }
 
     @Description("이름 중복 허용 테스트")

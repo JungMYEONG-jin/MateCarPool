@@ -95,8 +95,4 @@ public class MemberRequestDTO {
                 .build();
     }
 
-    public UsernamePasswordAuthenticationToken toAuthentication(){
-        return new UsernamePasswordAuthenticationToken(phoneNumber, password);
-    }
-
 }

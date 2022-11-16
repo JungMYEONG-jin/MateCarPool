@@ -45,6 +45,11 @@ public class MemberRepositoryAdapter implements MemberRepositoryPort {
     }
 
     @Override
+    public Optional<Member> findByPhoneNumber(String phoneNumber) {
+        return memberRepository.findByPhoneNumber(phoneNumber);
+    }
+
+    @Override
     public boolean existsByPhoneNumber(String phoneNumber) {
         return memberRepository.existsByPhoneNumber(phoneNumber);
     }

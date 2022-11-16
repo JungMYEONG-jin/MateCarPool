@@ -1,5 +1,6 @@
 package com.example.eunboard.auth.application.port.in;
 
+import com.example.eunboard.member.application.port.in.LoginRequestDto;
 import com.example.eunboard.member.application.port.in.MemberRequestDTO;
 import com.example.eunboard.member.application.port.in.MemberResponseDTO;
 
@@ -10,8 +11,8 @@ import com.example.eunboard.member.application.port.in.MemberResponseDTO;
  */
 public interface TokenUseCase {
     MemberResponseDTO signup(MemberRequestDTO memberRequestDTO);
-    TokenDto login(MemberRequestDTO memberRequestDTO);
+    TokenDto login(LoginRequestDto memberRequestDTO);
     // refresh token
     TokenDto reissue(TokenRequestDto tokenRequestDto);
-
+    String logout(TokenRequestDto tokenRequestDto);
 }
