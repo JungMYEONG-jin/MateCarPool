@@ -57,6 +57,57 @@ class LoginControllerTest {
                 andExpect(jsonPath("phoneNumber").value("010"));
     }
 
+    @Description("회원가입 이름 한글만")
+    @Test
+    void signUpNameValidationTest() throws Exception {
+        MemberRequestDTO mj = MemberRequestDTO.builder().studentNumber("2015").password("2015")
+                .department("통계학과")
+                .auth(MemberRole.PASSENGER)
+                .memberName("JMJ")
+                .phoneNumber("010")
+                .memberTimeTable(new ArrayList<>())
+                .build();
+
+        ResultActions perform = this.mockMvc.perform(post("/auth/signup").
+                contentType(MediaType.APPLICATION_JSON)
+                .content(this.objectMapper.writeValueAsString(mj)));
+        perform.andExpect(status().isBadRequest());
+    }
+
+    @Description("회원가입 학과 한글만")
+    @Test
+    void signUpDepartmentTest() throws Exception {
+        MemberRequestDTO mj = MemberRequestDTO.builder().studentNumber("2015").password("2015")
+                .department("statistics")
+                .auth(MemberRole.PASSENGER)
+                .memberName("명진")
+                .phoneNumber("010")
+                .memberTimeTable(new ArrayList<>())
+                .build();
+
+        ResultActions perform = this.mockMvc.perform(post("/auth/signup").
+                contentType(MediaType.APPLICATION_JSON)
+                .content(this.objectMapper.writeValueAsString(mj)));
+        perform.andExpect(status().isBadRequest());
+    }
+
+    @Description("회원가입 학번 영문+숫자")
+    @Test
+    void signUpStudentNumberTest() throws Exception {
+        MemberRequestDTO mj = MemberRequestDTO.builder().studentNumber("SH2015").password("SH2015")
+                .department("statistics")
+                .auth(MemberRole.PASSENGER)
+                .memberName("명진")
+                .phoneNumber("010")
+                .memberTimeTable(new ArrayList<>())
+                .build();
+
+        ResultActions perform = this.mockMvc.perform(post("/auth/signup").
+                contentType(MediaType.APPLICATION_JSON)
+                .content(this.objectMapper.writeValueAsString(mj)));
+        perform.andExpect(status().isBadRequest());
+    }
+
     @Description("회원가입 후 로그인")
     @Test
     void signAndLoginTest() throws Exception {

@@ -15,6 +15,7 @@ import com.example.eunboard.timetable.adapter.out.repository.MemberTimetableRepo
 import com.example.eunboard.timetable.domain.MemberTimetable;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import net.bytebuddy.implementation.bytecode.Throw;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -126,27 +127,27 @@ public class AuthService implements TokenUseCase {
     }
 
 
-//    public ResponseEntity<?> logout(UserRequestDto.Logout logout) {
-//        // 1. Access Token 검증
-//        if (!jwtTokenProvider.validateToken(logout.getAccessToken())) {
-//            return response.fail("잘못된 요청입니다.", HttpStatus.BAD_REQUEST);
-//        }
-//
-//        // 2. Access Token 에서 User email 을 가져옵니다.
-//        Authentication authentication = jwtTokenProvider.getAuthentication(logout.getAccessToken());
-//
-//        // 3. Redis 에서 해당 User email 로 저장된 Refresh Token 이 있는지 여부를 확인 후 있을 경우 삭제합니다.
-//        if (redisTemplate.opsForValue().get("RT:" + authentication.getName()) != null) {
-//            // Refresh Token 삭제
-//            redisTemplate.delete("RT:" + authentication.getName());
-//        }
-//
-//        // 4. 해당 Access Token 유효시간 가지고 와서 BlackList 로 저장하기
-//        Long expiration = jwtTokenProvider.getExpiration(logout.getAccessToken());
-//        redisTemplate.opsForValue()
-//                .set(logout.getAccessToken(), "logout", expiration, TimeUnit.MILLISECONDS);
-//
-//        return response.success("로그아웃 되었습니다.");
-//    }
+    public String logout(TokenRequestDto tokenRequestDto) {
+        // 1. Access Token 검증
+        if (!tokenProvider.validateToken(tokenRequestDto.getAccessToken())) {
+            throw new CustomException(ErrorCode.TOKEN_INVALID.getMessage(), ErrorCode.TOKEN_INVALID);
+        }
+
+        // 2. Get MemberId from Access Token
+        Authentication authentication = tokenProvider.getAuthentication(tokenRequestDto.getAccessToken());
+
+        // 3. Check whether the user's token exists if exist then delete
+        if (redisTemplate.opsForValue().get("RT:" + authentication.getName()) != null) {
+            // Delete Refresh Token
+            redisTemplate.delete("RT:" + authentication.getName());
+        }
+
+        // 4. 해당 Access Token 유효시간 가지고 와서 BlackList 로 저장하기
+        Long expiration = tokenProvider.getExpiration(tokenRequestDto.getAccessToken());
+        redisTemplate.opsForValue()
+                .set(tokenRequestDto.getAccessToken(), "logout", expiration, TimeUnit.MILLISECONDS);
+
+        return response.success("로그아웃 되었습니다.");
+    }
 
 }
