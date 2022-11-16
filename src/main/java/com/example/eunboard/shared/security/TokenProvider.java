@@ -32,7 +32,8 @@ public class TokenProvider {
 
   private static final String AUTHORITIES_KEY = "auth";
   private static final String BEARER_TYPE = "Bearer";
-  private static final long TOKEN_EXPIRE_TIME = 1000 * 60 * 60 * 24; // 테스트 환경 1일
+  //private static final long TOKEN_EXPIRE_TIME = 1000 * 60 * 60 * 24; // 테스트 환경 1일
+  private static final long TOKEN_EXPIRE_TIME = 1000 * 60 ; // 테스트 환경 1분
   private static final long REAL_TOKEN_EXPIRE_TIME = 1000 * 60 * 30; // 실제 운영 환경 30분
   private static final long REFRESH_TOKEN_EXPIRE_TIME = 1000 * 60 * 60 * 24 * 7; // 7일
 
@@ -65,6 +66,7 @@ public class TokenProvider {
             .accessToken(accessToken)
             .refreshToken(refreshToken)
             .accessTokenExpiresIn(exp.getTime())
+            .refreshTokenExpiresIn(refreshExp.getTime())
             .build();
   }
 
@@ -100,6 +102,12 @@ public class TokenProvider {
       log.info("JWT 토큰이 잘못되었습니다.");
     }
     return false;
+  }
+
+  public Long getExpiration(String accessToken){
+    Date expiration = Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(accessToken).getBody().getExpiration();
+    long now = new Date().getTime();
+    return expiration.getTime() - now;
   }
 
   private Claims parseClaims(String accessToken) {
