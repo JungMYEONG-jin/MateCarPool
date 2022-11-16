@@ -42,8 +42,9 @@ class LoginControllerTest {
     @Test
     void signUpTest() throws Exception {
         MemberRequestDTO mj = MemberRequestDTO.builder().studentNumber("2015").password("2015")
+                .department("통계학과")
                 .auth(MemberRole.PASSENGER)
-                .memberName("mj")
+                .memberName("명진")
                 .phoneNumber("010")
                 .memberTimeTable(new ArrayList<>())
                 .build();
@@ -52,7 +53,7 @@ class LoginControllerTest {
                 contentType(MediaType.APPLICATION_JSON)
                 .content(this.objectMapper.writeValueAsString(mj)));
         perform.andExpect(status().isOk()).
-                andExpect(jsonPath("memberName").value("mj")).
+                andExpect(jsonPath("memberName").value("명진")).
                 andExpect(jsonPath("phoneNumber").value("010"));
     }
 
@@ -60,8 +61,9 @@ class LoginControllerTest {
     @Test
     void signAndLoginTest() throws Exception {
         MemberRequestDTO mj = MemberRequestDTO.builder().studentNumber("2015").password("2015")
+                .department("통계학과")
                 .auth(MemberRole.PASSENGER)
-                .memberName("mj")
+                .memberName("명진")
                 .phoneNumber("010")
                 .memberTimeTable(new ArrayList<>())
                 .build();
@@ -81,15 +83,17 @@ class LoginControllerTest {
     @Test
     void signDuplicateMemberNameTest() throws Exception {
         MemberRequestDTO mj = MemberRequestDTO.builder().studentNumber("2015").password("2015")
+                .department("통계학과")
                 .auth(MemberRole.PASSENGER)
-                .memberName("mj")
+                .memberName("명진")
                 .phoneNumber("010")
                 .memberTimeTable(new ArrayList<>())
                 .build();
 
         MemberRequestDTO test = MemberRequestDTO.builder().studentNumber("20151").password("20151")
+                .department("통계학과")
                 .auth(MemberRole.PASSENGER)
-                .memberName("mj")
+                .memberName("명진")
                 .phoneNumber("01044")
                 .memberTimeTable(new ArrayList<>())
                 .build();
@@ -103,13 +107,13 @@ class LoginControllerTest {
                 .content(this.objectMapper.writeValueAsString(test)));
 
         perform.andExpect(status().isOk()).
-                andExpect(jsonPath("memberName").value("mj")).
+                andExpect(jsonPath("memberName").value("명진")).
                 andExpect(jsonPath("phoneNumber").value("010")).
                 andExpect(jsonPath("studentNumber").value("2015"));
         perform.andDo(print());
 
         perform2.andExpect(status().isOk()).
-                andExpect(jsonPath("memberName").value("mj")).
+                andExpect(jsonPath("memberName").value("명진")).
                 andExpect(jsonPath("phoneNumber").value("01044")).
                 andExpect(jsonPath("studentNumber").value("20151"));
 
@@ -121,15 +125,17 @@ class LoginControllerTest {
     @Test
     void signDuplicateStudentNumberTest() throws Exception {
         MemberRequestDTO mj = MemberRequestDTO.builder().studentNumber("2015").password("2015")
+                .department("통계학과")
                 .auth(MemberRole.PASSENGER)
-                .memberName("mj")
+                .memberName("명진")
                 .phoneNumber("010")
                 .memberTimeTable(new ArrayList<>())
                 .build();
 
         MemberRequestDTO test = MemberRequestDTO.builder().studentNumber("2015").password("2015")
+                .department("통계학과")
                 .auth(MemberRole.PASSENGER)
-                .memberName("mj")
+                .memberName("명진")
                 .phoneNumber("01044")
                 .memberTimeTable(new ArrayList<>())
                 .build();
