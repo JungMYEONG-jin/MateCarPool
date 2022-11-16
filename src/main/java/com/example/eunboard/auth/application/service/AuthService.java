@@ -80,9 +80,9 @@ public class AuthService implements TokenUseCase {
     public TokenDto login(LoginRequestDto loginRequestDto){
         //find phoneNumber
         Member member = memberRepository.findByPhoneNumber(loginRequestDto.getPhoneNumber()).orElseThrow(() -> new CustomException(ErrorCode.MEMBER_NOT_FOUND.getMessage(), ErrorCode.MEMBER_NOT_FOUND));
-        if (!member.getMemberName().equals(loginRequestDto.getMemberName()))
+        if (!member.getMemberName().equals(loginRequestDto.getMemberName()) || !passwordEncoder.matches(loginRequestDto.getPassword(), member.getPassword()))
         {
-            throw new CustomException(ErrorCode.MEMBER_NOT_MATCHED.getMessage(), ErrorCode.MEMBER_NOT_MATCHED);
+            throw new CustomException(ErrorCode.LOGIN_INFO_NOT_MATCHED.getMessage(), ErrorCode.LOGIN_INFO_NOT_MATCHED);
         }
         // phone, password based token
         UsernamePasswordAuthenticationToken authenticationToken = loginRequestDto.toAuthentication();

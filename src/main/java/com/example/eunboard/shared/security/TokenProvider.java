@@ -33,9 +33,9 @@ public class TokenProvider {
   private static final String AUTHORITIES_KEY = "auth";
   private static final String BEARER_TYPE = "Bearer";
   //private static final long TOKEN_EXPIRE_TIME = 1000 * 60 * 60 * 24; // 테스트 환경 1일
-  private static final long TOKEN_EXPIRE_TIME = 1000 * 60 * 60 ; // 테스트 환경 1분
+  private static final long TOKEN_EXPIRE_TIME = 1000 * 60 * 60 ; // 테스트 환경 1시간
   private static final long REAL_TOKEN_EXPIRE_TIME = 1000 * 60 * 30; // 실제 운영 환경 30분
-  private static final long REFRESH_TOKEN_EXPIRE_TIME = 1000 * 60 * 60 * 24 * 7; // 7일
+  private static final long REFRESH_TOKEN_EXPIRE_TIME = 1000 * 60 * 60 * 24 * 90; // 3달
 
   // 임시
   private static final String SECRET_KEY = "bWF0ZS1jYXJwb29sCg==";
