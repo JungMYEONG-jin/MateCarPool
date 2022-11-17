@@ -1,7 +1,7 @@
 package com.example.eunboard.domain.repository;
 
-import com.example.eunboard.old.domain.entity.Ticket;
-import com.example.eunboard.old.domain.repository.ticket.TicketRepository;
+import com.example.eunboard.ticket.domain.Ticket;
+import com.example.eunboard.ticket.adapter.out.TicketRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

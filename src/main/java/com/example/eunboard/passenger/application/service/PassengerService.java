@@ -1,7 +1,6 @@
 package com.example.eunboard.passenger.application.service;
 
-import com.example.eunboard.old.domain.dto.request.PassengerRequestDTO;
-import com.example.eunboard.passenger.adapter.out.repository.CustomPassengerRepositoryImpl;
+import com.example.eunboard.passenger.application.port.in.PassengerRequestDTO;
 import com.example.eunboard.passenger.application.port.in.PassengerUseCase;
 import com.example.eunboard.passenger.application.port.out.PassengerRepositoryPort;
 import com.example.eunboard.passenger.domain.Passenger;

@@ -7,7 +7,7 @@ import com.example.eunboard.timetable.application.port.in.MemberTimetableUseCase
 import com.example.eunboard.timetable.application.port.out.MemberTimetableRepositoryPort;
 import org.springframework.stereotype.Service;
 
-import com.example.eunboard.old.domain.dto.request.MemberTimetableRequestDTO;
+import com.example.eunboard.timetable.application.port.in.MemberTimetableRequestDTO;
 import com.example.eunboard.member.domain.Member;
 import com.example.eunboard.timetable.domain.MemberTimetable;
 

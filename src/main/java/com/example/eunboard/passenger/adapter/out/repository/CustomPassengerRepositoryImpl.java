@@ -8,8 +8,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 
 import static com.example.eunboard.member.domain.QMember.member;
-import static com.example.eunboard.old.domain.entity.QTicket.ticket;
 import static com.example.eunboard.passenger.domain.QPassenger.passenger;
+import static com.example.eunboard.ticket.domain.QTicket.ticket;
 
 @Transactional
 @RequiredArgsConstructor

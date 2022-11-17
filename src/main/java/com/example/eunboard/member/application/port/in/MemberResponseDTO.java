@@ -1,6 +1,6 @@
 package com.example.eunboard.member.application.port.in;
 
-import com.example.eunboard.old.domain.dto.response.MemberTimetableResponseDTO;
+import com.example.eunboard.timetable.application.port.in.MemberTimetableResponseDTO;
 import com.example.eunboard.member.domain.Member;
 import com.example.eunboard.member.domain.MemberRole;
 import com.fasterxml.jackson.annotation.JsonIgnore;
