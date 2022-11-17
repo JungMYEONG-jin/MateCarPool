@@ -1,6 +1,6 @@
-package com.example.eunboard.old.domain.repository.passenger;
+package com.example.eunboard.passenger.adapter.out.repository;
 
-import com.example.eunboard.old.domain.entity.Passenger;
+import com.example.eunboard.passenger.domain.Passenger;
 
 public interface CustomPassengerRepository {
      boolean findRide(Passenger entity);

@@ -3,12 +3,12 @@ package com.example.eunboard.member.adapter.out.repository;
 import com.example.eunboard.member.application.port.out.MemberRepositoryPort;
 import com.example.eunboard.member.domain.Member;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
 
-@Component
+@Repository
 @RequiredArgsConstructor
 public class MemberRepositoryAdapter implements MemberRepositoryPort {
 

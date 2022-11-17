@@ -12,8 +12,8 @@ import java.util.List;
 
 
 import static com.example.eunboard.member.domain.QMember.member;
-import static com.example.eunboard.old.domain.entity.QPassenger.passenger;
 import static com.example.eunboard.old.domain.entity.QTicket.ticket;
+import static com.example.eunboard.passenger.domain.QPassenger.passenger;
 
 @Transactional
 @RequiredArgsConstructor

@@ -1,6 +1,6 @@
-package com.example.eunboard.old.controller;
+package com.example.eunboard.passenger.adapter.in;
 
-import com.example.eunboard.old.service.PassengerService;
+import com.example.eunboard.passenger.application.service.PassengerService;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

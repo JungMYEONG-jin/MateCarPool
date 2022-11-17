@@ -1,6 +1,6 @@
-package com.example.eunboard.old.domain.repository.passenger;
+package com.example.eunboard.passenger.adapter.out.repository;
 
-import com.example.eunboard.old.domain.entity.Passenger;
+import com.example.eunboard.passenger.domain.Passenger;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
@@ -8,8 +8,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 
 import static com.example.eunboard.member.domain.QMember.member;
-import static com.example.eunboard.old.domain.entity.QPassenger.passenger;
 import static com.example.eunboard.old.domain.entity.QTicket.ticket;
+import static com.example.eunboard.passenger.domain.QPassenger.passenger;
 
 @Transactional
 @RequiredArgsConstructor

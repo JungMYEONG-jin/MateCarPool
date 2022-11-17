@@ -1,6 +1,7 @@
 package com.example.eunboard.old.domain.entity;
 
 import com.example.eunboard.member.domain.Member;
+import com.example.eunboard.passenger.domain.Passenger;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 

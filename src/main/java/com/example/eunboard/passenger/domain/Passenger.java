@@ -1,6 +1,8 @@
-package com.example.eunboard.old.domain.entity;
+package com.example.eunboard.passenger.domain;
 
 import com.example.eunboard.member.domain.Member;
+import com.example.eunboard.old.domain.entity.BaseEntity;
+import com.example.eunboard.old.domain.entity.Ticket;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 
