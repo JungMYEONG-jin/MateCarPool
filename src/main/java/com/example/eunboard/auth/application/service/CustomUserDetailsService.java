@@ -1,5 +1,6 @@
 package com.example.eunboard.auth.application.service;
 
+import com.example.eunboard.member.application.port.out.MemberRepositoryPort;
 import com.example.eunboard.member.domain.Member;
 import com.example.eunboard.member.adapter.out.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +20,7 @@ import java.util.Collections;
 
 public class CustomUserDetailsService implements UserDetailsService {
 
-    private final MemberRepository memberRepository;
+    private final MemberRepositoryPort memberRepository;
 
     @Transactional
     @Override

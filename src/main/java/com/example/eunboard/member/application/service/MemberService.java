@@ -59,7 +59,14 @@ public class MemberService implements MemberUseCase {
 
     @Override
     public MemberResponseDTO select(final Long id) {
-        return MemberResponseDTO.toDTO(memberRepository.findById(id).get(), null);
+        return memberRepository.findById(id).map(member -> {
+                    if (member.getMemberTimeTableList()==null)
+                    {
+                        return MemberResponseDTO.toDTO(member, null);
+                    }
+                    return MemberResponseDTO.toDTOWithTimeTable(member, null);
+                }).
+                orElseThrow(()->new CustomException(ErrorCode.MEMBER_NOT_FOUND.getMessage(), ErrorCode.MEMBER_NOT_FOUND));
     }
 
     @Override
@@ -71,9 +78,7 @@ public class MemberService implements MemberUseCase {
         requestDTO.setMember(true);
         // 존재하지 않는 멤버일시 404 return
         Member member = memberRepository.findById(memberId).orElseThrow(()->new CustomException(ErrorCode.MEMBER_NOT_FOUND.getMessage(), ErrorCode.MEMBER_NOT_FOUND));
-
         copyNonNullProperties(requestDTO, member);
-
         memberRepository.save(member);
     }
 

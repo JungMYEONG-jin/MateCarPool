@@ -53,7 +53,7 @@ public class ReportController {
 
     @GetMapping("/QuestionBoard")
     public ResponseEntity<?> selectQuestionForm(@AuthenticationPrincipal long memberId ) {
-
+        log.info("phone {}", memberId);
         List<QuestionBoard> Boards = questionBoardService.findByMemberId(memberId);
 
         if(Boards.size() == 0)
@@ -65,11 +65,10 @@ public class ReportController {
     @PostMapping("/QuestionBoard/new")
     public String updateQuestion(@AuthenticationPrincipal long memberId,
                                  @RequestBody QuestionBoardDTO requestDTO) {
-
+        log.info("phone {}", memberId);
         MemberResponseDTO member= memberService.select(memberId);
         requestDTO.setWriterStudentId(member.getStudentNumber());
         requestDTO.setMemberId(memberId);
-
         questionBoardService.createQuestionBoard(requestDTO);
 
         return "QuestionBoard save ok";

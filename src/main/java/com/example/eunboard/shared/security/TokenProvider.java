@@ -35,7 +35,7 @@ public class TokenProvider {
   //private static final long TOKEN_EXPIRE_TIME = 1000 * 60 * 60 * 24; // 테스트 환경 1일
   private static final long TOKEN_EXPIRE_TIME = 1000 * 60 * 60 ; // 테스트 환경 1시간
   private static final long REAL_TOKEN_EXPIRE_TIME = 1000 * 60 * 30; // 실제 운영 환경 30분
-  private static final long REFRESH_TOKEN_EXPIRE_TIME = 1000 * 60 * 60 * 24 * 90; // 3달
+  private static final long REFRESH_TOKEN_EXPIRE_TIME = 1000 * 60 * 60 * 30; // 1달
 
   // 임시
   private static final String SECRET_KEY = "bWF0ZS1jYXJwb29sCg==";
@@ -50,11 +50,10 @@ public class TokenProvider {
   public TokenDto generateToken(Authentication authentication){
     String authorities = authentication.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.joining(","));
     long now = (new Date()).getTime();
-
     Date exp = new Date(now + TOKEN_EXPIRE_TIME);
     Date refreshExp = new Date(now + REFRESH_TOKEN_EXPIRE_TIME);
     // create accessToken
-    String accessToken = Jwts.builder().setSubject(authentication.getName())
+    String accessToken = Jwts.builder().setSubject(authentication.getName()) // get name is id
             .claim(AUTHORITIES_KEY, authorities)
             .setExpiration(exp)
             .signWith(key, SignatureAlgorithm.HS512)

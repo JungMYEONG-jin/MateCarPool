@@ -7,6 +7,7 @@ import com.example.eunboard.shared.validation.stdnum.StudentNumUnique;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.util.StringUtils;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
@@ -88,7 +89,7 @@ public class MemberRequestDTO {
                 .department(dto.department)
                 .phoneNumber(dto.phoneNumber)
                 .auth(dto.auth)
-                .profileImage(dto.profileImage)
+                .profileImage(StringUtils.hasText(dto.profileImage)?dto.profileImage:"/images/default.png")
                 .area(dto.area)
                 .build();
     }

@@ -18,6 +18,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -36,27 +37,28 @@ import org.springframework.web.multipart.MultipartFile;
 public class MemberController {
 
     private final MemberUseCase memberService;
-
     private final MemberTimetableUseCase memberTimetableService;
 
     @GetMapping
-    public MemberResponseDTO selectMember(@AuthenticationPrincipal long memberId) {
+    public MemberResponseDTO selectMember(@AuthenticationPrincipal UserDetails userDetails) {
+        Long memberId = Long.parseLong(userDetails.getUsername()); // member Id
         return memberService.select(memberId);
     }
 
     @ResponseBody
     @PostMapping("/area")
-    public void updateMemberArea(@AuthenticationPrincipal long memberId,
+    public void updateMemberArea(@AuthenticationPrincipal UserDetails userDetails,
             @RequestBody MemberRequestDTO requestDTO) {
+        Long memberId = Long.parseLong(userDetails.getUsername());
         memberService.updateMemberArea(memberId, requestDTO);
     }
 
     @ResponseBody
     @PostMapping("/new")
-    public void updateMember(@AuthenticationPrincipal long memberId,
+    public void updateMember(@AuthenticationPrincipal UserDetails userDetails,
             @RequestPart(required = false, name = "image") MultipartFile multipartFile,
             @RequestPart(required = false, name = "userData") MemberRequestDTO requestDTO) {
-
+        Long memberId = Long.parseLong(userDetails.getUsername());
         // FileUploadUtils.cleanDir("/image/profiles");
         if (multipartFile != null) {
             String originName = multipartFile.getOriginalFilename();
