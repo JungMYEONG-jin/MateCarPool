@@ -28,6 +28,9 @@ server:
     max-http-form-post-size: 25MB
   error:
     include-stacktrace: ON_PARAM
+    include-exception: true
+    include-message: ON_PARAM
+
 
 spring:
   servlet:
@@ -57,6 +60,8 @@ spring:
 logging:
   level:
     org.hibernate.SQL: debug
+    root: info
+    web: DEBUG
 
 # password is echo 'mate-carpool' | base64
 jwt:

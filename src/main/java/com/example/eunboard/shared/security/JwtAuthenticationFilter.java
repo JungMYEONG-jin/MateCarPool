@@ -40,7 +40,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
       // 유효 검증
       if (StringUtils.hasText(token) && tokenProvider.validateToken(token)) {
-
+      log.info("hello ");
         // logout 여부 확인
         String isLogout = (String)redisTemplate.opsForValue().get(token);
         if (ObjectUtils.isEmpty(isLogout)){
