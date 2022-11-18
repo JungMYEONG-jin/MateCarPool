@@ -17,7 +17,6 @@ import javax.validation.constraints.Size;
 public class LoginRequestDto {
 
     @NotBlank
-    @StudentNumUnique
     @Pattern(regexp = "[a-zA-Z0-9]+", message = "학번은 숫자, 영어만 입력 가능합니다.")
     /** 비밀번호 */
     private String password;
