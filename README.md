@@ -37,3 +37,12 @@ https://github.com/ParkJiwoon/practice-codes/tree/master/spring-security-jwt/src
 ## 로그아웃
 - redis 로 구현해야 할 것 같음.
 - 논의가 필요함
+
+
+# ec2 scp 통신
+scp -i ~/Documents/aws/shinhanMJ.pem mate.jar ubuntu@3.34.90.140:/home/ubuntu
+
+
+# 스프링 API 에러 처리
+에러 처리 실패시 기본 서블릿 처리까지 간다. 즉 WAS 까지 가버린다는것.
+그중 api 에러 처리에는 ExceptionHandler가 가장 적합함. 커스텀을 적용할수도 있고

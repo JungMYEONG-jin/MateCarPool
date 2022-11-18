@@ -29,7 +29,6 @@ public class MemberRequestDTO {
     /** 인증토큰 */
     @JsonIgnore
     private String token;
-
     /** 학번 */
     @NotBlank
     @StudentNumUnique
