@@ -11,6 +11,8 @@ public enum ErrorCode {
     TICKET_IS_EXIST(400, "TICKET_IS_EXIST", "이미 티켓을 생성했습니다."),
     MEMBER_IS_EXIST(400, "MEMBER_IS_EXIST", "이미 존재하는 유저입니다."),
     PHONE_IS_EXIST(400, "PHONE_NUMBER_IS_EXIST", "해당 번호로 가입한 회원이 이미 존재합니다."),
+    PARAMETER_NOT_VALID(400, "PARAMETER_NOT_VALID", "유효하지 않은 입력값입니다."),
+    NOT_PERMITTED_TIME(403, "NOT_PERMITTED_TIME", "카풀 생성 가능한 시간이 아닙니다."),
     TICKET_PASS_NOT_FOUND(404, "TICKET-PASS-ERR-404", "티켓패스를 찾을 수 없습니다."),
     MEMBER_NOT_FOUND(404, "COMMON-ERR-404", "사용자를 찾을 수 없습니다"),
     LOGIN_INFO_NOT_MATCHED(400, "LOGIN-ERR-400", "아이디 또는 패스워드가 틀립니다."),

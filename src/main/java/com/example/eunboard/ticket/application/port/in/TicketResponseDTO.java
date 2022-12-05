@@ -2,8 +2,6 @@ package com.example.eunboard.ticket.application.port.in;
 
 import com.example.eunboard.ticket.domain.Ticket;
 import com.example.eunboard.ticket.domain.TicketStatus;
-import lombok.ToString;
-
 import lombok.*;
 
 @Getter
@@ -20,11 +18,11 @@ public class TicketResponseDTO {
 
     private String startDtime;
 
-    private String kakaoOpenChatUrl;
+    private String openChatUrl;
 
     private String kakaoOpenChatTitle;
 
-    private String ticketPrice;
+    private Long ticketPrice;
 
     private TicketStatus status;
 
@@ -45,7 +43,7 @@ public class TicketResponseDTO {
                 .profileImage(entity.getMember().getProfileImage())
                 .startDtime(entity.getStartDtime())
                 .kakaoOpenChatTitle(entity.getKakaoOpenChatTitle())
-                .kakaoOpenChatUrl(entity.getKakaoOpenChatUrl())
+                .openChatUrl(entity.getOpenChatUrl())
                 .ticketPrice(entity.getTicketPrice())
                 .status(entity.getStatus())
                 .recruitPerson(entity.getRecruitPerson())

@@ -31,12 +31,22 @@ public class TicketRepositoryAdapter implements TicketRepositoryPort {
     }
 
     @Override
+    public List<Ticket> findByMemberId(Long memberId) {
+        return ticketRepository.findByMember_MemberId(memberId);
+    }
+
+    @Override
     public List<Ticket> findAll() {
         return ticketRepository.findAll();
     }
 
     @Override
-    public Boolean existTicket(Long memberId) {
+    public List<Ticket> getAvailableList() {
+        return ticketRepository.getAvailableList();
+    }
+
+    @Override
+    public boolean existTicket(Long memberId) {
         return ticketRepository.existTicket(memberId);
     }
 }

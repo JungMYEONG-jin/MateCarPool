@@ -8,8 +8,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
-
 
 import static com.example.eunboard.member.domain.QMember.member;
 import static com.example.eunboard.passenger.domain.QPassenger.passenger;
@@ -40,16 +40,48 @@ public class CustomTicketRepositoryImpl implements CustomTicketRepository{
                 .fetchJoin()
                 .leftJoin(ticket.member, member)
                 .fetchJoin()
-                .where(statusEqNot(TicketStatus.AFTER))
+                .where(statusEqNot(TicketStatus.AFTER).and(statusEqNot(TicketStatus.CANCEL)))
                 .fetch();
     }
 
+    /**
+     * 우선 9시30~ 오후9시 까지 생성 만족 뽑음
+     * 만약 만족 하는게 있다면 현재 시간이 만족일 오후9시 ~ 만족다음일 오전9시30까지 만족하면 값 리턴함
+     * @return
+     */
     @Override
-    public Boolean existTicket(Long memberId) {
+    public List<Ticket> getAvailableList() {
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime morning = now.toLocalDate().atTime(9, 30);
+        LocalDateTime night = now.toLocalDate().atTime(21, 0);
+        // 우선 9시30 오후 9시까지 생성된 리스트를 뽑는다.
+        List<Ticket> filtered = queryFactory.selectFrom(ticket)
+                .leftJoin(ticket.passengerList, passenger)
+                .fetchJoin()
+                .leftJoin(ticket.member, member)
+                .fetchJoin()
+                .where(statusEqNot(TicketStatus.AFTER).and(statusEqNot(TicketStatus.CANCEL))
+                ).fetch();
+        return filtered;
+        // 프론트 테스트 위해 잠시 제거
+        // ticket.createDate.between(morning, night)
+        // 리스트를 생성일 오후9시 ~ 생성 다음일 오전 9시 30분까지 보여준다.
+
+//        if (filtered!=null) {
+//            LocalDateTime start = filtered.get(0).getCreateDate().toLocalDate().atTime(21, 0);
+//            LocalDateTime end = filtered.get(0).getCreateDate().toLocalDate().plusDays(1).atTime(9, 30);
+//            if (now.isAfter(start) && now.isBefore(end))
+//                return filtered;
+//        }
+//        return new ArrayList<>();
+    }
+
+    @Override
+    public boolean existTicket(Long memberId) {
         return queryFactory
                 .selectFrom(ticket)
-                .where(ticket.status.eq(TicketStatus.BEFORE)
-                        .and(statusEq(TicketStatus.ING))
+                .where((statusEq(TicketStatus.BEFORE)
+                        .or(statusEq(TicketStatus.ING)))
                         .and(ticket.member.memberId.eq(memberId)))
                 .fetchOne() != null;
     }

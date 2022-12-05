@@ -1,5 +1,6 @@
 package com.example.eunboard.passenger.adapter.in;
 
+import com.example.eunboard.passenger.application.port.in.PassengerUseCase;
 import com.example.eunboard.passenger.application.service.PassengerService;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,7 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 public class PassengerController {
 
-  private final PassengerService passengerService;
+  private final PassengerUseCase passengerService;
 
   @PostMapping("/new")
   public void ride(@AuthenticationPrincipal Long memberId, @RequestBody PassengerRequestDTO requestDTO) {

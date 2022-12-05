@@ -27,7 +27,7 @@ public class TicketRequestDTO {
 
     private String kakaoOpenChatTitle;
 
-    private String kakaoOpenChatUrl;
+    private String openChatUrl;
 
     private Integer recruitPerson;
 
@@ -39,7 +39,7 @@ public class TicketRequestDTO {
                 .endArea(dto.endArea)
                 .startDtime(dto.startDtime)
                 .kakaoOpenChatTitle(dto.kakaoOpenChatTitle)
-                .kakaoOpenChatUrl(dto.kakaoOpenChatUrl)
+                .openChatUrl(dto.openChatUrl)
                 .recruitPerson(dto.recruitPerson)
                 .build();
         // ModelMapper modelMapper = new ModelMapper();

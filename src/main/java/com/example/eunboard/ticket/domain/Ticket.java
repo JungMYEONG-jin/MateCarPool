@@ -7,12 +7,12 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
-
-import org.hibernate.annotations.ColumnDefault;
-
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 이름만 ticket이지 카풀 리스트인듯?
+ */
 @Getter
 @Setter
 @AllArgsConstructor
@@ -39,17 +39,11 @@ public class Ticket extends BaseEntity {
     private String startDtime;
 
     /** 오픈채팅방 링크 */
-    @Column(name = "kakao_open_chat_url")
-    private String kakaoOpenChatUrl;
+    private String openChatUrl;
 
     /** 오픈채팅방 이름 */
     @Column(name = "kakao_open_chat_title")
     private String kakaoOpenChatTitle;
-
-    /** 티켓 비용 (0=무료) */
-    @ColumnDefault("'0'")
-    @Column(name = "ticket_price", columnDefinition = "TINYINT(1)")
-    private String ticketPrice;
 
     /** 티켓 상태*/
     @Enumerated(EnumType.STRING)
@@ -73,6 +67,20 @@ public class Ticket extends BaseEntity {
     @JsonIgnore
     @ToString.Exclude
     private List<Passenger> passengerList = new ArrayList<>();
+
+    /** 탑승 상세 */
+    private String boardingPlace;
+
+    /** 오전 오후 */
+    @Enumerated(EnumType.STRING)
+    private DayStatus dayStatus;
+
+    /** 무료/유료 */
+    @Enumerated(EnumType.STRING)
+    private TicketType ticketType;
+
+    /** 가격 */
+    private Long ticketPrice;
 
     public void updateStatus(TicketStatus status) {
         this.status = status;

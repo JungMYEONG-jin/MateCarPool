@@ -3,6 +3,8 @@ package com.example.eunboard.controller;
 import com.example.eunboard.member.application.port.in.LoginRequestDto;
 import com.example.eunboard.member.application.port.in.MemberRequestDTO;
 import com.example.eunboard.member.domain.MemberRole;
+import com.example.eunboard.ticket.application.port.in.TicketRequestDTO;
+import com.example.eunboard.ticket.domain.TicketStatus;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -131,6 +133,37 @@ class LoginControllerTest {
                 .content(this.objectMapper.writeValueAsString(login)));
         perform2.andExpect(status().isOk());
         perform2.andDo(print());
+    }
+
+    @Description("티켓 발급 테스트")
+    @Test
+    void newTicketTest() throws Exception {
+        MemberRequestDTO mj = MemberRequestDTO.builder().studentNumber("2015").password("2015")
+                .department("통계학과")
+                .auth(MemberRole.PASSENGER)
+                .memberName("명진")
+                .phoneNumber("010")
+                .memberTimeTable(new ArrayList<>())
+                .build();
+
+        ResultActions perform = this.mockMvc.perform(post("/auth/signup").
+                contentType(MediaType.APPLICATION_JSON)
+                .content(this.objectMapper.writeValueAsString(mj)));
+        perform.andDo(print());
+
+        LoginRequestDto login = LoginRequestDto.builder().password("2015").memberName("명진").phoneNumber("010").build();
+        ResultActions perform2 = this.mockMvc.perform(post("/auth/login").
+                contentType(MediaType.APPLICATION_JSON)
+                .content(this.objectMapper.writeValueAsString(login)));
+        perform2.andExpect(status().isOk());
+        perform2.andDo(print());
+
+        TicketRequestDTO ticket = TicketRequestDTO.builder().memberId(1L).startArea("인동").endArea("대학교")
+                .status(TicketStatus.BEFORE).build();
+        ResultActions perform3 = this.mockMvc.perform(post("/ticket/new").contentType(MediaType.APPLICATION_JSON)
+                .content(this.objectMapper.writeValueAsString(ticket)));
+        perform3.andExpect(status().isOk());
+        perform3.andDo(print());
     }
 
     @Description("이름 중복 허용 테스트")
