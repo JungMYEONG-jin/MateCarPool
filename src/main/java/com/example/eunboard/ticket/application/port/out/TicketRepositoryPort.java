@@ -14,6 +14,4 @@ public interface TicketRepositoryPort {
     List<Ticket> findAll();
     List<Ticket> getAvailableList();
     boolean existTicket(Long memberId);
-
-
 }
