@@ -62,3 +62,9 @@ logging:
 jwt:
   secret: bWF0ZS1jYXJwb29sLWp3dC10b2tlbi1zaWduLWtleS1lbHNlLWNlcnQtcDEyLWFhYWFiZGV3cmZkc2Zkc3JlZHNzZHNhCg==
 
+springdoc:
+  swagger-ui.path: /api-docs
+  cache:
+    disabled: true
+  default-consumes-media-type: application/json;charset=UTF-8
+  default-produces-media-type: application/json;charset=UTF-8

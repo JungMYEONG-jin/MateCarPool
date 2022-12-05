@@ -24,8 +24,12 @@ public class QTicket extends EntityPathBase<Ticket> {
 
     public final com.example.eunboard.old.domain.entity.QBaseEntity _super = new com.example.eunboard.old.domain.entity.QBaseEntity(this);
 
+    public final StringPath boardingPlace = createString("boardingPlace");
+
     //inherited
     public final DateTimePath<java.time.LocalDateTime> createDate = _super.createDate;
+
+    public final EnumPath<DayStatus> dayStatus = createEnum("dayStatus", DayStatus.class);
 
     public final StringPath endArea = createString("endArea");
 
@@ -33,9 +37,9 @@ public class QTicket extends EntityPathBase<Ticket> {
 
     public final StringPath kakaoOpenChatTitle = createString("kakaoOpenChatTitle");
 
-    public final StringPath kakaoOpenChatUrl = createString("kakaoOpenChatUrl");
-
     public final com.example.eunboard.member.domain.QMember member;
+
+    public final StringPath openChatUrl = createString("openChatUrl");
 
     public final ListPath<com.example.eunboard.passenger.domain.Passenger, com.example.eunboard.passenger.domain.QPassenger> passengerList = this.<com.example.eunboard.passenger.domain.Passenger, com.example.eunboard.passenger.domain.QPassenger>createList("passengerList", com.example.eunboard.passenger.domain.Passenger.class, com.example.eunboard.passenger.domain.QPassenger.class, PathInits.DIRECT2);
 
@@ -47,7 +51,9 @@ public class QTicket extends EntityPathBase<Ticket> {
 
     public final EnumPath<TicketStatus> status = createEnum("status", TicketStatus.class);
 
-    public final StringPath ticketPrice = createString("ticketPrice");
+    public final NumberPath<Long> ticketPrice = createNumber("ticketPrice", Long.class);
+
+    public final EnumPath<TicketType> ticketType = createEnum("ticketType", TicketType.class);
 
     //inherited
     public final DateTimePath<java.time.LocalDateTime> updateDate = _super.updateDate;

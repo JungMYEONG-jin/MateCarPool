@@ -59,8 +59,9 @@ public class MemberRequestDTO {
     private MemberRole auth;
 
     /** 프로필 이미지 */
+    @JsonIgnore
     private String profileImage;
-
+    @JsonIgnore
     private boolean isMember;
 
     private String area;
@@ -88,7 +89,7 @@ public class MemberRequestDTO {
                 .department(dto.department)
                 .phoneNumber(dto.phoneNumber)
                 .auth(dto.auth)
-                .profileImage(StringUtils.hasText(dto.profileImage)?dto.profileImage:"/images/default.png")
+                .profileImage(StringUtils.hasText(dto.profileImage)?dto.profileImage:"/image/profiles/default.png")
                 .area(dto.area)
                 .build();
     }

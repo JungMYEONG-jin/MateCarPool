@@ -6,6 +6,8 @@ import com.example.eunboard.auth.application.port.in.TokenUseCase;
 import com.example.eunboard.member.application.port.in.LoginRequestDto;
 import com.example.eunboard.member.application.port.in.MemberRequestDTO;
 import com.example.eunboard.shared.exception.ErrorResponse;
+import com.example.eunboard.shared.util.FileUploadUtils;
+import com.example.eunboard.shared.util.MD5Generator;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -14,10 +16,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.util.LinkedHashMap;
@@ -35,8 +35,8 @@ public class AuthController {
             @ApiResponse(responseCode = "400", description = "회원가입 실패",
                     content = @Content(schema = @Schema(implementation = ErrorResponse.class))) })
     @PostMapping("/signup")
-    public ResponseEntity<Object> signup(@RequestBody @Valid MemberRequestDTO memberRequestDTO){
-        loginService.signup(memberRequestDTO);
+    public ResponseEntity<Object> signup(@RequestPart(required = true, name="memberRequestDTO") @Valid MemberRequestDTO memberRequestDTO, @RequestPart(required = false, name = "image") MultipartFile multipartFile){
+        loginService.signup(memberRequestDTO, multipartFile);
         Map<String, Object> map = new LinkedHashMap<>();
         map.put("status", HttpStatus.OK.value());
         map.put("message", "성공적으로 가입이 완료되었습니다.");

@@ -46,3 +46,6 @@ scp -i ~/Documents/aws/shinhanMJ.pem mate.jar ubuntu@3.34.90.140:/home/ubuntu
 # 스프링 API 에러 처리
 에러 처리 실패시 기본 서블릿 처리까지 간다. 즉 WAS 까지 가버린다는것.
 그중 api 에러 처리에는 ExceptionHandler가 가장 적합함. 커스텀을 적용할수도 있고
+
+# 파일과 DTO 같이 받을땐
+File과 Dto를 같이 받기 위해서는 @RequestPart라는 어노테이션이 필요합니다!!

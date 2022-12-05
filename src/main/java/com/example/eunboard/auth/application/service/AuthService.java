@@ -8,6 +8,8 @@ import com.example.eunboard.member.application.port.in.MemberRequestDTO;
 import com.example.eunboard.member.application.port.in.MemberResponseDTO;
 import com.example.eunboard.member.application.port.out.MemberRepositoryPort;
 import com.example.eunboard.member.domain.Member;
+import com.example.eunboard.shared.util.FileUploadUtils;
+import com.example.eunboard.shared.util.MD5Generator;
 import com.example.eunboard.timetable.application.port.in.MemberTimetableRequestDTO;
 import com.example.eunboard.shared.exception.ErrorCode;
 import com.example.eunboard.shared.exception.custom.CustomException;
@@ -23,6 +25,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,7 +47,7 @@ public class AuthService implements TokenUseCase {
 
     // 회원 가입
     @Override
-    public MemberResponseDTO signup(MemberRequestDTO memberRequestDTO){
+    public MemberResponseDTO signup(MemberRequestDTO memberRequestDTO, MultipartFile multipartFile){
         // 번호로 구분하자
         if (memberRepository.existsByPhoneNumber(memberRequestDTO.getPhoneNumber())){
             throw new CustomException(ErrorCode.PHONE_IS_EXIST.getMessage(), ErrorCode.PHONE_IS_EXIST);
@@ -52,6 +55,19 @@ public class AuthService implements TokenUseCase {
 
         Member member = MemberRequestDTO.toMember(memberRequestDTO, passwordEncoder);
         Member savedMember = memberRepository.save(member);
+
+        //get ID
+        Long memberId = savedMember.getMemberId();
+
+        // 이미지 업로드
+        if (multipartFile!=null){
+            String filename = multipartFile.getOriginalFilename();
+            String ext = filename.substring(filename.lastIndexOf(".") + 1); // 확장자
+            String newFileName = new MD5Generator(filename).toString() + "." + ext;
+            FileUploadUtils.saveFile("/image/profiles/"+memberId, newFileName, multipartFile);
+            savedMember.setProfileImage("/" + memberId + "/" + newFileName);
+        }
+
         List<MemberTimetableRequestDTO> memberTimeTable = memberRequestDTO.getMemberTimeTable();
         // 시간표 미 설정 유저
         if (memberTimeTable==null)
@@ -59,9 +75,10 @@ public class AuthService implements TokenUseCase {
         // 시간표 설정 유저
         List<MemberTimetable> timetableEntities = new ArrayList<>();
         memberTimeTable.forEach(timeTable -> {
-            timeTable.setMemberId(savedMember.getMemberId());
+            timeTable.setMemberId(memberId);
             timetableEntities.add(MemberTimetableRequestDTO.toEntity(timeTable));
         });
+
         // 시간표 저장
         memberTimetableRepository.saveAll(timetableEntities);
         savedMember.setMemberTimeTableList(timetableEntities);

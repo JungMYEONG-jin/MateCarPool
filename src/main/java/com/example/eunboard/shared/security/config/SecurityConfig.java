@@ -30,7 +30,7 @@ public class SecurityConfig {
 
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() throws Exception {
-        return (web)->web.ignoring().antMatchers("/h2-console/**", "/favicon.ico", "/css/**", "/js/**", "/img/**", "/lib/**");
+        return (web)->web.ignoring().antMatchers("/h2-console/**", "/favicon.ico", "/css/**", "/js/**", "/img/**", "/lib/**", "/swagger-ui/**", "/api_cos/**");
     }
 
     /** TODO: 프로덕트레벨에서 관리필요 */
@@ -46,7 +46,7 @@ public class SecurityConfig {
                 .sameOrigin()
                 .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                .authorizeRequests().antMatchers("/auth/**").permitAll()
+                .authorizeRequests().antMatchers("/auth/**", "/api-docs/**", "/swagger-ui/**","/v3/api-docs/**").permitAll()
                 .antMatchers("/ride/**").authenticated()
                 .anyRequest().authenticated()
                 .and()
