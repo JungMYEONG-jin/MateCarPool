@@ -117,24 +117,4 @@ public class TokenProvider {
     }
   }
 
-
-  public String create(Member member) {
-    Date expiryDate = Date.from(
-        Instant.now().plus(1, ChronoUnit.DAYS));
-    return Jwts.builder()
-        .signWith(SignatureAlgorithm.HS512, SECRET_KEY)
-        .setSubject(Long.toString(member.getMemberId()))
-        .setIssuer("carpool app")
-        .setIssuedAt(new Date())
-        .setExpiration(expiryDate).compact();
-  }
-
-  public Long validateAndGetMemberId(String token) {
-    Claims claims = Jwts.parser()
-            .setSigningKey(SECRET_KEY)
-            .parseClaimsJws(token)
-            .getBody();
-
-    return Long.parseLong(claims.getSubject());
-  }
 }

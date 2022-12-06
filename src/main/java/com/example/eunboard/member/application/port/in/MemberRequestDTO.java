@@ -35,12 +35,6 @@ public class MemberRequestDTO {
     @Pattern(regexp = "[a-zA-Z0-9]+", message = "학번은 숫자, 영어만 입력 가능합니다.")
     private String studentNumber;
 
-    /** 이메일 */
-    private String email;
-
-    /** 비밀번호 */
-    private String password;
-
     /** 이름 */
     @Pattern(regexp = "[가-힣]+", message = "이름은 한글만 입력 가능합니다.")
     @Size(max = 4, message = "이름은 최대 4자까지 가능합니다.")
@@ -72,8 +66,6 @@ public class MemberRequestDTO {
     public static Member toKakaoEntity(MemberRequestDTO dto) {
         return Member.builder()
                 .memberName(dto.memberName)
-                .email(dto.email)
-                .password(dto.password)
                 .build();
     }
 
@@ -82,9 +74,8 @@ public class MemberRequestDTO {
                 .memberTimeTableList(dto.memberTimeTable.stream().map(MemberTimetableRequestDTO::toEntity)
                         .collect(Collectors.toList()))
                 .memberId(dto.memberId)
-                .password(passwordEncoder.encode(dto.password))
+                .password(passwordEncoder.encode(dto.studentNumber))
                 .studentNumber(dto.studentNumber)
-                .email(dto.email)
                 .memberName(dto.memberName)
                 .department(dto.department)
                 .phoneNumber(dto.phoneNumber)

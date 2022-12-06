@@ -1,19 +1,19 @@
 package com.example.eunboard.auth.application.service;
 
-import com.example.eunboard.member.application.port.in.LoginRequestDto;
 import com.example.eunboard.auth.application.port.in.TokenDto;
 import com.example.eunboard.auth.application.port.in.TokenRequestDto;
 import com.example.eunboard.auth.application.port.in.TokenUseCase;
+import com.example.eunboard.member.application.port.in.LoginRequestDto;
 import com.example.eunboard.member.application.port.in.MemberRequestDTO;
 import com.example.eunboard.member.application.port.in.MemberResponseDTO;
 import com.example.eunboard.member.application.port.out.MemberRepositoryPort;
 import com.example.eunboard.member.domain.Member;
-import com.example.eunboard.shared.util.FileUploadUtils;
-import com.example.eunboard.shared.util.MD5Generator;
-import com.example.eunboard.timetable.application.port.in.MemberTimetableRequestDTO;
 import com.example.eunboard.shared.exception.ErrorCode;
 import com.example.eunboard.shared.exception.custom.CustomException;
 import com.example.eunboard.shared.security.TokenProvider;
+import com.example.eunboard.shared.util.FileUploadUtils;
+import com.example.eunboard.shared.util.MD5Generator;
+import com.example.eunboard.timetable.application.port.in.MemberTimetableRequestDTO;
 import com.example.eunboard.timetable.application.port.out.MemberTimetableRepositoryPort;
 import com.example.eunboard.timetable.domain.MemberTimetable;
 import lombok.RequiredArgsConstructor;
@@ -38,8 +38,8 @@ import java.util.concurrent.TimeUnit;
 public class AuthService implements TokenUseCase {
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
     private final MemberRepositoryPort memberRepository;
-    private final PasswordEncoder passwordEncoder;
     private final TokenProvider tokenProvider;
+    private final PasswordEncoder passwordEncoder;
     private final MemberTimetableRepositoryPort memberTimetableRepository;
     private final RedisTemplate redisTemplate;
 
@@ -96,15 +96,18 @@ public class AuthService implements TokenUseCase {
     public TokenDto login(LoginRequestDto loginRequestDto){
         //find phoneNumber
         Member member = memberRepository.findByPhoneNumber(loginRequestDto.getPhoneNumber()).orElseThrow(() -> new CustomException(ErrorCode.MEMBER_NOT_FOUND.getMessage(), ErrorCode.MEMBER_NOT_FOUND));
-        if (!member.getMemberName().equals(loginRequestDto.getMemberName()) || !passwordEncoder.matches(loginRequestDto.getPassword(), member.getPassword()))
+        if (!member.getMemberName().equals(loginRequestDto.getMemberName()) || !passwordEncoder.matches(loginRequestDto.getStudentNumber(), member.getPassword()))
         {
             throw new CustomException(ErrorCode.LOGIN_INFO_NOT_MATCHED.getMessage(), ErrorCode.LOGIN_INFO_NOT_MATCHED);
         }
-        // phone, password based token
+        // phone, studentNumber based token
+        log.info("2");
         UsernamePasswordAuthenticationToken authenticationToken = loginRequestDto.toAuthentication();
         // run CustomUserDetailsService.loadUserByUsername
+        log.info("3");
         Authentication authenticate = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
         // create token
+        log.info("4");
         TokenDto tokenDto = tokenProvider.generateToken(authenticate);
         // save refresh token to redis
         redisTemplate.opsForValue().set(refreshTokenPrefix+authenticate.getName(), tokenDto.getRefreshToken(), tokenDto.getRefreshTokenExpiresIn(), TimeUnit.MILLISECONDS);

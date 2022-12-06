@@ -50,6 +50,9 @@ scp -i ~/Documents/aws/shinhanMJ.pem mate.jar ubuntu@3.34.90.140:/home/ubuntu
 # 파일과 DTO 같이 받을땐
 File과 Dto를 같이 받기 위해서는 @RequestPart라는 어노테이션이 필요합니다!!
 
+# CI/CD 적용하기
+도커에 젠킨스 띄우고 ec2에 스프링부트 올리게 구축하자 12/6에 할일~
+
 # CI/CD
 
 test server 13.209.43.209

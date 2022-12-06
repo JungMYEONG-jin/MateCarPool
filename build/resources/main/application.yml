@@ -24,6 +24,6 @@
 
 spring:
   profiles:
-    active: test
+    active: mj
 
 

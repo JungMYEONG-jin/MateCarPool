@@ -44,7 +44,7 @@ class LoginControllerTest {
     @Description("회원가입")
     @Test
     void signUpTest() throws Exception {
-        MemberRequestDTO mj = MemberRequestDTO.builder().studentNumber("2015").password("2015")
+        MemberRequestDTO mj = MemberRequestDTO.builder().studentNumber("2015")
                 .department("통계학과")
                 .auth(MemberRole.PASSENGER)
                 .memberName("명진")
@@ -63,7 +63,7 @@ class LoginControllerTest {
     @Description("회원가입 이름 한글만")
     @Test
     void signUpNameValidationTest() throws Exception {
-        MemberRequestDTO mj = MemberRequestDTO.builder().studentNumber("2015").password("2015")
+        MemberRequestDTO mj = MemberRequestDTO.builder().studentNumber("2015")
                 .department("통계학과")
                 .auth(MemberRole.PASSENGER)
                 .memberName("JMJ")
@@ -80,7 +80,7 @@ class LoginControllerTest {
     @Description("회원가입 학과 한글만")
     @Test
     void signUpDepartmentTest() throws Exception {
-        MemberRequestDTO mj = MemberRequestDTO.builder().studentNumber("2015").password("2015")
+        MemberRequestDTO mj = MemberRequestDTO.builder().studentNumber("2015")
                 .department("statistics")
                 .auth(MemberRole.PASSENGER)
                 .memberName("명진")
@@ -97,7 +97,7 @@ class LoginControllerTest {
     @Description("회원가입 학번 영문+숫자")
     @Test
     void signUpStudentNumberTest() throws Exception {
-        MemberRequestDTO mj = MemberRequestDTO.builder().studentNumber("SH2015").password("SH2015")
+        MemberRequestDTO mj = MemberRequestDTO.builder().studentNumber("SH2015")
                 .department("statistics")
                 .auth(MemberRole.PASSENGER)
                 .memberName("명진")
@@ -114,7 +114,7 @@ class LoginControllerTest {
     @Description("회원가입 후 로그인")
     @Test
     void signAndLoginTest() throws Exception {
-        MemberRequestDTO mj = MemberRequestDTO.builder().studentNumber("2015").password("2015")
+        MemberRequestDTO mj = MemberRequestDTO.builder().studentNumber("2015")
                 .department("통계학과")
                 .auth(MemberRole.PASSENGER)
                 .memberName("명진")
@@ -127,7 +127,7 @@ class LoginControllerTest {
                 .content(this.objectMapper.writeValueAsString(mj)));
         perform.andDo(print());
 
-        LoginRequestDto login = LoginRequestDto.builder().password("2015").memberName("명진").phoneNumber("010").build();
+        LoginRequestDto login = LoginRequestDto.builder().memberName("명진").phoneNumber("010").build();
         ResultActions perform2 = this.mockMvc.perform(post("/auth/login").
                 contentType(MediaType.APPLICATION_JSON)
                 .content(this.objectMapper.writeValueAsString(login)));
@@ -138,7 +138,7 @@ class LoginControllerTest {
     @Description("티켓 발급 테스트")
     @Test
     void newTicketTest() throws Exception {
-        MemberRequestDTO mj = MemberRequestDTO.builder().studentNumber("2015").password("2015")
+        MemberRequestDTO mj = MemberRequestDTO.builder().studentNumber("2015")
                 .department("통계학과")
                 .auth(MemberRole.PASSENGER)
                 .memberName("명진")
@@ -151,7 +151,7 @@ class LoginControllerTest {
                 .content(this.objectMapper.writeValueAsString(mj)));
         perform.andDo(print());
 
-        LoginRequestDto login = LoginRequestDto.builder().password("2015").memberName("명진").phoneNumber("010").build();
+        LoginRequestDto login = LoginRequestDto.builder().memberName("명진").phoneNumber("010").build();
         ResultActions perform2 = this.mockMvc.perform(post("/auth/login").
                 contentType(MediaType.APPLICATION_JSON)
                 .content(this.objectMapper.writeValueAsString(login)));
@@ -169,7 +169,7 @@ class LoginControllerTest {
     @Description("이름 중복 허용 테스트")
     @Test
     void signDuplicateMemberNameTest() throws Exception {
-        MemberRequestDTO mj = MemberRequestDTO.builder().studentNumber("2015").password("2015")
+        MemberRequestDTO mj = MemberRequestDTO.builder().studentNumber("2015")
                 .department("통계학과")
                 .auth(MemberRole.PASSENGER)
                 .memberName("명진")
@@ -177,7 +177,7 @@ class LoginControllerTest {
                 .memberTimeTable(new ArrayList<>())
                 .build();
 
-        MemberRequestDTO test = MemberRequestDTO.builder().studentNumber("20151").password("20151")
+        MemberRequestDTO test = MemberRequestDTO.builder().studentNumber("20151")
                 .department("통계학과")
                 .auth(MemberRole.PASSENGER)
                 .memberName("명진")
@@ -211,7 +211,7 @@ class LoginControllerTest {
     @Description("학번 중복 실패 테스트")
     @Test
     void signDuplicateStudentNumberTest() throws Exception {
-        MemberRequestDTO mj = MemberRequestDTO.builder().studentNumber("2015").password("2015")
+        MemberRequestDTO mj = MemberRequestDTO.builder().studentNumber("2015")
                 .department("통계학과")
                 .auth(MemberRole.PASSENGER)
                 .memberName("명진")
@@ -219,7 +219,7 @@ class LoginControllerTest {
                 .memberTimeTable(new ArrayList<>())
                 .build();
 
-        MemberRequestDTO test = MemberRequestDTO.builder().studentNumber("2015").password("2015")
+        MemberRequestDTO test = MemberRequestDTO.builder().studentNumber("2015")
                 .department("통계학과")
                 .auth(MemberRole.PASSENGER)
                 .memberName("명진")

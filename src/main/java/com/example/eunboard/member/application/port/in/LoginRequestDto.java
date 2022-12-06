@@ -1,6 +1,5 @@
 package com.example.eunboard.member.application.port.in;
 
-import com.example.eunboard.shared.validation.stdnum.StudentNumUnique;
 import lombok.*;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 
@@ -18,8 +17,8 @@ public class LoginRequestDto {
 
     @NotBlank
     @Pattern(regexp = "[a-zA-Z0-9]+", message = "학번은 숫자, 영어만 입력 가능합니다.")
-    /** 비밀번호 */
-    private String password;
+    /** 학번 */
+    private String studentNumber;
 
     /** 이름 */
     @Pattern(regexp = "[가-힣]+", message = "이름은 한글만 입력 가능합니다.")
@@ -31,6 +30,6 @@ public class LoginRequestDto {
     private String phoneNumber;
 
     public UsernamePasswordAuthenticationToken toAuthentication(){
-        return new UsernamePasswordAuthenticationToken(phoneNumber, password);
+        return new UsernamePasswordAuthenticationToken(phoneNumber, studentNumber);
     }
 }

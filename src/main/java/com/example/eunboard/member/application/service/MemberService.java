@@ -91,14 +91,14 @@ public class MemberService implements MemberUseCase {
 
     @Override
     public Member create(final MemberRequestDTO requestDTO) {
-        if (null == requestDTO || null == requestDTO.getEmail()) {
-            throw new RuntimeException("Invalid arguments");
-        }
-        final String email = requestDTO.getEmail();
-        if (memberRepository.existsByEmail(email)) {
-            log.debug("MemberService.create Email already exists {}", email);
-            return memberRepository.findByEmail(email);
-        }
+//        if (null == requestDTO || null == requestDTO.getEmail()) {
+//            throw new RuntimeException("Invalid arguments");
+//        }
+//        final String email = requestDTO.getEmail();
+//        if (memberRepository.existsByEmail(email)) {
+//            log.debug("MemberService.create Email already exists {}", email);
+//            return memberRepository.findByEmail(email);
+//        }
         return memberRepository.save(MemberRequestDTO.toKakaoEntity(requestDTO));
     }
 
