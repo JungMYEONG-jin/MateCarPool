@@ -49,3 +49,9 @@ scp -i ~/Documents/aws/shinhanMJ.pem mate.jar ubuntu@3.34.90.140:/home/ubuntu
 
 # 파일과 DTO 같이 받을땐
 File과 Dto를 같이 받기 위해서는 @RequestPart라는 어노테이션이 필요합니다!!
+
+# CI/CD
+
+test server 13.209.43.209
+jenkins sever 43.201.38.135
+url 43.201.38.135:9000
