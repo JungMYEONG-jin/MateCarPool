@@ -55,3 +55,4 @@ File과 Dto를 같이 받기 위해서는 @RequestPart라는 어노테이션이 
 test server 13.209.43.209
 jenkins sever 43.201.38.135
 url 43.201.38.135:9000
+ 
