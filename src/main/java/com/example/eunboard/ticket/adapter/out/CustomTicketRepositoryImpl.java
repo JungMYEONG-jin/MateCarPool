@@ -47,6 +47,8 @@ public class CustomTicketRepositoryImpl implements CustomTicketRepository{
     /**
      * 우선 9시30~ 오후9시 까지 생성 만족 뽑음
      * 만약 만족 하는게 있다면 현재 시간이 만족일 오후9시 ~ 만족다음일 오전9시30까지 만족하면 값 리턴함
+     * 1 현재가 9시30 이후일경우 night는 저렇게 쓰고
+     * 현재가 오전9시30 이전일경우 morning -1 night -1 일씩해주자.
      * @return
      */
     @Override
