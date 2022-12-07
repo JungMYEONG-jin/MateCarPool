@@ -15,6 +15,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -34,7 +35,7 @@ public class AuthController {
             @ApiResponse(responseCode = "200", description = "회원가입 성공"),
             @ApiResponse(responseCode = "400", description = "회원가입 실패",
                     content = @Content(schema = @Schema(implementation = ErrorResponse.class))) })
-    @PostMapping("/signup")
+    @PostMapping(value = "/signup", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<Object> signup(@RequestPart(required = true, name="memberRequestDTO") @Valid MemberRequestDTO memberRequestDTO, @RequestPart(required = false, name = "image") MultipartFile multipartFile){
         loginService.signup(memberRequestDTO, multipartFile);
         Map<String, Object> map = new LinkedHashMap<>();
