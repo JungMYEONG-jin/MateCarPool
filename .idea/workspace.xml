@@ -4,13 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7e1cb68b-14a0-438d-a03a-9dcca9ffa09b" name="Changes" comment="test 서버 설정">
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/e5f75349-c763-4282-9540-a515e300ee8e.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/e5f75349-c763-4282-9540-a515e300ee8e/storage_v2/_src_/schema/information_schema.FNRwLQ.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/e5f75349-c763-4282-9540-a515e300ee8e/storage_v2/_src_/schema/mysql.osA4Bg.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/e5f75349-c763-4282-9540-a515e300ee8e/storage_v2/_src_/schema/performance_schema.kIw0nw.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/e5f75349-c763-4282-9540-a515e300ee8e/storage_v2/_src_/schema/sys.zb4BAA.meta" beforeDir="false" />
+    <list default="true" id="09ae8108-eeb1-4354-8aa0-20188850c7b8" name="Changes" comment="commit">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/eunboard/ticket/adapter/out/CustomTicketRepositoryImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/eunboard/ticket/adapter/out/CustomTicketRepositoryImpl.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -82,7 +78,7 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
-  <component name="RunManager" selected="Spring Boot.EunboardApplication">
+  <component name="RunManager" selected="Gradle.LoginControllerTest">
     <configuration name="LoginControllerTest" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -144,7 +140,7 @@
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="7e1cb68b-14a0-438d-a03a-9dcca9ffa09b" name="Changes" comment="" />
+      <changelist id="09ae8108-eeb1-4354-8aa0-20188850c7b8" name="Changes" comment="commit" />
       <created>1670308895599</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />

@@ -54,8 +54,14 @@ public class CustomTicketRepositoryImpl implements CustomTicketRepository{
     @Override
     public List<Ticket> getAvailableList() {
         LocalDateTime now = LocalDateTime.now();
+        // 만약 새벽~오전 9시30분 전이면 -1씩 해야함
+        // 전날 오전9시30~오후9시까지 생성된 티켓을 봐야하기 때문.
         LocalDateTime morning = now.toLocalDate().atTime(9, 30);
         LocalDateTime night = now.toLocalDate().atTime(21, 0);
+        if (now.isAfter(now.toLocalDate().atTime(0,0)) && now.isBefore(now.toLocalDate().atTime(9, 30))){
+            morning.minusDays(1L);
+            night.minusDays(1L);
+        }
         // 우선 9시30 오후 9시까지 생성된 리스트를 뽑는다.
         List<Ticket> filtered = queryFactory.selectFrom(ticket)
                 .leftJoin(ticket.passengerList, passenger)
