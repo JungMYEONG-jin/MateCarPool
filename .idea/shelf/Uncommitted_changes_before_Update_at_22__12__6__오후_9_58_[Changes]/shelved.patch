@@ -1,0 +1,36 @@
+Index: README.md
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+># MateCarPool\nMATE 카풀 (spring boot + queryDSL + JPA + EC2 + RDS)\n\n\n## QueryDSL 적용시 주의점\n기존 jpa repositroy에 QueryDSL repository 추가하려면 주의점이 필요하다.\ninterface는 Custom+{EntityName}+Repository\n구현한 class 는 Custom+{EntityName}+RepositoryImpl 로 해야 \n스프링에서 인식한다. 나중에 작성시 유의!\n\nhttps://github.com/ParkJiwoon/practice-codes/tree/master/spring-security-jwt/src/main/java/com/tutorial/jwtsecurity/service\n\n# 11/14 \n## 문제점\n- 요일 선택이 회원가입시 필수적으로 돼야함.\n- 그렇지 않으면 이전 프로젝트 구조상 에러 발생\n- 회원가입시 핸드폰 번호 입력칸 필수\n- front에서 server에 값 전송할때 학번이랑 패스워드 일치시켜서 보내줘야함\n- 현재 로그인시 jwt 생성을 phonenumber, password 기반 생성중\n- member이름 달라도 phonenumber 학번이 일치하면 토큰을 발급하는중\n- 만약 사용자가 핸드폰 번호가 본인을 결정짓는 구분인걸 알고나서\n- 이를 악용한다면?\n- 그럴일 없을수도..?\n## 기능 테스트\n- 회원가입 O\n- 로그인 O\n- 토큰 만료 시간 O\n- 토큰으로 접속 정보 가져오기 O\n- 토큰 재발급 O\n- 가입시 시간표 안고르고 선택해도 가입 O\n\n\n# 11/15\n## 헥사고날 아키텍처\n- 헥사고날 아키텍쳐의 특징은 어플리케이션의 핵심인 비지니스로직이 아무런 의존성을 갖지 않는 도메인에 집중된다는 것이다.\n- 즉 기술적인 코드와 분리 가능!\n## 로그아웃\n- redis 로 구현해야 할 것 같음.\n- 논의가 필요함\n\n\n# ec2 scp 통신\nscp -i ~/Documents/aws/shinhanMJ.pem mate.jar ubuntu@3.34.90.140:/home/ubuntu\n\n\n# 스프링 API 에러 처리\n에러 처리 실패시 기본 서블릿 처리까지 간다. 즉 WAS 까지 가버린다는것.\n그중 api 에러 처리에는 ExceptionHandler가 가장 적합함. 커스텀을 적용할수도 있고\n\n# 파일과 DTO 같이 받을땐\nFile과 Dto를 같이 받기 위해서는 @RequestPart라는 어노테이션이 필요합니다!!\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/README.md b/README.md
+--- a/README.md	(revision bdda58785f8cd6c25e7c0862d281df0000d20c30)
++++ b/README.md	(date 1670249344991)
+@@ -49,3 +49,6 @@
+ 
+ # 파일과 DTO 같이 받을땐
+ File과 Dto를 같이 받기 위해서는 @RequestPart라는 어노테이션이 필요합니다!!
++
++# CI/CD 적용하기
++도커에 젠킨스 띄우고 ec2에 스프링부트 올리게 구축하자 12/6에 할일~
+\ No newline at end of file
+Index: .idea/misc.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<project version=\"4\">\n  <component name=\"ExternalStorageConfigurationManager\" enabled=\"true\" />\n  <component name=\"FrameworkDetectionExcludesConfiguration\">\n    <file type=\"web\" url=\"file://$PROJECT_DIR$\" />\n  </component>\n  <component name=\"ProjectRootManager\" version=\"2\" languageLevel=\"JDK_11\" project-jdk-name=\"openjdk-17\" project-jdk-type=\"JavaSDK\" />\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/misc.xml b/.idea/misc.xml
+--- a/.idea/misc.xml	(revision bdda58785f8cd6c25e7c0862d281df0000d20c30)
++++ b/.idea/misc.xml	(date 1670248964689)
+@@ -4,5 +4,5 @@
+   <component name="FrameworkDetectionExcludesConfiguration">
+     <file type="web" url="file://$PROJECT_DIR$" />
+   </component>
+-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" project-jdk-name="openjdk-17" project-jdk-type="JavaSDK" />
++  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK" />
+ </project>
+\ No newline at end of file
