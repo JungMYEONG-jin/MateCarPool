@@ -22,6 +22,7 @@
 #    spring.redis.host=localhost
 #    spring.redis.port=6379
 
+# 혹시 나중에 앱이 커지면 무중단 배포 해야 하니까 graceful 추가
 server:
   port: 8080
   tomcat:
@@ -30,6 +31,8 @@ server:
     include-stacktrace: ON_PARAM
     include-exception: true
     include-message: ON_PARAM
+  shutdown:
+    graceful
 
 
 spring:
