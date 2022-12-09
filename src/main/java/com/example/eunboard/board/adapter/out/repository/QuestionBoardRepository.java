@@ -1,4 +1,4 @@
-package com.example.eunboard.board.adapter.out;
+package com.example.eunboard.board.adapter.out.repository;
 
 import com.example.eunboard.board.domain.QuestionBoard;
 import org.springframework.data.jpa.repository.JpaRepository;

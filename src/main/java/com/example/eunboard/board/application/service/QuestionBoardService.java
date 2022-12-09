@@ -4,7 +4,6 @@ import com.example.eunboard.board.application.port.in.QuestionBoardDTO;
 import com.example.eunboard.board.application.port.in.QuestionBoardUseCase;
 import com.example.eunboard.board.application.port.out.QuestionBoardRepositoryPort;
 import com.example.eunboard.board.domain.QuestionBoard;
-import com.example.eunboard.board.adapter.out.QuestionBoardRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

@@ -1,4 +1,4 @@
-package com.example.eunboard.board.adapter.out;
+package com.example.eunboard.board.adapter.out.repository;
 
 import com.example.eunboard.board.application.port.out.QuestionBoardRepositoryPort;
 import com.example.eunboard.board.domain.QuestionBoard;

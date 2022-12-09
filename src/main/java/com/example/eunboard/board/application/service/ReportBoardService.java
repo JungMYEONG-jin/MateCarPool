@@ -4,7 +4,6 @@ import com.example.eunboard.board.application.port.in.ReportBoardDTO;
 import com.example.eunboard.board.application.port.in.ReportBoardUseCase;
 import com.example.eunboard.board.application.port.out.ReportBoardRepositoryPort;
 import com.example.eunboard.board.domain.ReportBoard;
-import com.example.eunboard.board.adapter.out.ReportBoardRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

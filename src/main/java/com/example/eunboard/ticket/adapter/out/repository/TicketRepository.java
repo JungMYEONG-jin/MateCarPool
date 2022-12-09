@@ -1,4 +1,4 @@
-package com.example.eunboard.ticket.adapter.out;
+package com.example.eunboard.ticket.adapter.out.repository;
 
 import com.example.eunboard.member.domain.Member;
 import com.example.eunboard.ticket.domain.Ticket;
