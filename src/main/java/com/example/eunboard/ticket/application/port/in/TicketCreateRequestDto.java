@@ -5,6 +5,7 @@ import com.example.eunboard.ticket.domain.DayStatus;
 import com.example.eunboard.ticket.domain.Ticket;
 import com.example.eunboard.ticket.domain.TicketStatus;
 import com.example.eunboard.ticket.domain.TicketType;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -16,7 +17,8 @@ import java.time.LocalDateTime;
 @Builder
 @ToString
 public class TicketCreateRequestDto {
-    // 멤버 번호
+//    멤버 번호
+    @JsonIgnore
     private Long memberId;
     // 출발지
     private String startArea;
