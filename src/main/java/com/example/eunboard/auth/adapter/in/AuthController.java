@@ -33,8 +33,10 @@ public class AuthController {
     @Operation(summary = "회원가입", description = "회원가입을 진행합니다.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "회원가입 성공"),
-            @ApiResponse(responseCode = "400", description = "회원가입 실패",
-                    content = @Content(schema = @Schema(implementation = ErrorResponse.class))) })
+            @ApiResponse(responseCode = "400", description = "회원가입 실패(값 입력 오류)",
+                    content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(responseCode = "409", description = "회원가입 실패(존재하는 회원)",
+                    content = @Content(schema = @Schema(implementation = ErrorResponse.class)))})
     @PostMapping(value = "/signup", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<Object> signup(@RequestPart(required = true, name="memberRequestDTO") @Valid MemberRequestDTO memberRequestDTO, @RequestPart(required = false, name = "image") MultipartFile multipartFile){
         loginService.signup(memberRequestDTO, multipartFile);
@@ -47,7 +49,8 @@ public class AuthController {
     @Operation(summary = "로그인", description = "로그인을 진행합니다.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "로그인 성공", content = @Content(schema = @Schema(implementation = TokenDto.class))),
-            @ApiResponse(responseCode = "400", description = "로그인 실패", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
+            @ApiResponse(responseCode = "400", description = "로그인 실패(ID, Password 오류)", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(responseCode = "404", description = "로그인 실패(존재하지 않는 유저)", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
     })
     @PostMapping("/login")
     public ResponseEntity<TokenDto> login(@RequestBody @Valid LoginRequestDto loginRequestDto){

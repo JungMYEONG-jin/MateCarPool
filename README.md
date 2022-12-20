@@ -60,3 +60,12 @@ jenkins sever 43.201.38.135
 url 43.201.38.135:9000
 
 http://13.209.43.209:8080/auth/signup
+
+# 12/20
+Error code 수정
+Validation Handler에서 다 잡아버려서 중복 체크 에러가 처리되지 않음.
+이를 분리해서 service에서 중복 체크하게 수정했음.
+오류 코드 또한 수정했다.
+RFC 7231을 보면 중복값의 경우 Conflict 409로 보낸다고 정의됨.
+>The request could not be completed due to a conflict with the current state of the target resource. This code is used in situations where the user might be able to resolve the conflict and resubmit the request. The server SHOULD generate a payload that includes enough information for a user to recognize the source of the conflict.
+-RFC 7231

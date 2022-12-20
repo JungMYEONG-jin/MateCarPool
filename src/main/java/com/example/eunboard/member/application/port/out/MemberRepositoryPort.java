@@ -18,5 +18,6 @@ public interface MemberRepositoryPort {
     Optional<Member> findByStudentNumber(String studentnumber);
     Optional<Member> findByPhoneNumber(String phoneNumber);
     boolean existsByPhoneNumber(String phoneNumber);
+    boolean existsByStudentNumber(String studentNumber);
     List<Member> findByMemberName(String memberName);
 }

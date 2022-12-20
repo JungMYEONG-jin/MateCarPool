@@ -44,7 +44,7 @@ public class TicketController {
   @Operation(summary = "카풀생성", description = "카풀생성을 진행합니다.")
   @ApiResponses(value = {
           @ApiResponse(responseCode = "200", description = "카풀생성 성공"),
-          @ApiResponse(responseCode = "400", description = "이미 카풀을 생성한 유저", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
+          @ApiResponse(responseCode = "409", description = "이미 카풀을 생성한 유저", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
           @ApiResponse(responseCode = "403", description = "드라이버가 아닌 유저", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))})
   @PostMapping("/new")
   public ResponseEntity<Object> ticketCreate(@AuthenticationPrincipal UserDetails userDetails, @RequestBody TicketCreateRequestDto requestDto){

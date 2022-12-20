@@ -18,6 +18,6 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
     // id가 중복이라 phone으로 구분해야할듯
     boolean existsByPhoneNumber(String phoneNumber);
     // 학번 중복 체크
-    Boolean existsByStudentNumber(String studentNumber);
+    boolean existsByStudentNumber(String studentNumber);
 
 }

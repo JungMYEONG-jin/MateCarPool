@@ -55,6 +55,11 @@ public class MemberRepositoryAdapter implements MemberRepositoryPort {
     }
 
     @Override
+    public boolean existsByStudentNumber(String studentNumber) {
+        return memberRepository.existsByStudentNumber(studentNumber);
+    }
+
+    @Override
     public List<Member> findByMemberName(String memberName) {
         return memberRepository.findByMemberName(memberName);
     }

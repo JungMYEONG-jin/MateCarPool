@@ -48,9 +48,13 @@ public class AuthService implements TokenUseCase {
     // 회원 가입
     @Override
     public MemberResponseDTO signup(MemberRequestDTO memberRequestDTO, MultipartFile multipartFile){
-        // 번호로 구분하자
+        // phone check
         if (memberRepository.existsByPhoneNumber(memberRequestDTO.getPhoneNumber())){
             throw new CustomException(ErrorCode.PHONE_IS_EXIST.getMessage(), ErrorCode.PHONE_IS_EXIST);
+        }
+        // studentNumber check
+        if (memberRepository.existsByStudentNumber(memberRequestDTO.getStudentNumber())) {
+            throw new CustomException(ErrorCode.MEMBER_IS_EXIST.getMessage(), ErrorCode.MEMBER_IS_EXIST);
         }
 
         Member member = MemberRequestDTO.toMember(memberRequestDTO, passwordEncoder);
