@@ -69,3 +69,6 @@ Validation Handler에서 다 잡아버려서 중복 체크 에러가 처리되�
 RFC 7231을 보면 중복값의 경우 Conflict 409로 보낸다고 정의됨.
 >The request could not be completed due to a conflict with the current state of the target resource. This code is used in situations where the user might be able to resolve the conflict and resubmit the request. The server SHOULD generate a payload that includes enough information for a user to recognize the source of the conflict.
 -RFC 7231
+
+# EC2 파일전송
+>scp -i ${user.pem} ${fileName} ec2-username@public-ip:${path}
