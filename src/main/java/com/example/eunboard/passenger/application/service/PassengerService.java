@@ -21,8 +21,7 @@ public class PassengerService implements PassengerUseCase {
 
   public void save(PassengerRequestDTO requestDTO) {
     if (passengerRepository.findRide(PassengerRequestDTO.toEntity(requestDTO))) {
-      ErrorCode err = ErrorCode.TICKET_PASS_EXIST;
-      throw new CustomException(err.getMessage(), err);
+      throw new CustomException(ErrorCode.TICKET_PASS_EXIST.getMessage(), ErrorCode.TICKET_PASS_EXIST);
     }
     passengerRepository.save(PassengerRequestDTO.toEntity(requestDTO));
   }

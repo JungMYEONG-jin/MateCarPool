@@ -1,6 +1,9 @@
 package com.example.eunboard.ticket.adapter.in;
 
+import com.example.eunboard.member.application.port.in.MemberUseCase;
+import com.example.eunboard.shared.exception.ErrorCode;
 import com.example.eunboard.shared.exception.ErrorResponse;
+import com.example.eunboard.shared.exception.custom.CustomException;
 import com.example.eunboard.ticket.application.port.in.TicketCreateRequestDto;
 import com.example.eunboard.ticket.application.port.in.TicketDetailResponseDto;
 import com.example.eunboard.ticket.application.port.in.TicketShortResponseDto;
@@ -33,6 +36,7 @@ import java.util.Map;
 public class TicketController {
 
   private final TicketUseCase ticketService;
+  private final MemberUseCase memberUseCase;
 
   /**
    * 카풀 생성
@@ -48,7 +52,9 @@ public class TicketController {
           @ApiResponse(responseCode = "403", description = "드라이버가 아닌 유저", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))})
   @PostMapping("/new")
   public ResponseEntity<Object> ticketCreate(@AuthenticationPrincipal UserDetails userDetails, @RequestBody TicketCreateRequestDto requestDto){
-    Long memberId = Long.parseLong(userDetails.getUsername());
+    long memberId = Long.parseLong(userDetails.getUsername());
+    if(!memberUseCase.checkRole(memberId))
+      throw new CustomException(ErrorCode.MEMBER_NOT_AUTHORITY.getMessage(), ErrorCode.MEMBER_NOT_AUTHORITY);
     requestDto.setMemberId(memberId);
     ticketService.createCarPool(requestDto);
     Map<String, Object> map = new HashMap<>();
@@ -91,7 +97,9 @@ public class TicketController {
           @ApiResponse(responseCode = "404", description = "존재하지 않는 카풀", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))})
   @GetMapping("/promise")
   public TicketDetailResponseDto promise(@AuthenticationPrincipal UserDetails userDetails) {
-      Long memberId = Long.parseLong(userDetails.getUsername());
+      long memberId = Long.parseLong(userDetails.getUsername());
+      if(!memberUseCase.checkRole(memberId))
+        throw new CustomException(ErrorCode.MEMBER_NOT_AUTHORITY.getMessage(), ErrorCode.MEMBER_NOT_AUTHORITY);
       return ticketService.getPromise(memberId);
   }
 
@@ -108,7 +116,9 @@ public class TicketController {
           @ApiResponse(responseCode = "404", description = "존재하지 않는 카풀", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))})
   @GetMapping("/promises")
   public List<TicketDetailResponseDto> promises(@AuthenticationPrincipal UserDetails userDetails) {
-    Long memberId = Long.parseLong(userDetails.getUsername());
+    long memberId = Long.parseLong(userDetails.getUsername());
+    if (!memberUseCase.checkRole(memberId))
+      throw new CustomException(ErrorCode.MEMBER_NOT_AUTHORITY.getMessage(), ErrorCode.MEMBER_NOT_AUTHORITY);
     return ticketService.getPromises(memberId);
   }
 
@@ -121,6 +131,8 @@ public class TicketController {
   @GetMapping("/update/{id}")
   public void delete(@AuthenticationPrincipal UserDetails userDetails, @PathVariable long id, TicketStatus status) {
     long memberId = Long.parseLong(userDetails.getUsername());
+    if (!memberUseCase.checkRole(memberId))
+      throw new CustomException(ErrorCode.MEMBER_NOT_AUTHORITY.getMessage(), ErrorCode.MEMBER_NOT_AUTHORITY);
     ticketService.ticketStatusUpdate(memberId, id, status);
   }
   

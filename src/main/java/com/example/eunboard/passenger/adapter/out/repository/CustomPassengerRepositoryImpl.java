@@ -7,6 +7,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
 
 
+import java.util.List;
+
 import static com.example.eunboard.member.domain.QMember.member;
 import static com.example.eunboard.passenger.domain.QPassenger.passenger;
 import static com.example.eunboard.ticket.domain.QTicket.ticket;
@@ -41,5 +43,17 @@ public class CustomPassengerRepositoryImpl implements CustomPassengerRepository{
         .where(eqMember(entity),
             passenger.id.eq(entity.getId()))
         .fetchOne();
+  }
+
+  @Override
+  public List<Passenger> getBoardingList(Long memberId) {
+    return queryFactory.selectFrom(passenger)
+            .leftJoin(passenger.member, member)
+            .fetchJoin()
+            .leftJoin(passenger.ticket, ticket)
+            .fetchJoin()
+            .where(passenger.member.memberId.eq(memberId),
+                    passenger.isCancel.eq(0))
+            .fetch();
   }
 }

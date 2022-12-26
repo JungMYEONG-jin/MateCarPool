@@ -8,12 +8,7 @@ import lombok.*;
 @Builder
 @ToString
 public class PassengerResponseDTO {
-
     private Long ticKetId;
-
-    private String StudentId;
-
-    private String passengerStudentId;
-
-
+    private String studentNumber;
+    private String passengerStudentNumber;
 }

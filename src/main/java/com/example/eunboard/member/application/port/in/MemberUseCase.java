@@ -7,6 +7,7 @@ import com.example.eunboard.member.domain.Member;
  */
 public interface MemberUseCase {
     MemberResponseDTO select(final Long id);
+    boolean checkRole(final Long id);
     void updateMember(final Long memberId, final MemberRequestDTO requestDTO);
     void updateProfileImage(final Long memberId, final String fileName);
     Member create(final MemberRequestDTO requestDTO);

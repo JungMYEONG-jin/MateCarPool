@@ -44,11 +44,6 @@ public class TicketService implements TicketUseCase {
 //        if (now.isAfter(yesterdayNight) && now.isBefore(todayMorning) || now.isAfter(todayNight) && now.isBefore(tomorrowMorning))
 //            throw new CustomException(ErrorCode.NOT_PERMITTED_TIME.getMessage(), ErrorCode.NOT_PERMITTED_TIME);
 
-        // 드라이버 체크
-        Member member = memberRepository.findById(requestDto.getMemberId()).orElseThrow(() -> new CustomException(ErrorCode.MEMBER_NOT_FOUND.getMessage(), ErrorCode.MEMBER_NOT_FOUND));
-        if(member.getAuth().equals(MemberRole.PASSENGER)){
-            throw new CustomException(ErrorCode.MEMBER_NOT_AUTHORITY.getMessage(), ErrorCode.MEMBER_NOT_AUTHORITY);
-        }
         boolean existTicket = ticketRepository.existTicket(requestDto.getMemberId());
         if (existTicket){
             throw new CustomException(ErrorCode.TICKET_IS_EXIST.getMessage(), ErrorCode.TICKET_IS_EXIST);
@@ -75,8 +70,6 @@ public class TicketService implements TicketUseCase {
     @Override
     public void ticketStatusUpdate(long memberId, long id, TicketStatus status) {
         Ticket ticket = ticketRepository.findById(id).orElseThrow(()->new CustomException(ErrorCode.TICKET_NOT_FOUND.getMessage(), ErrorCode.TICKET_NOT_FOUND));
-        if (!ticket.getMember().getMemberId().equals(memberId))
-            throw new CustomException(ErrorCode.MEMBER_NOT_AUTHORITY.getMessage(), ErrorCode.MEMBER_NOT_AUTHORITY);
         // 정보 업데이트 후 저장
         ticket.updateStatus(status);
         ticketRepository.save(ticket);

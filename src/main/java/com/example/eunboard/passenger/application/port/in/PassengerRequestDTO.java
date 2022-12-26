@@ -14,19 +14,15 @@ import lombok.*;
 @Builder
 @ToString
 public class PassengerRequestDTO {
-
-    private Long passengerId;
-
+//    private Long passengerId;
     private Long ticketId;
-
     @JsonIgnore
     private Long memberId;
-
     private Integer isCancel;
 
     public static Passenger toEntity(PassengerRequestDTO dto) {
         return Passenger.builder()
-                .id(dto.passengerId)
+//                .id(dto.passengerId)
                 .member(Member.builder().memberId(dto.memberId).build())
                 .ticket(Ticket.builder().id(dto.ticketId).build())
                 .isCancel(dto.isCancel)

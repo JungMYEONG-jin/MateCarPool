@@ -6,6 +6,7 @@ import com.example.eunboard.member.application.port.in.MemberUseCase;
 import com.example.eunboard.member.application.port.out.MemberRepositoryPort;
 import com.example.eunboard.member.domain.Member;
 
+import com.example.eunboard.member.domain.MemberRole;
 import com.example.eunboard.shared.exception.ErrorCode;
 import com.example.eunboard.shared.exception.custom.CustomException;
 import com.example.eunboard.timetable.application.port.out.MemberTimetableRepositoryPort;
@@ -37,7 +38,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class MemberService implements MemberUseCase {
 
     private final MemberRepositoryPort memberRepository;
-    private final MemberTimetableRepositoryPort memberTimetableRepositoryPort;
 
     public void copyNonNullProperties(Object src, Object target) {
         BeanUtils.copyProperties(src, target, getNullPropertyNames(src));
@@ -67,6 +67,18 @@ public class MemberService implements MemberUseCase {
                     return MemberResponseDTO.toDTOWithTimeTable(member, null);
                 }).
                 orElseThrow(()->new CustomException(ErrorCode.MEMBER_NOT_FOUND.getMessage(), ErrorCode.MEMBER_NOT_FOUND));
+    }
+
+    /**
+     * 운전자 권한 체크
+     * @param id
+     * @return
+     */
+    @Override
+    public boolean checkRole(Long id) {
+        return memberRepository.findById(id)
+                .orElseThrow(()->new CustomException(ErrorCode.MEMBER_NOT_FOUND.getMessage(), ErrorCode.MEMBER_NOT_FOUND))
+                .getAuth().equals(MemberRole.DRIVER);
     }
 
     @Override

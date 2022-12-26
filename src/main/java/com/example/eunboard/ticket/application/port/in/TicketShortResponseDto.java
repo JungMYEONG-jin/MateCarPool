@@ -39,4 +39,6 @@ public class TicketShortResponseDto {
                 .currentPersonCount(entity.getPassengerList().size())
                 .build();
     }
+
+
 }
