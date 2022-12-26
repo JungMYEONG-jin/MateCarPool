@@ -67,7 +67,8 @@ public class MemberController {
         memberService.checkMember(memberId);
         memberService.updateMember(memberId, multipartFile, requestDTO);
         CommonResponse res = new CommonResponse("유저 정보 수정이 완료되었습니다.",HttpStatus.OK.value());
-        return ResponseEntity.ok(res);
+        return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(res);
+
     }
 
     @Parameter(name = "userDetails", hidden = true)
@@ -117,18 +118,19 @@ public class MemberController {
     public ResponseEntity<CommonResponse> validateStudentNumber(@PathVariable(name = "studentNumber") String studentNumber) {
         memberService.checkStudentNumber(studentNumber);
         CommonResponse res = new CommonResponse("사용가능한 학번입니다.", HttpStatus.OK.value());
-        return ResponseEntity.ok(res);
+        return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(res);
     }
 
-    @Operation(summary = "전화번호 조회", description = "해당 전화 번호가 사용가능한지 조회합니다.")
+    @Operation(summary = "전화번호 조회", description = "해당 전화번호가 사용가능한지 조회합니다.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "사용 가능한 번호"),
             @ApiResponse(responseCode = "409", description = "등록된 번호.", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
     })
+
     @GetMapping("/check/phone/{phoneNumber}")
     public ResponseEntity<CommonResponse> validatePhoneNumber(@PathVariable(name = "phoneNumber") String phoneNumber) {
         memberService.checkPhoneNumber(phoneNumber);
-        CommonResponse res = new CommonResponse("사용가능한 학번입니다.", HttpStatus.OK.value());
-        return ResponseEntity.ok(res);
+        CommonResponse res = new CommonResponse("사용가능한 전화번호입니다.", HttpStatus.OK.value());
+        return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(res);
     }
 }
