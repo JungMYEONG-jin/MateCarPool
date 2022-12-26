@@ -67,13 +67,7 @@ public class MemberService implements MemberUseCase {
 
     @Override
     public MemberResponseDTO select(final Long id) {
-        return memberRepository.findById(id).map(member -> {
-                    if (member.getMemberTimeTableList()==null)
-                    {
-                        return MemberResponseDTO.toDTO(member, null);
-                    }
-                    return MemberResponseDTO.toDTOWithTimeTable(member, null);
-                }).
+        return memberRepository.findById(id).map(member -> MemberResponseDTO.toDTO(member, null)).
                 orElseThrow(()->new CustomException(ErrorCode.MEMBER_NOT_FOUND.getMessage(), ErrorCode.MEMBER_NOT_FOUND));
     }
 
@@ -134,13 +128,7 @@ public class MemberService implements MemberUseCase {
 
     @Override
     public MemberResponseDTO getMember(String studentnumber){
-        return memberRepository.findByStudentNumber(studentnumber).map(member -> {
-                    if (member.getMemberTimeTableList()==null)
-                    {
-                        return MemberResponseDTO.toDTO(member, null);
-                    }
-                    return MemberResponseDTO.toDTOWithTimeTable(member, null);
-                }).
+        return memberRepository.findByStudentNumber(studentnumber).map(member -> MemberResponseDTO.toDTO(member, null)).
                 orElseThrow(()->new CustomException(ErrorCode.MEMBER_NOT_FOUND.getMessage(), ErrorCode.MEMBER_NOT_FOUND));
     }
 
