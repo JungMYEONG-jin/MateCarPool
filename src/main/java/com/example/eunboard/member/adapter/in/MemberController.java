@@ -46,7 +46,6 @@ public class MemberController {
     /**
      * US-11 프로필 업데이트
      * @param userDetails
-     * @param requestDTO
      */
     @Parameter(name = "userDetails", hidden = true)
     @Operation(summary = "수정", description = "유저의 정보를 수정합니다.")
@@ -56,12 +55,12 @@ public class MemberController {
             @ApiResponse(responseCode = "409", description = "이미 등록된 휴대폰 번호", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
     })
     @ResponseBody
-    @PutMapping(value = "/update/profile", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PutMapping(value = "/update/profile")
     public ResponseEntity updateMember(@AuthenticationPrincipal UserDetails userDetails,
-            @RequestPart(required = false, name = "userData") MemberUpdateRequestDTO requestDTO) {
+            @RequestBody(required = true)  MemberUpdateRequestDTO memberUpdateRequestDTO) {
         Long memberId = Long.parseLong(userDetails.getUsername());
         memberService.checkMember(memberId);
-        memberService.updateMember(memberId, requestDTO);
+        memberService.updateMember(memberId, memberUpdateRequestDTO);
         Map<String, Object> map = new LinkedHashMap<>();
         map.put("status", HttpStatus.OK.value());
         map.put("message", "유저 정보 수정이 완료되었습니다.");
@@ -92,7 +91,6 @@ public class MemberController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "유저 정보 로드 성공", content = @Content(schema = @Schema(implementation = MemberUpdateResponseDTO.class))),
             @ApiResponse(responseCode = "404", description = "존재하지 않는 유저", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
-
     })
     @ResponseBody
     @GetMapping("/update")

@@ -100,7 +100,6 @@ public class AuthService implements TokenUseCase {
      */
     @Override
     public TokenDto login(LoginRequestDto loginRequestDto){
-        //find phoneNumber
         Member member = memberRepository.findByPhoneNumber(loginRequestDto.getPhoneNumber()).orElseThrow(() -> new CustomException(ErrorCode.MEMBER_NOT_FOUND.getMessage(), ErrorCode.MEMBER_NOT_FOUND));
         if (!member.getMemberName().equals(loginRequestDto.getMemberName()) || !passwordEncoder.matches(loginRequestDto.getStudentNumber(), member.getPassword()))
         {

@@ -37,7 +37,7 @@ public class MemberRepositoryAdapter implements MemberRepositoryPort {
 
     @Override
     public Optional<Member> findByPhoneNumber(String phoneNumber) {
-        return Optional.of(memberRepository.findByPhoneNumber(phoneNumber));
+        return Optional.ofNullable(memberRepository.findByPhoneNumber(phoneNumber));
     }
 
     @Override

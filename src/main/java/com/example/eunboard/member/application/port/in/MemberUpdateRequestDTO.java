@@ -25,9 +25,7 @@ public class MemberUpdateRequestDTO {
     @NotBlank
     private String phoneNumber;
     /** 권한 */
-    @NotBlank
     private MemberRole auth;
     /** 등교일 */
-    @NotBlank
     private List<MemberTimetableRequestDTO> memberTimeTable;
 }
