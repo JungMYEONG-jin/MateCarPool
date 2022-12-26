@@ -14,6 +14,7 @@ public interface TokenUseCase {
     MemberResponseDTO signup(MemberRequestDTO memberRequestDTO, MultipartFile multipartFile);
     TokenDto login(LoginRequestDto memberRequestDTO);
     // refresh token
-    TokenDto reissue(TokenRequestDto tokenRequestDto);
+    TokenDto reissue(TokenRefreshDto tokenRefreshDto);
     String logout(TokenRequestDto tokenRequestDto);
+    void withdraw(TokenRequestDto tokenRequestDto);
 }

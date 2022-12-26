@@ -19,7 +19,7 @@ public class StudentNumDuplicationValidator implements ConstraintValidator<Stude
 
     @Override
     public boolean isValid(String studentNumber, ConstraintValidatorContext context) {
-        boolean isExist = memberRepository.existsByStudentNumber(studentNumber);
+        boolean isExist = memberRepository.checkStudentNumber(studentNumber);
         if (isExist){
             context.disableDefaultConstraintViolation();
             context.buildConstraintViolationWithTemplate(MessageFormat.format("{0} 은 이미 등록된 학번 또는 사번입니다.", studentNumber))

@@ -1,6 +1,7 @@
 package com.example.eunboard.auth.application.service;
 
 import com.example.eunboard.auth.application.port.in.TokenDto;
+import com.example.eunboard.auth.application.port.in.TokenRefreshDto;
 import com.example.eunboard.auth.application.port.in.TokenRequestDto;
 import com.example.eunboard.auth.application.port.in.TokenUseCase;
 import com.example.eunboard.member.application.port.in.LoginRequestDto;
@@ -28,6 +29,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -121,19 +123,19 @@ public class AuthService implements TokenUseCase {
 
     // refresh token
     @Override
-    public TokenDto reissue(TokenRequestDto tokenRequestDto){
+    public TokenDto reissue(TokenRefreshDto tokenRefreshDto){
         // validate refresh token
-        if (!tokenProvider.validateToken(tokenRequestDto.getRefreshToken())){
+        if (!tokenProvider.validateToken(tokenRefreshDto.getRefreshToken())){
             throw new CustomException(ErrorCode.REFRESH_TOKEN_INVALID.getMessage(), ErrorCode.REFRESH_TOKEN_INVALID);
         }
         // get memberId
-        Authentication authentication = tokenProvider.getAuthentication(tokenRequestDto.getAccessToken());
+        Authentication authentication = tokenProvider.getAuthentication(tokenRefreshDto.getAccessToken());
         // DB version
 //        RefreshToken refreshToken = refreshTokenRepository.findByKey(authentication.getName()).orElseThrow(() -> new RuntimeException("This User is not logged in"));
         // redis
         String refreshToken = (String)redisTemplate.opsForValue().get(refreshTokenPrefix + authentication.getName());
         //token check
-        if (!refreshToken.equals(tokenRequestDto.getRefreshToken())){
+        if (!refreshToken.equals(tokenRefreshDto.getRefreshToken())){
             throw new RuntimeException("토큰 정보가 일치하지 않습니다.");
         }
 
@@ -166,5 +168,20 @@ public class AuthService implements TokenUseCase {
                 .set(tokenRequestDto.getAccessToken(), "logout", expiration, TimeUnit.MILLISECONDS);
         return "로그아웃 되었습니다.";
     }
+
+    @Override
+    public void withdraw(TokenRequestDto tokenRequestDto) {
+        Authentication authentication = tokenProvider.getAuthentication(tokenRequestDto.getAccessToken());
+        String id = authentication.getName();
+        // 회원 삭제 처리
+        long memberId = Long.parseLong(id);
+        Member member = memberRepository.findById(memberId).orElseThrow(() -> new CustomException(ErrorCode.MEMBER_NOT_FOUND.getMessage(), ErrorCode.MEMBER_NOT_FOUND));
+        member.setIsRemoved(1);
+        member.setDeleteDate(new Date());
+        memberRepository.save(member);
+        // 토큰 정보 삭제
+        logout(tokenRequestDto);
+    }
+
 
 }

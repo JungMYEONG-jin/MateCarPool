@@ -31,7 +31,6 @@ public class MemberRequestDTO {
     private String token;
     /** 학번 */
     @NotBlank
-//    @StudentNumUnique
     @Pattern(regexp = "[a-zA-Z0-9]+", message = "학번은 숫자, 영어만 입력 가능합니다.")
     private String studentNumber;
 

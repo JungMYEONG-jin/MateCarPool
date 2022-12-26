@@ -25,42 +25,27 @@ public class MemberRepositoryAdapter implements MemberRepositoryPort {
     }
 
     @Override
-    public boolean existsByEmail(String email) {
-        return memberRepository.existsByEmail(email);
-    }
-
-    @Override
-    public Member findByEmail(String email) {
-        return memberRepository.findByEmail(email);
-    }
-
-    @Override
     public Member findByMemberId(Long id) {
         return memberRepository.findByMemberId(id);
     }
 
     @Override
-    public Optional<Member> findByStudentNumber(String studentnumber) {
-        return memberRepository.findByStudentNumber(studentnumber);
+    public Member findByStudentNumber(String studentNumber) {
+        return memberRepository.findByStudentNumber(studentNumber);
     }
 
     @Override
-    public Optional<Member> findByPhoneNumber(String phoneNumber) {
+    public Member findByPhoneNumber(String phoneNumber) {
         return memberRepository.findByPhoneNumber(phoneNumber);
     }
 
     @Override
     public boolean existsByPhoneNumber(String phoneNumber) {
-        return memberRepository.existsByPhoneNumber(phoneNumber);
+        return memberRepository.checkPhoneNumber(phoneNumber);
     }
 
     @Override
     public boolean existsByStudentNumber(String studentNumber) {
-        return memberRepository.existsByStudentNumber(studentNumber);
-    }
-
-    @Override
-    public List<Member> findByMemberName(String memberName) {
-        return memberRepository.findByMemberName(memberName);
+        return memberRepository.checkStudentNumber(studentNumber);
     }
 }

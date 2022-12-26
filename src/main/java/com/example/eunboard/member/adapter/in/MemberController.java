@@ -42,18 +42,6 @@ import javax.validation.Valid;
 public class MemberController {
 
     private final MemberUseCase memberService;
-
-    /**
-     * US-12 회원탈퇴
-     */
-    @PutMapping("/withdraw")
-    public ResponseEntity withdrawMember(@AuthenticationPrincipal UserDetails userDetails){
-        long memberId = Long.parseLong(userDetails.getUsername());
-        memberService.checkMember(memberId);
-        memberService.withdraw(memberId);
-        return ResponseEntity.ok("회원 탈퇴에 성공하였습니다.");
-    }
-
     /**
      * US-11 프로필 업데이트
      * @param userDetails

@@ -1,6 +1,7 @@
 package com.example.eunboard.auth.adapter.in;
 
 import com.example.eunboard.auth.application.port.in.TokenDto;
+import com.example.eunboard.auth.application.port.in.TokenRefreshDto;
 import com.example.eunboard.auth.application.port.in.TokenRequestDto;
 import com.example.eunboard.auth.application.port.in.TokenUseCase;
 import com.example.eunboard.member.application.port.in.LoginRequestDto;
@@ -17,6 +18,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -66,8 +69,8 @@ public class AuthController {
             @ApiResponse(responseCode = "400", description = "발급 실패", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
     })
     @PostMapping("/reissue")
-    public ResponseEntity<TokenDto> reissue(@RequestBody TokenRequestDto tokenRequestDto){
-        return ResponseEntity.ok(loginService.reissue(tokenRequestDto));
+    public ResponseEntity<TokenDto> reissue(@RequestBody TokenRefreshDto tokenRefreshDto){
+        return ResponseEntity.ok(loginService.reissue(tokenRefreshDto));
     }
 
     /**
@@ -85,4 +88,11 @@ public class AuthController {
         loginService.logout(tokenRequestDto);
         return ResponseEntity.ok(LocalDateTime.now().format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT)));
     }
+
+    @PutMapping("/withdraw")
+    public ResponseEntity<String> withdraw(@RequestBody TokenRequestDto tokenRequestDto){
+        loginService.withdraw(tokenRequestDto);
+        return ResponseEntity.ok(LocalDateTime.now().format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT)));
+    }
+
 }

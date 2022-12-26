@@ -92,14 +92,6 @@ public class MemberService implements MemberUseCase {
     }
 
     @Override
-    public void withdraw(Long id) {
-        Member member = memberRepository.findById(id).get();
-        member.setIsRemoved(1);
-        member.setDeleteDate(new Date());
-        memberRepository.save(member);
-    }
-
-    @Override
     public void updateMember(Long memberId, MultipartFile multipartFile, MemberUpdateRequestDTO requestDTO) {
         Member member = memberRepository.findById(memberId).get();
         // 이미지 존재시

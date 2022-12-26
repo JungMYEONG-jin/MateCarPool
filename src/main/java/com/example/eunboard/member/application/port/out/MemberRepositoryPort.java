@@ -12,12 +12,9 @@ import java.util.Optional;
 public interface MemberRepositoryPort {
     Optional<Member> findById(Long id);
     Member save(Member member);
-    boolean existsByEmail(String email);
-    Member findByEmail(String email);
     Member findByMemberId(Long id);
-    Optional<Member> findByStudentNumber(String studentnumber);
-    Optional<Member> findByPhoneNumber(String phoneNumber);
+    Member findByStudentNumber(String studentNumber);
+    Member findByPhoneNumber(String phoneNumber);
     boolean existsByPhoneNumber(String phoneNumber);
     boolean existsByStudentNumber(String studentNumber);
-    List<Member> findByMemberName(String memberName);
 }

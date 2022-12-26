@@ -57,6 +57,7 @@ spring:
 logging:
   level:
     org.hibernate.SQL: debug
+    org.hibernate.type.descriptor.sql: trace
 
 # password is echo 'mate-carpool' | base64
 jwt:
