@@ -5,6 +5,7 @@ import com.example.eunboard.member.domain.Member;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
+import javax.swing.text.html.Option;
 import java.util.List;
 import java.util.Optional;
 
@@ -35,8 +36,8 @@ public class MemberRepositoryAdapter implements MemberRepositoryPort {
     }
 
     @Override
-    public Member findByPhoneNumber(String phoneNumber) {
-        return memberRepository.findByPhoneNumber(phoneNumber);
+    public Optional<Member> findByPhoneNumber(String phoneNumber) {
+        return Optional.of(memberRepository.findByPhoneNumber(phoneNumber));
     }
 
     @Override

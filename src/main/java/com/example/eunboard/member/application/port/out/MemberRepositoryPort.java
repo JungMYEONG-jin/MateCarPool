@@ -2,6 +2,7 @@ package com.example.eunboard.member.application.port.out;
 
 import com.example.eunboard.member.domain.Member;
 
+import javax.swing.text.html.Option;
 import java.util.List;
 import java.util.Optional;
 
@@ -14,7 +15,7 @@ public interface MemberRepositoryPort {
     Member save(Member member);
     Member findByMemberId(Long id);
     Member findByStudentNumber(String studentNumber);
-    Member findByPhoneNumber(String phoneNumber);
+    Optional<Member> findByPhoneNumber(String phoneNumber);
     boolean existsByPhoneNumber(String phoneNumber);
     boolean existsByStudentNumber(String studentNumber);
 }
