@@ -45,7 +45,6 @@ public class MemberController {
     /**
      * US-11 프로필 업데이트
      * @param userDetails
-     * @param multipartFile
      * @param requestDTO
      */
     @Parameter(name = "userDetails", hidden = true)
@@ -56,13 +55,25 @@ public class MemberController {
 
     })
     @ResponseBody
-    @PutMapping(value = "/update", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PutMapping(value = "/update/profile", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity updateMember(@AuthenticationPrincipal UserDetails userDetails,
-            @RequestPart(required = false, name = "image") MultipartFile multipartFile,
             @RequestPart(required = false, name = "userData") MemberUpdateRequestDTO requestDTO) {
         Long memberId = Long.parseLong(userDetails.getUsername());
         memberService.checkMember(memberId);
-        memberService.updateMember(memberId, multipartFile, requestDTO);
+        memberService.updateMember(memberId, requestDTO);
+        Map<String, Object> map = new LinkedHashMap<>();
+        map.put("status", HttpStatus.OK.value());
+        map.put("message", "유저 정보 수정이 완료되었습니다.");
+        return ResponseEntity.ok(map);
+    }
+
+    @ResponseBody
+    @PutMapping(value = "/update/image", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity updateMemberProfileImage(@AuthenticationPrincipal UserDetails userDetails,
+                                       @RequestPart(required = false, name = "image") MultipartFile multipartFile) {
+        Long memberId = Long.parseLong(userDetails.getUsername());
+        memberService.checkMember(memberId);
+        memberService.updateMemberProfileImage(memberId, multipartFile);
         Map<String, Object> map = new LinkedHashMap<>();
         map.put("status", HttpStatus.OK.value());
         map.put("message", "유저 정보 수정이 완료되었습니다.");

@@ -35,7 +35,7 @@ public class FileUploadUtils {
     }
 
     public static void cleanDir(String dir) {
-        Path dirPath = Paths.get(dir);
+        Path dirPath = Paths.get(System.getProperty("user.dir")+dir);
 
         try {
             Files.list(dirPath).forEach(file -> {
