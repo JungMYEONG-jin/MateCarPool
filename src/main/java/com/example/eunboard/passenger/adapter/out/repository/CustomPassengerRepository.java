@@ -11,5 +11,4 @@ public interface CustomPassengerRepository {
       * memberId로 list 추출
       */
      List<Passenger> getBoardingList(Long memberId);
-
 }

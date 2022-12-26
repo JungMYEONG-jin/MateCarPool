@@ -5,6 +5,8 @@ import com.example.eunboard.passenger.domain.Passenger;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 @RequiredArgsConstructor
 public class PassengerRepositoryAdapter implements PassengerRepositoryPort {
@@ -24,5 +26,10 @@ public class PassengerRepositoryAdapter implements PassengerRepositoryPort {
     @Override
     public Passenger findMyPassenger(Passenger entity) {
         return passengerRepository.findMyPassenger(entity);
+    }
+
+    @Override
+    public List<Passenger> getBoardingList(Long memberId) {
+        return passengerRepository.getBoardingList(memberId);
     }
 }
