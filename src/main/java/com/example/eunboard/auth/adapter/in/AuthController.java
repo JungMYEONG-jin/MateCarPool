@@ -21,6 +21,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -67,10 +70,19 @@ public class AuthController {
         return ResponseEntity.ok(loginService.reissue(tokenRequestDto));
     }
 
+    /**
+     * US-12 로그아웃
+     * @param tokenRequestDto
+     * @return
+     */
     @Operation(summary = "로그아웃", description = "로그아웃을 진행합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "로그아웃 성공"),
+            @ApiResponse(responseCode = "498", description = "유효하지 않은 토큰", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
+    })
     @PostMapping("/logout")
     public ResponseEntity<String> logout(@RequestBody TokenRequestDto tokenRequestDto){
-        return ResponseEntity.ok(loginService.logout(tokenRequestDto));
+        loginService.logout(tokenRequestDto);
+        return ResponseEntity.ok(LocalDateTime.now().format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT)));
     }
-
 }
