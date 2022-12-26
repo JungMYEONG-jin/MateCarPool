@@ -22,6 +22,7 @@ import java.nio.file.Files;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -51,8 +52,8 @@ public class MemberController {
     @Operation(summary = "수정", description = "유저의 정보를 수정합니다.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "수정 성공"),
-            @ApiResponse(responseCode = "404", description = "존재하지 않는 유저", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
-
+            @ApiResponse(responseCode = "404", description = "존재하지 않는 유저", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(responseCode = "409", description = "이미 등록된 휴대폰 번호", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
     })
     @ResponseBody
     @PutMapping(value = "/update/profile", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
@@ -67,6 +68,12 @@ public class MemberController {
         return ResponseEntity.ok(map);
     }
 
+    @Parameter(name = "userDetails", hidden = true)
+    @Operation(summary = "수정", description = "유저의 정보를 수정합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "수정 성공"),
+            @ApiResponse(responseCode = "404", description = "존재하지 않는 유저", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
+    })
     @ResponseBody
     @PutMapping(value = "/update/image", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity updateMemberProfileImage(@AuthenticationPrincipal UserDetails userDetails,
@@ -76,7 +83,7 @@ public class MemberController {
         memberService.updateMemberProfileImage(memberId, multipartFile);
         Map<String, Object> map = new LinkedHashMap<>();
         map.put("status", HttpStatus.OK.value());
-        map.put("message", "유저 정보 수정이 완료되었습니다.");
+        map.put("message", "프로필 이미지 변경이 완료되었습니다.");
         return ResponseEntity.ok(map);
     }
 
