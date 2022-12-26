@@ -86,7 +86,7 @@ public class AuthService implements TokenUseCase {
         // 시간표 저장
         memberTimetableRepository.saveAll(timetableEntities);
         savedMember.setMemberTimeTableList(timetableEntities);
-        return MemberResponseDTO.toDTOWithTimeTable(savedMember, null);
+        return MemberResponseDTO.toDTO(savedMember, null);
     }
 
     /**

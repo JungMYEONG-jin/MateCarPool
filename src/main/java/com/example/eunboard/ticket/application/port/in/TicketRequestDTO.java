@@ -42,9 +42,6 @@ public class TicketRequestDTO {
                 .openChatUrl(dto.openChatUrl)
                 .recruitPerson(dto.recruitPerson)
                 .build();
-        // ModelMapper modelMapper = new ModelMapper();
-
-        // return modelMapper.map(dto, Ticket.class);
     }
 
 }

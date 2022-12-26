@@ -1,6 +1,7 @@
 package com.example.eunboard.member.application.port.in;
 
 import com.example.eunboard.member.domain.Member;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * use case가 기존에 service에 작성했던 코드 interface 한것
@@ -8,6 +9,7 @@ import com.example.eunboard.member.domain.Member;
 public interface MemberUseCase {
     MemberResponseDTO select(final Long id);
     boolean checkRole(final Long id);
+    void updateMember(final Long memberId, final MultipartFile multipartFile, final MemberUpdateRequestDTO requestDTO);
     void updateMember(final Long memberId, final MemberRequestDTO requestDTO);
     void updateProfileImage(final Long memberId, final String fileName);
     Member create(final MemberRequestDTO requestDTO);

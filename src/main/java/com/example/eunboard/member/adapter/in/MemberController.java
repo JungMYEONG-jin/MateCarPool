@@ -1,9 +1,6 @@
 package com.example.eunboard.member.adapter.in;
 
-import com.example.eunboard.member.application.port.in.MemberRequestDTO;
-import com.example.eunboard.member.application.port.in.MemberResponseDTO;
-import com.example.eunboard.member.application.port.in.MemberUseCase;
-import com.example.eunboard.member.application.port.in.ProfileResponseDto;
+import com.example.eunboard.member.application.port.in.*;
 import com.example.eunboard.timetable.application.port.in.MemberTimetableUseCase;
 import com.example.eunboard.shared.util.FileUploadUtils;
 import com.example.eunboard.shared.util.MD5Generator;
@@ -21,14 +18,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.util.FileCopyUtils;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 @Slf4j
@@ -54,25 +44,21 @@ public class MemberController {
         memberService.updateMemberArea(memberId, requestDTO);
     }
 
+    /**
+     * US-11 프로필 업데이트
+     * @param userDetails
+     * @param multipartFile
+     * @param requestDTO
+     */
     @ResponseBody
-    @PostMapping("/new")
-    public void updateMember(@AuthenticationPrincipal UserDetails userDetails,
+    @PutMapping("/update")
+    public ResponseEntity updateMember(@AuthenticationPrincipal UserDetails userDetails,
             @RequestPart(required = false, name = "image") MultipartFile multipartFile,
-            @RequestPart(required = false, name = "userData") MemberRequestDTO requestDTO) {
+            @RequestPart(required = false, name = "userData") MemberUpdateRequestDTO requestDTO) {
         Long memberId = Long.parseLong(userDetails.getUsername());
-        // FileUploadUtils.cleanDir("/image/profiles");
-        if (multipartFile != null) {
-            String originName = multipartFile.getOriginalFilename();
-            String ext = originName.substring(originName.lastIndexOf(".") + 1); // 확장자
-
-            String newFileName = new MD5Generator(originName).toString() + "." + ext; // 파일 해쉬
-            FileUploadUtils.saveFile("/image/profiles/" + memberId, newFileName, multipartFile);
-
-            memberService.updateProfileImage(memberId, "/" + memberId + "/" + newFileName);
-        }
-
-        memberTimetableService.saveAll(memberId, requestDTO.getMemberTimeTable());
-        memberService.updateMember(memberId, requestDTO);
+        memberService.checkRole(memberId);
+        memberService.updateMember(memberId, multipartFile, requestDTO);
+        return ResponseEntity.ok("수정에 성공하였습니다.");
     }
 
     @GetMapping("profile/{id}/{imagename}")
@@ -90,6 +76,11 @@ public class MemberController {
         return result;
     }
 
+    /**
+     * US-10 프로필 화면
+     * @param userDetails
+     * @return
+     */
     @GetMapping("/me")
     public ResponseEntity<ProfileResponseDto> getMyInfo(@AuthenticationPrincipal UserDetails userDetails){
         long memberId = Long.parseLong(userDetails.getUsername());
