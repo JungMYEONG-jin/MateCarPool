@@ -71,7 +71,7 @@ public class Member extends BaseEntity {
     private int isRemoved;
 
     /** 탈퇴일자 */
-    @Column(name = "delete_date", length = 10)
+    @Column(name = "delete_date")
     private Date deleteDate;
 
     @OneToMany(mappedBy = "member")

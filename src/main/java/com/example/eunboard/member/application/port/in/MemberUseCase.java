@@ -9,6 +9,7 @@ public interface MemberUseCase {
     MemberResponseDTO select(Long id);
     boolean checkRole(Long id);
     void checkMember(Long id);
+    void withdraw(Long id);
     void updateMember(Long memberId, MultipartFile multipartFile, MemberUpdateRequestDTO requestDTO);
     MemberUpdateResponseDTO getUpdateView(Long memberId);
     ProfileResponseDto getMyInfo(Long memberId);

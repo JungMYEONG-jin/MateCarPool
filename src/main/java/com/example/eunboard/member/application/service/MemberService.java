@@ -20,10 +20,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import java.beans.PropertyDescriptor;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.BeanWrapper;
@@ -91,6 +89,14 @@ public class MemberService implements MemberUseCase {
     @Override
     public void checkMember(Long id) {
         memberRepository.findById(id).orElseThrow(()->new CustomException(ErrorCode.MEMBER_NOT_FOUND.getMessage(), ErrorCode.MEMBER_NOT_FOUND));
+    }
+
+    @Override
+    public void withdraw(Long id) {
+        Member member = memberRepository.findById(id).get();
+        member.setIsRemoved(1);
+        member.setDeleteDate(new Date());
+        memberRepository.save(member);
     }
 
     @Override
