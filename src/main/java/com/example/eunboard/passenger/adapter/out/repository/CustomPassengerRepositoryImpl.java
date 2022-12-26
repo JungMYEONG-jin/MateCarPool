@@ -65,6 +65,7 @@ public class CustomPassengerRepositoryImpl implements CustomPassengerRepository{
             .fetchJoin()
             .where(passenger.member.memberId.eq(memberId),
                     passenger.isCancel.eq(0))
+            .orderBy(passenger.ticket.createDate.desc())
             .fetch();
   }
 }

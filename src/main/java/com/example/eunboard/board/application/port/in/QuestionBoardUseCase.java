@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface QuestionBoardUseCase {
     // 게시판 생성
-    void createQuestionBoard(QuestionBoardDTO questionBoardDTO);
+    void createQuestionBoard(QuestionBoardEnrollDTO questionBoardDTO);
     List<QuestionBoard> findByEmail(String email);
-    List<QuestionBoard> findByMemberId(long memberId);
+    List<QuestionBoardShowDto> findByMemberId(long memberId);
 }
