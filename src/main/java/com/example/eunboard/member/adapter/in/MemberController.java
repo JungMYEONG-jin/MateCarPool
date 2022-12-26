@@ -61,6 +61,16 @@ public class MemberController {
         return ResponseEntity.ok("수정에 성공하였습니다.");
     }
 
+    @ResponseBody
+    @GetMapping("/update")
+    public ResponseEntity updateMemberView(@AuthenticationPrincipal UserDetails userDetails){
+        long memberId = Long.parseLong(userDetails.getUsername());
+        memberService.checkRole(memberId);
+        return ResponseEntity.ok(memberService.getUpdateView(memberId));
+    }
+
+
+
     @GetMapping("profile/{id}/{imagename}")
     @ResponseBody
     public ResponseEntity<byte[]> getFile(@PathVariable("id") String id, @PathVariable("imagename") String imagename){	

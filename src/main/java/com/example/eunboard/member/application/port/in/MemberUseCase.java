@@ -7,12 +7,10 @@ import org.springframework.web.multipart.MultipartFile;
  * use case가 기존에 service에 작성했던 코드 interface 한것
  */
 public interface MemberUseCase {
-    MemberResponseDTO select(final Long id);
-    boolean checkRole(final Long id);
-    void updateMember(final Long memberId, final MultipartFile multipartFile, final MemberUpdateRequestDTO requestDTO);
-    void updateMember(final Long memberId, final MemberRequestDTO requestDTO);
-    void updateProfileImage(final Long memberId, final String fileName);
-    Member create(final MemberRequestDTO requestDTO);
+    MemberResponseDTO select(Long id);
+    boolean checkRole(Long id);
+    void updateMember(Long memberId, MultipartFile multipartFile, MemberUpdateRequestDTO requestDTO);
+    MemberUpdateResponseDTO getUpdateView(Long memberId);
     void updateMemberArea(final Long memberId, final MemberRequestDTO requestDTO);
     MemberResponseDTO getMember(String studentnumber);
     ProfileResponseDto getMyInfo(Long memberId);

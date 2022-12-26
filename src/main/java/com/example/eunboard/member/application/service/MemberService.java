@@ -121,36 +121,9 @@ public class MemberService implements MemberUseCase {
     }
 
     @Override
-    public void updateMember(final Long memberId, final MemberRequestDTO requestDTO) {
-        if (null == requestDTO) {
-            throw new RuntimeException("Invalid arguments");
-        }
-        requestDTO.setMemberId(memberId);
-        requestDTO.setMember(true);
-        // 존재하지 않는 멤버일시 404 return
-        Member member = memberRepository.findById(memberId).orElseThrow(()->new CustomException(ErrorCode.MEMBER_NOT_FOUND.getMessage(), ErrorCode.MEMBER_NOT_FOUND));
-        copyNonNullProperties(requestDTO, member);
-        memberRepository.save(member);
-    }
-
-    @Override
-    public void updateProfileImage(final Long memberId, final String fileName) {
-        Member member = memberRepository.findById(memberId).orElseThrow(()->new CustomException(ErrorCode.MEMBER_NOT_FOUND.getMessage(), ErrorCode.MEMBER_NOT_FOUND));
-        member.setProfileImage(fileName);
-        memberRepository.save(member);
-    }
-
-    @Override
-    public Member create(final MemberRequestDTO requestDTO) {
-//        if (null == requestDTO || null == requestDTO.getEmail()) {
-//            throw new RuntimeException("Invalid arguments");
-//        }
-//        final String email = requestDTO.getEmail();
-//        if (memberRepository.existsByEmail(email)) {
-//            log.debug("MemberService.create Email already exists {}", email);
-//            return memberRepository.findByEmail(email);
-//        }
-        return memberRepository.save(MemberRequestDTO.toKakaoEntity(requestDTO));
+    public MemberUpdateResponseDTO getUpdateView(Long memberId) {
+        Member member = memberRepository.findById(memberId).get();
+        return MemberUpdateResponseDTO.of(member);
     }
 
     @Override
