@@ -19,6 +19,8 @@ import lombok.extern.slf4j.Slf4j;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -62,7 +64,10 @@ public class MemberController {
         Long memberId = Long.parseLong(userDetails.getUsername());
         memberService.checkMember(memberId);
         memberService.updateMember(memberId, multipartFile, requestDTO);
-        return ResponseEntity.ok("수정에 성공하였습니다.");
+        Map<String, Object> map = new LinkedHashMap<>();
+        map.put("status", HttpStatus.OK.value());
+        map.put("message", "유저 정보 수정이 완료되었습니다.");
+        return ResponseEntity.ok(map);
     }
 
     @Parameter(name = "userDetails", hidden = true)
