@@ -13,5 +13,5 @@ public interface MemberUseCase {
     Member create(final MemberRequestDTO requestDTO);
     void updateMemberArea(final Long memberId, final MemberRequestDTO requestDTO);
     MemberResponseDTO getMember(String studentnumber);
-    MemberResponseDTO getMyInfo();
+    ProfileResponseDto getMyInfo(Long memberId);
 }

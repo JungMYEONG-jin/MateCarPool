@@ -3,6 +3,7 @@ package com.example.eunboard.member.adapter.in;
 import com.example.eunboard.member.application.port.in.MemberRequestDTO;
 import com.example.eunboard.member.application.port.in.MemberResponseDTO;
 import com.example.eunboard.member.application.port.in.MemberUseCase;
+import com.example.eunboard.member.application.port.in.ProfileResponseDto;
 import com.example.eunboard.timetable.application.port.in.MemberTimetableUseCase;
 import com.example.eunboard.shared.util.FileUploadUtils;
 import com.example.eunboard.shared.util.MD5Generator;
@@ -90,8 +91,10 @@ public class MemberController {
     }
 
     @GetMapping("/me")
-    public ResponseEntity<MemberResponseDTO> getMyInfo(){
-        return ResponseEntity.ok(memberService.getMyInfo());
+    public ResponseEntity<ProfileResponseDto> getMyInfo(@AuthenticationPrincipal UserDetails userDetails){
+        long memberId = Long.parseLong(userDetails.getUsername());
+        memberService.checkRole(memberId);
+        return ResponseEntity.ok(memberService.getMyInfo(memberId));
     }
 
     @GetMapping("/{studentnum}")

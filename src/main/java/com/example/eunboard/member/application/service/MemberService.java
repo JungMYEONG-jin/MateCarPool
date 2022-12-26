@@ -3,18 +3,25 @@ package com.example.eunboard.member.application.service;
 import com.example.eunboard.member.application.port.in.MemberRequestDTO;
 import com.example.eunboard.member.application.port.in.MemberResponseDTO;
 import com.example.eunboard.member.application.port.in.MemberUseCase;
+import com.example.eunboard.member.application.port.in.ProfileResponseDto;
 import com.example.eunboard.member.application.port.out.MemberRepositoryPort;
 import com.example.eunboard.member.domain.Member;
 
 import com.example.eunboard.member.domain.MemberRole;
+import com.example.eunboard.passenger.application.port.out.PassengerRepositoryPort;
+import com.example.eunboard.passenger.domain.Passenger;
 import com.example.eunboard.shared.exception.ErrorCode;
 import com.example.eunboard.shared.exception.custom.CustomException;
+import com.example.eunboard.ticket.application.port.out.TicketRepositoryPort;
+import com.example.eunboard.ticket.domain.Ticket;
 import com.example.eunboard.timetable.application.port.out.MemberTimetableRepositoryPort;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import java.beans.PropertyDescriptor;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.BeanUtils;
@@ -38,6 +45,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class MemberService implements MemberUseCase {
 
     private final MemberRepositoryPort memberRepository;
+    private final PassengerRepositoryPort passengerRepositoryPort;
 
     public void copyNonNullProperties(Object src, Object target) {
         BeanUtils.copyProperties(src, target, getNullPropertyNames(src));
@@ -142,21 +150,17 @@ public class MemberService implements MemberUseCase {
      * @return
      */
     @Override
-    public MemberResponseDTO getMyInfo(){
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication == null || authentication.getName() == null){
-            throw new CustomException(ErrorCode.MEMBER_NOT_AUTHORITY.getMessage(), ErrorCode.MEMBER_NOT_AUTHORITY);
+    public ProfileResponseDto getMyInfo(Long memberId){
+        Member member = memberRepository.findById(memberId).get(); // controller 에서 존재 확인 했음.
+        List<Passenger> boardingList = passengerRepositoryPort.getBoardingList(memberId);
+        List<Ticket> tickets = new ArrayList<>();
+        if (boardingList!=null)
+        {
+            for (Passenger passenger : boardingList) {
+                tickets.add(passenger.getTicket());
+            }
         }
-        // name is id
-        long id = Long.parseLong(authentication.getName());
-        return memberRepository.findById(id).map(member -> {
-                    if (member.getMemberTimeTableList()==null)
-                    {
-                        return MemberResponseDTO.toDTO(member, null);
-                    }
-                    return MemberResponseDTO.toDTOWithTimeTable(member, null);
-                }).
-                orElseThrow(()->new CustomException(ErrorCode.MEMBER_NOT_FOUND.getMessage(), ErrorCode.MEMBER_NOT_FOUND));
+        return ProfileResponseDto.of(member, tickets);
     }
 
 }
