@@ -1,10 +1,18 @@
 package com.example.eunboard.member.adapter.in;
 
 import com.example.eunboard.member.application.port.in.*;
+import com.example.eunboard.shared.exception.ErrorResponse;
 import com.example.eunboard.timetable.application.port.in.MemberTimetableUseCase;
 import com.example.eunboard.shared.util.FileUploadUtils;
 import com.example.eunboard.shared.util.MD5Generator;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -21,6 +29,9 @@ import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.validation.Valid;
+
+@Tag(name = "유저", description = "유저 조회/수정")
 @Slf4j
 @RequiredArgsConstructor
 @RequestMapping("/member")
@@ -28,21 +39,6 @@ import org.springframework.web.multipart.MultipartFile;
 public class MemberController {
 
     private final MemberUseCase memberService;
-    private final MemberTimetableUseCase memberTimetableService;
-
-    @GetMapping
-    public MemberResponseDTO selectMember(@AuthenticationPrincipal UserDetails userDetails) {
-        Long memberId = Long.parseLong(userDetails.getUsername()); // member Id
-        return memberService.select(memberId);
-    }
-
-    @ResponseBody
-    @PostMapping("/area")
-    public void updateMemberArea(@AuthenticationPrincipal UserDetails userDetails,
-            @RequestBody MemberRequestDTO requestDTO) {
-        Long memberId = Long.parseLong(userDetails.getUsername());
-        memberService.updateMemberArea(memberId, requestDTO);
-    }
 
     /**
      * US-11 프로필 업데이트
@@ -50,40 +46,37 @@ public class MemberController {
      * @param multipartFile
      * @param requestDTO
      */
+    @Parameter(name = "userDetails", hidden = true)
+    @Operation(summary = "수정", description = "유저의 정보를 수정합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "수정 성공"),
+            @ApiResponse(responseCode = "404", description = "존재하지 않는 유저", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
+
+    })
     @ResponseBody
     @PutMapping("/update")
     public ResponseEntity updateMember(@AuthenticationPrincipal UserDetails userDetails,
             @RequestPart(required = false, name = "image") MultipartFile multipartFile,
             @RequestPart(required = false, name = "userData") MemberUpdateRequestDTO requestDTO) {
         Long memberId = Long.parseLong(userDetails.getUsername());
-        memberService.checkRole(memberId);
+        memberService.checkMember(memberId);
         memberService.updateMember(memberId, multipartFile, requestDTO);
         return ResponseEntity.ok("수정에 성공하였습니다.");
     }
 
+    @Parameter(name = "userDetails", hidden = true)
+    @Operation(summary = "수정", description = "유저 수정 페이지에 유저 정보를 제공합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "유저 정보 로드 성공", content = @Content(schema = @Schema(implementation = MemberUpdateResponseDTO.class))),
+            @ApiResponse(responseCode = "404", description = "존재하지 않는 유저", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
+
+    })
     @ResponseBody
     @GetMapping("/update")
     public ResponseEntity updateMemberView(@AuthenticationPrincipal UserDetails userDetails){
         long memberId = Long.parseLong(userDetails.getUsername());
-        memberService.checkRole(memberId);
+        memberService.checkMember(memberId);
         return ResponseEntity.ok(memberService.getUpdateView(memberId));
-    }
-
-
-
-    @GetMapping("profile/{id}/{imagename}")
-    @ResponseBody
-    public ResponseEntity<byte[]> getFile(@PathVariable("id") String id, @PathVariable("imagename") String imagename){	
-        ResponseEntity<byte[]> result = null;
-        try {
-            File file = new File(System.getProperty("user.dir") + "/image/profiles/" +id+ "/" + imagename);
-            HttpHeaders headers=new HttpHeaders();
-            headers.add("Content-Type", Files.probeContentType(file.toPath()));
-            result=new ResponseEntity<>(FileCopyUtils.copyToByteArray(file),headers,HttpStatus.OK );
-        }catch (IOException e) {
-            log.info("Could not file read : {}", e.getMessage());
-        }
-        return result;
     }
 
     /**
@@ -91,15 +84,17 @@ public class MemberController {
      * @param userDetails
      * @return
      */
+    @Parameter(name = "userDetails", hidden = true)
+    @Operation(summary = "프로필 조회", description = "자신의 프로필 정보를 봅니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "프로필 정보 로드 성공", content = @Content(schema = @Schema(implementation = ProfileResponseDto.class))),
+            @ApiResponse(responseCode = "404", description = "존재하지 않는 유저", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
+
+    })
     @GetMapping("/me")
     public ResponseEntity<ProfileResponseDto> getMyInfo(@AuthenticationPrincipal UserDetails userDetails){
         long memberId = Long.parseLong(userDetails.getUsername());
-        memberService.checkRole(memberId);
+        memberService.checkMember(memberId);
         return ResponseEntity.ok(memberService.getMyInfo(memberId));
-    }
-
-    @GetMapping("/{studentnum}")
-    public ResponseEntity<MemberResponseDTO> getMemberInfo(@PathVariable String studentnum){
-        return ResponseEntity.ok(memberService.getMember(studentnum));
     }
 }

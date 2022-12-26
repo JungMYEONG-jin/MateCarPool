@@ -72,3 +72,16 @@ RFC 7231을 보면 중복값의 경우 Conflict 409로 보낸다고 정의됨.
 
 # EC2 파일전송
 >scp -i ${user.pem} ${fileName} ec2-username@public-ip:${path}
+
+
+# 12/26
+>PUT
+- PUT can be 201 (if you created the element because that is your behaviour)
+- 404 If you don't want to create elements via PUT.
+- 400 Bad Request (Malformed syntax or a bad query more common than in case of DELETE). 
+- 401 Unauthorized 
+- 403 Forbidden: Authentication failure or invalid Application ID. 
+- 405 Not Allowed. Sure. 
+- 409 Resource Conflict can be possible in complex systems, as in DELETE. 
+- 422 Unprocessable entity It helps to distinguish between a "Bad request" (e.g. malformed XML/JSON) and invalid field values 
+- And 501, 502 in case of errors.

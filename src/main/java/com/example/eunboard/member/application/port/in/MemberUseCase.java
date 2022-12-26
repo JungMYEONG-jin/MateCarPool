@@ -1,6 +1,5 @@
 package com.example.eunboard.member.application.port.in;
 
-import com.example.eunboard.member.domain.Member;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
@@ -9,9 +8,8 @@ import org.springframework.web.multipart.MultipartFile;
 public interface MemberUseCase {
     MemberResponseDTO select(Long id);
     boolean checkRole(Long id);
+    void checkMember(Long id);
     void updateMember(Long memberId, MultipartFile multipartFile, MemberUpdateRequestDTO requestDTO);
     MemberUpdateResponseDTO getUpdateView(Long memberId);
-    void updateMemberArea(final Long memberId, final MemberRequestDTO requestDTO);
-    MemberResponseDTO getMember(String studentnumber);
     ProfileResponseDto getMyInfo(Long memberId);
 }

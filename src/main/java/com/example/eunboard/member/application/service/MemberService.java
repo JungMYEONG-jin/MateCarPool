@@ -89,6 +89,11 @@ public class MemberService implements MemberUseCase {
     }
 
     @Override
+    public void checkMember(Long id) {
+        memberRepository.findById(id).orElseThrow(()->new CustomException(ErrorCode.MEMBER_NOT_FOUND.getMessage(), ErrorCode.MEMBER_NOT_FOUND));
+    }
+
+    @Override
     public void updateMember(Long memberId, MultipartFile multipartFile, MemberUpdateRequestDTO requestDTO) {
         Member member = memberRepository.findById(memberId).get();
         // 이미지 존재시
@@ -124,22 +129,6 @@ public class MemberService implements MemberUseCase {
     public MemberUpdateResponseDTO getUpdateView(Long memberId) {
         Member member = memberRepository.findById(memberId).get();
         return MemberUpdateResponseDTO.of(member);
-    }
-
-    @Override
-    public void updateMemberArea(final Long memberId, final MemberRequestDTO requestDTO) {
-        if (null == requestDTO.getArea()) {
-            throw new RuntimeException("Invalid arguments");
-        }
-        Member member = memberRepository.findById(memberId).orElseThrow(()->new CustomException(ErrorCode.MEMBER_NOT_FOUND.getMessage(), ErrorCode.MEMBER_NOT_FOUND));
-        member.setArea(requestDTO.getArea());
-        memberRepository.save(member);
-    }
-
-    @Override
-    public MemberResponseDTO getMember(String studentnumber){
-        return memberRepository.findByStudentNumber(studentnumber).map(member -> MemberResponseDTO.toDTO(member, null)).
-                orElseThrow(()->new CustomException(ErrorCode.MEMBER_NOT_FOUND.getMessage(), ErrorCode.MEMBER_NOT_FOUND));
     }
 
     /**
