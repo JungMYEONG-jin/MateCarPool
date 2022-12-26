@@ -22,6 +22,7 @@ import java.nio.file.Files;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -54,7 +55,7 @@ public class MemberController {
 
     })
     @ResponseBody
-    @PutMapping("/update")
+    @PutMapping(value = "/update", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity updateMember(@AuthenticationPrincipal UserDetails userDetails,
             @RequestPart(required = false, name = "image") MultipartFile multipartFile,
             @RequestPart(required = false, name = "userData") MemberUpdateRequestDTO requestDTO) {
