@@ -10,6 +10,7 @@ public enum ErrorCode {
     TICKET_IS_FULL(400, "TICKET_IS_FULL", "탑승 가능한 자리가 없습니다."),
     TICKET_NOT_FOUND(404,"TICKET_NOT_POUND", "티켓 정보를 찾을 수 없습니다."),
     TICKET_IS_EXIST(409, "TICKET_IS_EXIST", "이미 티켓을 생성했습니다."),
+    STUDENT_NUM_EXIST(409, "STUDENT_NUM_EXIST", "해당 학번으로 가입한 회원이 이미 존재합니다."),
     MEMBER_IS_EXIST(409, "MEMBER_IS_EXIST", "이미 존재하는 유저입니다."),
     PHONE_IS_EXIST(409, "PHONE_NUMBER_IS_EXIST", "해당 번호로 가입한 회원이 이미 존재합니다."),
     PARAMETER_NOT_VALID(400, "PARAMETER_NOT_VALID", "유효하지 않은 입력값입니다."),

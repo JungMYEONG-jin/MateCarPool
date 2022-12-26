@@ -9,6 +9,8 @@ public interface MemberUseCase {
     MemberResponseDTO select(Long id);
     boolean checkRole(Long id);
     void checkMember(Long id);
+    void checkStudentNumber(String studentNumber);
+    void checkPhoneNumber(String phoneNumber);
     void updateMember(Long memberId, MultipartFile multipartFile, MemberUpdateRequestDTO requestDTO);
     MemberUpdateResponseDTO getUpdateView(Long memberId);
     ProfileResponseDto getMyInfo(Long memberId);

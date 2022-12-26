@@ -46,7 +46,7 @@ public class SecurityConfig {
                 .sameOrigin()
                 .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                .authorizeRequests().antMatchers("/auth/signup", "/auth/login", "/api-docs/**", "/swagger-ui/**","/v3/api-docs/**").permitAll()
+                .authorizeRequests().antMatchers("/auth/signup", "/auth/login", "/member/check/**","/api-docs/**", "/swagger-ui/**","/v3/api-docs/**").permitAll()
                 .antMatchers("/ride/**").authenticated()
                 .anyRequest().authenticated()
                 .and()

@@ -102,4 +102,35 @@ public class MemberController {
         memberService.checkMember(memberId);
         return ResponseEntity.ok(memberService.getMyInfo(memberId));
     }
+
+    /**
+     * US-2 학번, 휴대폰 조회 기능 추가 요청
+     */
+    @Operation(summary = "학번 조회", description = "해당 학번이 사용가능한지 조회합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "사용 가능한 학번"),
+            @ApiResponse(responseCode = "409", description = "등록된 학번.", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
+    })
+    @GetMapping("/check/class/{studentNumber}")
+    public ResponseEntity validateStudentNumber(@PathVariable(name = "studentNumber") String studentNumber) {
+        memberService.checkStudentNumber(studentNumber);
+        Map<String, Object> map = new LinkedHashMap<>();
+        map.put("status", HttpStatus.OK.value());
+        map.put("message", "사용가능한 학번입니다.");
+        return ResponseEntity.ok(map);
+    }
+
+    @Operation(summary = "학번 조회", description = "해당 번호가 사용가능한지 조회합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "사용 가능한 번호"),
+            @ApiResponse(responseCode = "409", description = "등록된 번호.", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
+    })
+    @GetMapping("/check/phone/{phoneNumber}")
+    public ResponseEntity validatePhoneNumber(@PathVariable(name = "phoneNumber") String phoneNumber){
+        memberService.checkPhoneNumber(phoneNumber);
+        Map<String, Object> map = new LinkedHashMap<>();
+        map.put("status", HttpStatus.OK.value());
+        map.put("message", "사용가능한 번호입니다.");
+        return ResponseEntity.ok(map);
+    }
 }

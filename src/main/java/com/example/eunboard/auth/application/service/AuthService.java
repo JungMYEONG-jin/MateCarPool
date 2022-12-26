@@ -56,7 +56,7 @@ public class AuthService implements TokenUseCase {
         }
         // studentNumber check
         if (memberRepository.existsByStudentNumber(memberRequestDTO.getStudentNumber())) {
-            throw new CustomException(ErrorCode.MEMBER_IS_EXIST.getMessage(), ErrorCode.MEMBER_IS_EXIST);
+            throw new CustomException(ErrorCode.STUDENT_NUM_EXIST.getMessage(), ErrorCode.STUDENT_NUM_EXIST);
         }
 
         Member member = MemberRequestDTO.toMember(memberRequestDTO, passwordEncoder);

@@ -92,6 +92,22 @@ public class MemberService implements MemberUseCase {
     }
 
     @Override
+    public void checkStudentNumber(String studentNumber) {
+        // studentNumber check
+        if (memberRepository.existsByStudentNumber(studentNumber)) {
+            throw new CustomException(ErrorCode.STUDENT_NUM_EXIST.getMessage(), ErrorCode.STUDENT_NUM_EXIST);
+        }
+    }
+
+    @Override
+    public void checkPhoneNumber(String phoneNumber) {
+        // phone check
+        if (memberRepository.existsByPhoneNumber(phoneNumber)){
+            throw new CustomException(ErrorCode.PHONE_IS_EXIST.getMessage(), ErrorCode.PHONE_IS_EXIST);
+        }
+    }
+
+    @Override
     public void updateMember(Long memberId, MultipartFile multipartFile, MemberUpdateRequestDTO requestDTO) {
         Member member = memberRepository.findById(memberId).get();
         // 이미지 존재시
