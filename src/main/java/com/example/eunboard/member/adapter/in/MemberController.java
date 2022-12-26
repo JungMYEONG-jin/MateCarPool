@@ -1,6 +1,7 @@
 package com.example.eunboard.member.adapter.in;
 
 import com.example.eunboard.member.application.port.in.*;
+import com.example.eunboard.shared.common.CommonResponse;
 import com.example.eunboard.shared.exception.ErrorResponse;
 import com.example.eunboard.timetable.application.port.in.MemberTimetableUseCase;
 import com.example.eunboard.shared.util.FileUploadUtils;
@@ -42,8 +43,10 @@ import javax.validation.Valid;
 public class MemberController {
 
     private final MemberUseCase memberService;
+
     /**
      * US-11 프로필 업데이트
+     *
      * @param userDetails
      * @param multipartFile
      * @param requestDTO
@@ -57,16 +60,14 @@ public class MemberController {
     })
     @ResponseBody
     @PutMapping(value = "/update", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity updateMember(@AuthenticationPrincipal UserDetails userDetails,
-            @RequestPart(required = false, name = "image") MultipartFile multipartFile,
-            @RequestPart(required = false, name = "userData") MemberUpdateRequestDTO requestDTO) {
+    public ResponseEntity<CommonResponse> updateMember(@AuthenticationPrincipal UserDetails userDetails,
+                                       @RequestPart(required = false, name = "image") MultipartFile multipartFile,
+                                       @RequestPart(required = false, name = "userData") MemberUpdateRequestDTO requestDTO) {
         Long memberId = Long.parseLong(userDetails.getUsername());
         memberService.checkMember(memberId);
         memberService.updateMember(memberId, multipartFile, requestDTO);
-        Map<String, Object> map = new LinkedHashMap<>();
-        map.put("status", HttpStatus.OK.value());
-        map.put("message", "유저 정보 수정이 완료되었습니다.");
-        return ResponseEntity.ok(map);
+        CommonResponse res = new CommonResponse("유저 정보 수정이 완료되었습니다.",HttpStatus.OK.value());
+        return ResponseEntity.ok(res);
     }
 
     @Parameter(name = "userDetails", hidden = true)
@@ -78,7 +79,7 @@ public class MemberController {
     })
     @ResponseBody
     @GetMapping("/update")
-    public ResponseEntity updateMemberView(@AuthenticationPrincipal UserDetails userDetails){
+    public ResponseEntity<MemberUpdateResponseDTO> updateMemberView(@AuthenticationPrincipal UserDetails userDetails) {
         long memberId = Long.parseLong(userDetails.getUsername());
         memberService.checkMember(memberId);
         return ResponseEntity.ok(memberService.getUpdateView(memberId));
@@ -86,6 +87,7 @@ public class MemberController {
 
     /**
      * US-10 프로필 화면
+     *
      * @param userDetails
      * @return
      */
@@ -97,7 +99,7 @@ public class MemberController {
 
     })
     @GetMapping("/me")
-    public ResponseEntity<ProfileResponseDto> getMyInfo(@AuthenticationPrincipal UserDetails userDetails){
+    public ResponseEntity<ProfileResponseDto> getMyInfo(@AuthenticationPrincipal UserDetails userDetails) {
         long memberId = Long.parseLong(userDetails.getUsername());
         memberService.checkMember(memberId);
         return ResponseEntity.ok(memberService.getMyInfo(memberId));
@@ -112,25 +114,21 @@ public class MemberController {
             @ApiResponse(responseCode = "409", description = "등록된 학번.", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
     })
     @GetMapping("/check/class/{studentNumber}")
-    public ResponseEntity validateStudentNumber(@PathVariable(name = "studentNumber") String studentNumber) {
+    public ResponseEntity<CommonResponse> validateStudentNumber(@PathVariable(name = "studentNumber") String studentNumber) {
         memberService.checkStudentNumber(studentNumber);
-        Map<String, Object> map = new LinkedHashMap<>();
-        map.put("status", HttpStatus.OK.value());
-        map.put("message", "사용가능한 학번입니다.");
-        return ResponseEntity.ok(map);
+        CommonResponse res = new CommonResponse("사용가능한 학번입니다.", HttpStatus.OK.value());
+        return ResponseEntity.ok(res);
     }
 
-    @Operation(summary = "학번 조회", description = "해당 번호가 사용가능한지 조회합니다.")
+    @Operation(summary = "전화번호 조회", description = "해당 전화 번호가 사용가능한지 조회합니다.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "사용 가능한 번호"),
             @ApiResponse(responseCode = "409", description = "등록된 번호.", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
     })
     @GetMapping("/check/phone/{phoneNumber}")
-    public ResponseEntity validatePhoneNumber(@PathVariable(name = "phoneNumber") String phoneNumber){
+    public ResponseEntity<CommonResponse> validatePhoneNumber(@PathVariable(name = "phoneNumber") String phoneNumber) {
         memberService.checkPhoneNumber(phoneNumber);
-        Map<String, Object> map = new LinkedHashMap<>();
-        map.put("status", HttpStatus.OK.value());
-        map.put("message", "사용가능한 번호입니다.");
-        return ResponseEntity.ok(map);
+        CommonResponse res = new CommonResponse("사용가능한 학번입니다.", HttpStatus.OK.value());
+        return ResponseEntity.ok(res);
     }
 }
