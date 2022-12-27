@@ -31,8 +31,8 @@ public class MemberRepositoryAdapter implements MemberRepositoryPort {
     }
 
     @Override
-    public Member findByStudentNumber(String studentNumber) {
-        return memberRepository.findByStudentNumber(studentNumber);
+    public Optional<Member> findByStudentNumber(String studentNumber) {
+        return Optional.ofNullable(memberRepository.findByStudentNumber(studentNumber));
     }
 
     @Override

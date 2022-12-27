@@ -14,7 +14,7 @@ public interface MemberRepositoryPort {
     Optional<Member> findById(Long id);
     Member save(Member member);
     Member findByMemberId(Long id);
-    Member findByStudentNumber(String studentNumber);
+    Optional<Member> findByStudentNumber(String studentNumber);
     Optional<Member> findByPhoneNumber(String phoneNumber);
     boolean existsByPhoneNumber(String phoneNumber);
     boolean existsByStudentNumber(String studentNumber);

@@ -1,12 +1,11 @@
 package com.example.eunboard.member.adapter.in;
 
-import com.example.eunboard.member.application.port.in.*;
+import com.example.eunboard.member.application.port.in.MemberUpdateRequestDTO;
+import com.example.eunboard.member.application.port.in.MemberUpdateResponseDTO;
+import com.example.eunboard.member.application.port.in.MemberUseCase;
+import com.example.eunboard.member.application.port.in.ProfileResponseDto;
 import com.example.eunboard.shared.common.CommonResponse;
 import com.example.eunboard.shared.exception.ErrorResponse;
-import com.example.eunboard.timetable.application.port.in.MemberTimetableUseCase;
-import com.example.eunboard.shared.util.FileUploadUtils;
-import com.example.eunboard.shared.util.MD5Generator;
-
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -16,25 +15,16 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.util.LinkedHashMap;
-import java.util.Map;
-
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.validation.Valid;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 @Tag(name = "유저", description = "유저 조회/수정")
 @Slf4j
@@ -75,15 +65,13 @@ public class MemberController {
     })
     @ResponseBody
     @PutMapping(value = "/update/image", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity updateMemberProfileImage(@AuthenticationPrincipal UserDetails userDetails,
+    public ResponseEntity<CommonResponse> updateMemberProfileImage(@AuthenticationPrincipal UserDetails userDetails,
                                        @RequestPart(required = false, name = "image") MultipartFile multipartFile) {
         Long memberId = Long.parseLong(userDetails.getUsername());
         memberService.checkMember(memberId);
         memberService.updateMemberProfileImage(memberId, multipartFile);
-        Map<String, Object> map = new LinkedHashMap<>();
-        map.put("status", HttpStatus.OK.value());
-        map.put("message", "프로필 이미지 변경이 완료되었습니다.");
-        return ResponseEntity.ok(map);
+        CommonResponse res = new CommonResponse("프로필 이미지 변경이 완료되었습니다.",HttpStatus.OK.value());
+        return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(res);
     }
 
     @Parameter(name = "userDetails", hidden = true)
