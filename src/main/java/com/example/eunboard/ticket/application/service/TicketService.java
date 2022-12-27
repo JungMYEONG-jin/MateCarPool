@@ -5,10 +5,7 @@ import com.example.eunboard.member.domain.Member;
 import com.example.eunboard.member.domain.MemberRole;
 import com.example.eunboard.shared.exception.ErrorCode;
 import com.example.eunboard.shared.exception.custom.CustomException;
-import com.example.eunboard.ticket.application.port.in.TicketCreateRequestDto;
-import com.example.eunboard.ticket.application.port.in.TicketDetailResponseDto;
-import com.example.eunboard.ticket.application.port.in.TicketShortResponseDto;
-import com.example.eunboard.ticket.application.port.in.TicketUseCase;
+import com.example.eunboard.ticket.application.port.in.*;
 import com.example.eunboard.ticket.application.port.out.TicketRepositoryPort;
 import com.example.eunboard.ticket.domain.Ticket;
 import com.example.eunboard.ticket.domain.TicketStatus;
@@ -76,14 +73,14 @@ public class TicketService implements TicketUseCase {
     }
 
     @Override
-    public TicketDetailResponseDto getPromise(Long memberId) {
+    public MyTicketDetailResponseDto getPromise(Long memberId) {
         Ticket ticket = ticketRepository.findByMember(Member.builder().memberId(memberId).build());
 
         if (ticket == null) {
             throw new CustomException(ErrorCode.TICKET_NOT_FOUND.getMessage(), ErrorCode.TICKET_NOT_FOUND);
         }
         
-        return TicketDetailResponseDto.toDTO(ticket);
+        return MyTicketDetailResponseDto.toDTO(ticket);
     }
 
     /**
