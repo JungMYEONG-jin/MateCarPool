@@ -4,10 +4,7 @@ import com.example.eunboard.member.application.port.in.MemberUseCase;
 import com.example.eunboard.shared.exception.ErrorCode;
 import com.example.eunboard.shared.exception.ErrorResponse;
 import com.example.eunboard.shared.exception.custom.CustomException;
-import com.example.eunboard.ticket.application.port.in.TicketCreateRequestDto;
-import com.example.eunboard.ticket.application.port.in.TicketDetailResponseDto;
-import com.example.eunboard.ticket.application.port.in.TicketShortResponseDto;
-import com.example.eunboard.ticket.application.port.in.TicketUseCase;
+import com.example.eunboard.ticket.application.port.in.*;
 import com.example.eunboard.ticket.domain.TicketStatus;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -129,7 +126,7 @@ public class TicketController {
           @ApiResponse(responseCode = "403", description = "권한이 없는 유저", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
           @ApiResponse(responseCode = "404", description = "존재하지 않는 카풀", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))})
   @GetMapping("/update/{id}")
-  public void delete(@AuthenticationPrincipal UserDetails userDetails, @PathVariable long id, TicketStatus status) {
+  public void update(@AuthenticationPrincipal UserDetails userDetails, @PathVariable long id, TicketStatus status) {
     long memberId = Long.parseLong(userDetails.getUsername());
     if (!memberUseCase.checkRole(memberId))
       throw new CustomException(ErrorCode.MEMBER_NOT_AUTHORITY.getMessage(), ErrorCode.MEMBER_NOT_AUTHORITY);

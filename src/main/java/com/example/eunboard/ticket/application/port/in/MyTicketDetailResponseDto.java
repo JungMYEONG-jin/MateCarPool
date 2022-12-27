@@ -1,24 +1,27 @@
 package com.example.eunboard.ticket.application.port.in;
 
 import com.example.eunboard.member.application.port.in.MemberResponseDTO;
+import com.example.eunboard.passenger.application.port.in.PassengerResponseDTO;
 import com.example.eunboard.passenger.domain.Passenger;
 import com.example.eunboard.ticket.domain.DayStatus;
 import com.example.eunboard.ticket.domain.Ticket;
 import com.example.eunboard.ticket.domain.TicketType;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Getter
-@Setter
-@Builder
-@ToString
-@NoArgsConstructor
-@AllArgsConstructor
-public class TicketDetailResponseDto {
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+public class MyTicketDetailResponseDto {
+
     private Long id;
-    /** 드라이버 이름 */
+    /**
+     * 드라이버 이름
+     */
     private String memberName;
     // 드라이버 이미지
     private String profileImage;
@@ -43,12 +46,30 @@ public class TicketDetailResponseDto {
     // 탑승자 명단
     private List<MemberResponseDTO> passengers;
 
-    public static TicketDetailResponseDto toDTO(Ticket entity) {
+    @Builder
+    public MyTicketDetailResponseDto(Long id, String memberName, String profileImage, String startArea, String endArea, String startDayMonth, DayStatus dayStatus, String startTime, String boardingPlace, Integer recruitPerson, TicketType ticketType, Long ticketPrice, List<MemberResponseDTO> passengers) {
+        this.id = id;
+        this.memberName = memberName;
+        this.profileImage = profileImage;
+        this.startArea = startArea;
+        this.endArea = endArea;
+        this.startDayMonth = startDayMonth;
+        this.dayStatus = dayStatus;
+        this.startTime = startTime;
+        this.boardingPlace = boardingPlace;
+        this.recruitPerson = recruitPerson;
+        this.ticketType = ticketType;
+        this.ticketPrice = ticketPrice;
+        this.passengers = passengers;
+    }
+
+
+    public static MyTicketDetailResponseDto toDTO(Ticket entity) {
         String startDayTime = entity.getStartDtime();
         // yyyy mmdd hhmm
         String dayMonth = startDayTime.substring(4, 8);
         String minuteHour = startDayTime.substring(8);
-        return TicketDetailResponseDto.builder()
+        return MyTicketDetailResponseDto.builder()
                 .id(entity.getId()) // 예약 하기 하려면 있어야 될듯?
                 .startArea(entity.getStartArea())
                 .endArea(entity.getEndArea())
