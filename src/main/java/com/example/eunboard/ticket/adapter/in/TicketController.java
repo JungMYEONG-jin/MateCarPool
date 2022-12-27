@@ -93,7 +93,7 @@ public class TicketController {
           @ApiResponse(responseCode = "200", description = "유저 카풀 조회 성공", content = @Content(schema = @Schema(implementation = TicketDetailResponseDto.class))),
           @ApiResponse(responseCode = "404", description = "존재하지 않는 카풀", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))})
   @GetMapping("/promise")
-  public MyTicketDetailResponseDto promise(@AuthenticationPrincipal UserDetails userDetails) {
+  public TicketDetailResponseDto promise(@AuthenticationPrincipal UserDetails userDetails) {
       long memberId = Long.parseLong(userDetails.getUsername());
       if(!memberUseCase.checkRole(memberId))
         throw new CustomException(ErrorCode.MEMBER_NOT_AUTHORITY.getMessage(), ErrorCode.MEMBER_NOT_AUTHORITY);

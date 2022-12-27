@@ -13,6 +13,6 @@ public interface TicketUseCase {
     TicketDetailResponseDto readTicket(Long id);
     // 티켓 상태 업데이트
     void ticketStatusUpdate(long memberId, long id, TicketStatus status);
-    MyTicketDetailResponseDto getPromise(Long memberId);
+    TicketDetailResponseDto getPromise(Long memberId);
     List<TicketDetailResponseDto> getPromises(Long memberId);
 }

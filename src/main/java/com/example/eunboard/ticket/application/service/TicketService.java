@@ -73,14 +73,14 @@ public class TicketService implements TicketUseCase {
     }
 
     @Override
-    public MyTicketDetailResponseDto getPromise(Long memberId) {
+    public TicketDetailResponseDto getPromise(Long memberId) {
         Ticket ticket = ticketRepository.findByMember(Member.builder().memberId(memberId).build());
 
         if (ticket == null) {
             throw new CustomException(ErrorCode.TICKET_NOT_FOUND.getMessage(), ErrorCode.TICKET_NOT_FOUND);
         }
         
-        return MyTicketDetailResponseDto.toDTO(ticket);
+        return TicketDetailResponseDto.toDTO(ticket);
     }
 
     /**

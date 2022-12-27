@@ -1,9 +1,14 @@
 package com.example.eunboard.ticket.application.port.in;
 
+import com.example.eunboard.member.application.port.in.MemberResponseDTO;
+import com.example.eunboard.passenger.domain.Passenger;
 import com.example.eunboard.ticket.domain.DayStatus;
 import com.example.eunboard.ticket.domain.Ticket;
 import com.example.eunboard.ticket.domain.TicketType;
 import lombok.*;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Getter
 @Setter
@@ -35,6 +40,8 @@ public class TicketDetailResponseDto {
     private TicketType ticketType;
     // 추후 사용?
     private Long ticketPrice;
+    // 탑승자 명단
+    private List<MemberResponseDTO> passengers;
 
     public static TicketDetailResponseDto toDTO(Ticket entity) {
         String startDayTime = entity.getStartDtime();
@@ -53,6 +60,11 @@ public class TicketDetailResponseDto {
                 .ticketType(entity.getTicketType())
                 .recruitPerson(entity.getRecruitPerson())
                 .boardingPlace(entity.getBoardingPlace())
+                // 탑승자에 대한 정보를 변환해서 반환해야함.
+                .passengers(entity.getPassengerList().stream()
+                        .map(Passenger::getMember)
+                        .map((member -> MemberResponseDTO.toDTO(member, null)))
+                        .collect(Collectors.toList()))
                 .build();
     }
 }
