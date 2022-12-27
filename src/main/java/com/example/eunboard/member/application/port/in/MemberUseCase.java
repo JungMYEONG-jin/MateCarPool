@@ -11,7 +11,8 @@ public interface MemberUseCase {
     void checkMember(Long id);
     void checkStudentNumber(String studentNumber);
     void checkPhoneNumber(String phoneNumber);
-    void updateMember(Long memberId, MultipartFile multipartFile, MemberUpdateRequestDTO requestDTO);
+    void updateMember(Long memberId, MemberUpdateRequestDTO requestDTO);
+    void updateMemberProfileImage(Long memberId, MultipartFile multipartFile);
     MemberUpdateResponseDTO getUpdateView(Long memberId);
     ProfileResponseDto getMyInfo(Long memberId);
 }

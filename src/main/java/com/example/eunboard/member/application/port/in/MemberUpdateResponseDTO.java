@@ -18,18 +18,18 @@ import java.util.stream.Collectors;
 @Builder
 @ToString
 public class MemberUpdateResponseDTO {
+    /** 휴대폰 */
+    private String phoneNumber;
     /** 권한 */
     private MemberRole auth;
-    /** 이미지 */
-    private String profileImage;
     /** 등교일 */
     private List<MemberTimetableResponseDTO> memberTimeTable;
 
     public static MemberUpdateResponseDTO of(Member member){
         List<MemberTimetable> times = member.getMemberTimeTableList();
         return MemberUpdateResponseDTO.builder()
+                .phoneNumber(member.getPhoneNumber())
                 .auth(member.getAuth())
-                .profileImage(member.getProfileImage())
                 .memberTimeTable(times !=null? times.stream().map(MemberTimetableResponseDTO::toDTO).collect(Collectors.toList()) : new ArrayList<>())
                 .build();
     }

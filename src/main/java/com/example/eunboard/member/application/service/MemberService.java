@@ -108,9 +108,35 @@ public class MemberService implements MemberUseCase {
     }
 
     @Override
-    public void updateMember(Long memberId, MultipartFile multipartFile, MemberUpdateRequestDTO requestDTO) {
+    public void updateMember(Long memberId, MemberUpdateRequestDTO requestDTO) {
         Member member = memberRepository.findById(memberId).get();
-        // 이미지 존재시
+        // 변경 사항 체크
+        // 해당 번호가 존재하는데 자신의 번호가 아니라면 다른 사람 번호
+        if (memberRepository.existsByPhoneNumber(requestDTO.getPhoneNumber()) && !member.getPhoneNumber().equals(requestDTO.getPhoneNumber())){
+            throw  new CustomException(ErrorCode.PHONE_IS_EXIST.getMessage(), ErrorCode.PHONE_IS_EXIST);
+        }
+
+        if (!member.getPhoneNumber().equals(requestDTO.getPhoneNumber()))
+            member.setPhoneNumber(requestDTO.getPhoneNumber());
+
+        if (!requestDTO.getAuth().equals(member.getAuth()))
+            member.setAuth(requestDTO.getAuth()); // update
+
+        memberTimetableRepositoryPort.deleteAllInBatch(memberTimetableRepositoryPort.findByMember(Member.builder().memberId(memberId).build()));
+        List<MemberTimetableRequestDTO> memberTimeTable = requestDTO.getMemberTimeTable();
+        List<MemberTimetable> timetableEntities = new ArrayList<>();
+        memberTimeTable.forEach(timeTable -> {
+            timeTable.setMemberId(memberId);
+            timetableEntities.add(MemberTimetableRequestDTO.toEntity(timeTable));
+        });
+        memberTimetableRepositoryPort.saveAll(timetableEntities);
+        memberRepository.save(member);
+    }
+
+    @Override
+    public void updateMemberProfileImage(Long memberId, MultipartFile multipartFile) {
+        Member member = memberRepository.findById(memberId).get();
+        // 이미지 존재시 save
         if (multipartFile != null) {
             String originName = multipartFile.getOriginalFilename();
             String ext = originName.substring(originName.lastIndexOf(".") + 1); // 확장자
@@ -118,25 +144,8 @@ public class MemberService implements MemberUseCase {
             cleanDir("/image/profiles/"+memberId);
             saveFile("/image/profiles/" + memberId, newFileName, multipartFile);
             member.setProfileImage("/" + memberId + "/" + newFileName);
+            memberRepository.save(member);
         }
-        // 변경 사항 체크
-        if (requestDTO!=null){
-            if (requestDTO.getAuth()!=null){
-                if (!requestDTO.getAuth().equals(member.getAuth()))
-                    member.setAuth(requestDTO.getAuth()); // update
-            }
-            if (requestDTO.getMemberTimeTable()!=null){
-                    memberTimetableRepositoryPort.deleteAllInBatch(memberTimetableRepositoryPort.findByMember(Member.builder().memberId(memberId).build()));
-                    List<MemberTimetableRequestDTO> memberTimeTable = requestDTO.getMemberTimeTable();
-                    List<MemberTimetable> timetableEntities = new ArrayList<>();
-                    memberTimeTable.forEach(timeTable -> {
-                        timeTable.setMemberId(memberId);
-                        timetableEntities.add(MemberTimetableRequestDTO.toEntity(timeTable));
-                    });
-                    memberTimetableRepositoryPort.saveAll(timetableEntities);
-            }
-        }
-        memberRepository.save(member);
     }
 
     @Override

@@ -62,12 +62,6 @@ public class MemberRequestDTO {
     /** 등교일 */
     private List<MemberTimetableRequestDTO> memberTimeTable;
 
-    public static Member toKakaoEntity(MemberRequestDTO dto) {
-        return Member.builder()
-                .memberName(dto.memberName)
-                .build();
-    }
-
     public static Member toMember(MemberRequestDTO dto, PasswordEncoder passwordEncoder){
         return Member.builder()
                 .memberTimeTableList(dto.memberTimeTable.stream().map(MemberTimetableRequestDTO::toEntity)

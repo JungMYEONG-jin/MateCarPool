@@ -21,6 +21,9 @@ import java.util.stream.Collectors;
 @Builder
 @ToString
 public class MemberUpdateRequestDTO {
+    /** 휴대폰 */
+    @NotBlank
+    private String phoneNumber;
     /** 권한 */
     private MemberRole auth;
     /** 등교일 */

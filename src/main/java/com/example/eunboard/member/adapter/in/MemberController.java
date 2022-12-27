@@ -23,6 +23,7 @@ import java.nio.file.Files;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -48,27 +49,41 @@ public class MemberController {
      * US-11 프로필 업데이트
      *
      * @param userDetails
-     * @param multipartFile
-     * @param requestDTO
      */
     @Parameter(name = "userDetails", hidden = true)
     @Operation(summary = "수정", description = "유저의 정보를 수정합니다.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "수정 성공"),
-            @ApiResponse(responseCode = "404", description = "존재하지 않는 유저", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
-
+            @ApiResponse(responseCode = "404", description = "존재하지 않는 유저", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(responseCode = "409", description = "이미 등록된 휴대폰 번호", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
     })
-    @ResponseBody
-    @PutMapping(value = "/update", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PutMapping(value = "/update/profile")
     public ResponseEntity<CommonResponse> updateMember(@AuthenticationPrincipal UserDetails userDetails,
-                                       @RequestPart(required = false, name = "image") MultipartFile multipartFile,
-                                       @RequestPart(required = false, name = "userData") MemberUpdateRequestDTO requestDTO) {
+            @RequestBody(required = true)  MemberUpdateRequestDTO memberUpdateRequestDTO) {
         Long memberId = Long.parseLong(userDetails.getUsername());
         memberService.checkMember(memberId);
-        memberService.updateMember(memberId, multipartFile, requestDTO);
+        memberService.updateMember(memberId, memberUpdateRequestDTO);
         CommonResponse res = new CommonResponse("유저 정보 수정이 완료되었습니다.",HttpStatus.OK.value());
         return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(res);
+    }
 
+    @Parameter(name = "userDetails", hidden = true)
+    @Operation(summary = "수정", description = "유저의 정보를 수정합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "수정 성공"),
+            @ApiResponse(responseCode = "404", description = "존재하지 않는 유저", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
+    })
+    @ResponseBody
+    @PutMapping(value = "/update/image", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity updateMemberProfileImage(@AuthenticationPrincipal UserDetails userDetails,
+                                       @RequestPart(required = false, name = "image") MultipartFile multipartFile) {
+        Long memberId = Long.parseLong(userDetails.getUsername());
+        memberService.checkMember(memberId);
+        memberService.updateMemberProfileImage(memberId, multipartFile);
+        Map<String, Object> map = new LinkedHashMap<>();
+        map.put("status", HttpStatus.OK.value());
+        map.put("message", "프로필 이미지 변경이 완료되었습니다.");
+        return ResponseEntity.ok(map);
     }
 
     @Parameter(name = "userDetails", hidden = true)
@@ -76,7 +91,6 @@ public class MemberController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "유저 정보 로드 성공", content = @Content(schema = @Schema(implementation = MemberUpdateResponseDTO.class))),
             @ApiResponse(responseCode = "404", description = "존재하지 않는 유저", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
-
     })
     @ResponseBody
     @GetMapping("/update")
