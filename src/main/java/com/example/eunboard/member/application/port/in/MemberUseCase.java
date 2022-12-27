@@ -14,5 +14,6 @@ public interface MemberUseCase {
     void updateMember(Long memberId, MemberUpdateRequestDTO requestDTO);
     void updateMemberProfileImage(Long memberId, MultipartFile multipartFile);
     MemberUpdateResponseDTO getUpdateView(Long memberId);
-    ProfileResponseDto getMyInfo(Long memberId);
+    ProfileResponseDto getMyInfoForPassenger(Long memberId);
+    ProfileResponseDto getMyInfoForDriver(Long memberId);
 }

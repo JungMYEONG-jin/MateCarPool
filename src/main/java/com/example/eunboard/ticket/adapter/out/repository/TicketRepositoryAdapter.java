@@ -46,6 +46,11 @@ public class TicketRepositoryAdapter implements TicketRepositoryPort {
     }
 
     @Override
+    public List<Ticket> getRecentList(Long memberId) {
+        return ticketRepository.getRecentTickets(memberId);
+    }
+
+    @Override
     public boolean existTicket(Long memberId) {
         return ticketRepository.existTicket(memberId);
     }

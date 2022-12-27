@@ -12,5 +12,6 @@ public interface CustomTicketRepository {
       * @return
       */
      List<Ticket> getAvailableList();
+     List<Ticket> getRecentTickets(Long memberId);
      boolean existTicket(Long memberId);
 }

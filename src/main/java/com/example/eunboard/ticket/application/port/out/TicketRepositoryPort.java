@@ -13,5 +13,7 @@ public interface TicketRepositoryPort {
     List<Ticket> findByMemberId(Long memberId);
     List<Ticket> findAll();
     List<Ticket> getAvailableList();
+    /** US-10 */
+    List<Ticket> getRecentList(Long memberId);
     boolean existTicket(Long memberId);
 }

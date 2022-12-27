@@ -85,6 +85,20 @@ public class CustomTicketRepositoryImpl implements CustomTicketRepository{
     }
 
     @Override
+    public List<Ticket> getRecentTickets(Long memberId) {
+        return queryFactory
+                .selectFrom(ticket)
+                .leftJoin(ticket.passengerList, passenger)
+                .fetchJoin()
+                .leftJoin(ticket.member, member)
+                .fetchJoin()
+                .where(statusEqNot(TicketStatus.CANCEL),
+                        ticket.member.memberId.eq(memberId))
+                .orderBy(ticket.createDate.desc())
+                .fetch();
+    }
+
+    @Override
     public boolean existTicket(Long memberId) {
         return queryFactory
                 .selectFrom(ticket)

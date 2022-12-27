@@ -22,6 +22,7 @@ import lombok.extern.slf4j.Slf4j;
 import java.beans.PropertyDescriptor;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.BeanWrapper;
@@ -49,24 +50,7 @@ public class MemberService implements MemberUseCase {
     private final MemberRepositoryPort memberRepository;
     private final PassengerRepositoryPort passengerRepositoryPort;
     private final MemberTimetableRepositoryPort memberTimetableRepositoryPort;
-
-    public void copyNonNullProperties(Object src, Object target) {
-        BeanUtils.copyProperties(src, target, getNullPropertyNames(src));
-    }
-
-    public String[] getNullPropertyNames(Object source) {
-        final BeanWrapper src = new BeanWrapperImpl(source);
-        PropertyDescriptor[] pds = src.getPropertyDescriptors();
-
-        Set<String> emptyNames = new HashSet<String>();
-        for (PropertyDescriptor pd : pds) {
-            Object srcValue = src.getPropertyValue(pd.getName());
-            if (srcValue == null)
-                emptyNames.add(pd.getName());
-        }
-        String[] result = new String[emptyNames.size()];
-        return emptyNames.toArray(result);
-    }
+    private final TicketRepositoryPort ticketRepositoryPort;
 
     @Override
     public MemberResponseDTO select(final Long id) {
@@ -160,16 +144,16 @@ public class MemberService implements MemberUseCase {
      * @return
      */
     @Override
-    public ProfileResponseDto getMyInfo(Long memberId){
+    public ProfileResponseDto getMyInfoForPassenger(Long memberId){
         Member member = memberRepository.findById(memberId).get(); // controller 에서 존재 확인 했음.
-        List<Passenger> boardingList = passengerRepositoryPort.getBoardingList(memberId);
-        List<Ticket> tickets = new ArrayList<>();
-        if (boardingList!=null)
-        {
-            for (Passenger passenger : boardingList) {
-                tickets.add(passenger.getTicket());
-            }
-        }
+        List<Ticket> tickets = passengerRepositoryPort.getBoardingList(memberId).stream().map(Passenger::getTicket).collect(Collectors.toList());
+        return ProfileResponseDto.of(member, tickets);
+    }
+
+    @Override
+    public ProfileResponseDto getMyInfoForDriver(Long memberId) {
+        Member member = memberRepository.findById(memberId).get(); // controller 에서 존재 확인 했음.
+        List<Ticket> tickets = ticketRepositoryPort.getRecentList(memberId);
         return ProfileResponseDto.of(member, tickets);
     }
 

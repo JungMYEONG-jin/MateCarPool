@@ -105,7 +105,14 @@ public class MemberController {
     public ResponseEntity<ProfileResponseDto> getMyInfo(@AuthenticationPrincipal UserDetails userDetails) {
         long memberId = Long.parseLong(userDetails.getUsername());
         memberService.checkMember(memberId);
-        return ResponseEntity.ok(memberService.getMyInfo(memberId));
+        ProfileResponseDto profileResponseDto;
+        // Driver
+        if (memberService.checkRole(memberId)) {
+            profileResponseDto = memberService.getMyInfoForDriver(memberId);
+        } else {
+            profileResponseDto = memberService.getMyInfoForPassenger(memberId);
+        }
+        return ResponseEntity.ok(profileResponseDto);
     }
 
     /**
