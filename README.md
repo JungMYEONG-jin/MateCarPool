@@ -85,3 +85,25 @@ RFC 7231을 보면 중복값의 경우 Conflict 409로 보낸다고 정의됨.
 - 409 Resource Conflict can be possible in complex systems, as in DELETE. 
 - 422 Unprocessable entity It helps to distinguish between a "Bad request" (e.g. malformed XML/JSON) and invalid field values 
 - And 501, 502 in case of errors.
+
+# 12/27
+오늘 프론트 담당자 분으로부터 4MB 이미지 제출시 Broken Pipe 에러가 난다고 전해들었다. 로그를 보니 Maximum size를 넘어서 생긴 오류였다.
+```shell
+2022-12-27 13:53:20.373 DEBUG 121798 --- [nio-8080-exec-6] o.s.web.servlet.DispatcherServlet        : POST "/auth/signup", parameters={multipart}
+2022-12-27 13:53:20.551 DEBUG 121798 --- [nio-8080-exec-6] .m.m.a.ExceptionHandlerExceptionResolver : Using @ExceptionHandler com.example.eunboard.shared.exception.CommonException#exception(Exception)
+2022-12-27 13:53:20.551  INFO 121798 --- [nio-8080-exec-6] c.e.e.shared.exception.CommonException   : ! 특정 예외 발생 ! 
+2022-12-27 13:53:20.551  INFO 121798 --- [nio-8080-exec-6] c.e.e.shared.exception.CommonException   : org.springframework.web.multipart.MaxUploadSizeExceededException
+2022-12-27 13:53:20.551  INFO 121798 --- [nio-8080-exec-6] c.e.e.shared.exception.CommonException   : !!!!!! 예외 발생 !!!!!!!!
+2022-12-27 13:53:20.551  INFO 121798 --- [nio-8080-exec-6] c.e.e.shared.exception.CommonException   : Maximum upload size exceeded; nested exception is java.lang.IllegalStateException: org.apache.tomcat.util.http.fileupload.impl.FileSizeLimitExceededException: The field image exceeds its maximum permitted size of 1048576 bytes.
+2022-12-27 13:53:20.552 DEBUG 121798 --- [nio-8080-exec-6] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Using 'text/plain', given [*/*] and supported [text/plain, */*, text/plain, */*, application/json, application/*+json, application/json, application/*+json]
+2022-12-27 13:53:20.552 DEBUG 121798 --- [nio-8080-exec-6] o.s.w.s.m.m.a.HttpEntityMethodProcessor  : Writing [""]
+2022-12-27 13:53:20.558 DEBUG 121798 --- [nio-8080-exec-6] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.multipart.MaxUploadSizeExceededException: Maximum upload size exceeded; nested exception is java.lang.IllegalStateException: org.apache.tomcat.util.http.fileupload.impl.FileSizeLimitExceededException: The field image exceeds its maximum permitted size of 1048576 bytes.]
+2022-12-27 13:53:20.559 DEBUG 121798 --- [nio-8080-exec-6] o.s.web.servlet.DispatcherServlet        : Completed 500 INTERNAL_SERVER_ERROR
+```
+기존에 max size를 지정했지만 MULTIPART_FORM_DATA_VALUE 으로 받기 때문에 multipart용으로 따로 설정이 필요했다.
+```properties
+spring.servlet.multipart.maxFileSize=10MB
+spring.servlet.multipart.maxRequestSize=10MB
+```
+을 설정에 추가해줬다. 추가 후 테스트한 결과 정상 처리 됨.
+
