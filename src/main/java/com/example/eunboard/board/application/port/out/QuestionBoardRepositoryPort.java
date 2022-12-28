@@ -1,7 +1,6 @@
 package com.example.eunboard.board.application.port.out;
 
 import com.example.eunboard.board.domain.QuestionBoard;
-import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 

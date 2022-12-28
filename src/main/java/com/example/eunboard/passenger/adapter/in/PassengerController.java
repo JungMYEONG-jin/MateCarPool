@@ -3,6 +3,7 @@ package com.example.eunboard.passenger.adapter.in;
 import com.example.eunboard.passenger.application.port.in.PassengerCreateRequestDTO;
 import com.example.eunboard.passenger.application.port.in.PassengerDeleteRequestDTO;
 import com.example.eunboard.passenger.application.port.in.PassengerUseCase;
+import com.example.eunboard.shared.common.CommonResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -14,9 +15,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
-
 @Slf4j
 @RequiredArgsConstructor
 @RequestMapping("/ride")
@@ -25,20 +23,23 @@ public class PassengerController {
 
   private final PassengerUseCase passengerService;
   @PostMapping("/new")
-  public ResponseEntity ride(@AuthenticationPrincipal UserDetails userDetails, @RequestBody PassengerCreateRequestDTO requestDTO) {
+  public ResponseEntity<CommonResponse> ride(@AuthenticationPrincipal UserDetails userDetails, @RequestBody PassengerCreateRequestDTO requestDTO) {
     long memberId = Long.parseLong(userDetails.getUsername());
     requestDTO.setMemberId(memberId);
     passengerService.save(requestDTO);
-    Map<String, Object> map = new LinkedHashMap<>();
-    map.put("status", HttpStatus.OK.value());
-    map.put("message", "탑승 신청이 완료되었습니다.");
-    return ResponseEntity.ok(map);
+
+    CommonResponse res = CommonResponse.builder()
+            .status(HttpStatus.OK.value())
+            .message("탑승 신청이 완료되었습니다.")
+            .build();
+    return ResponseEntity.ok(res);
   }
 
   @PostMapping("/delete")
-  public void delete(@AuthenticationPrincipal UserDetails userDetails, @RequestBody PassengerDeleteRequestDTO requestDTO) {
+  public ResponseEntity<String> delete(@AuthenticationPrincipal UserDetails userDetails, @RequestBody PassengerDeleteRequestDTO requestDTO) {
     long memberId = Long.parseLong(userDetails.getUsername());
     requestDTO.setMemberId(memberId);
     passengerService.takeDown(requestDTO);
+    return ResponseEntity.ok("성공적으로 삭제가 되었습니다.");
   }
 }

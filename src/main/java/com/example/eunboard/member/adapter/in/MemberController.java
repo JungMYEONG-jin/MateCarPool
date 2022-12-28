@@ -23,9 +23,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
-
 @Tag(name = "유저", description = "유저 조회/수정")
 @Slf4j
 @RequiredArgsConstructor

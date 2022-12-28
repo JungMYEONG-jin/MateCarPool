@@ -1,8 +1,8 @@
 package com.example.eunboard.timetable.adapter.out.repository;
 
 import com.example.eunboard.member.domain.Member;
-import com.example.eunboard.timetable.domain.MemberTimetable;
 import com.example.eunboard.timetable.application.port.out.MemberTimetableRepositoryPort;
+import com.example.eunboard.timetable.domain.MemberTimetable;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

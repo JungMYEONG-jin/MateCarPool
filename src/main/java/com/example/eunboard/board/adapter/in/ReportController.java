@@ -1,8 +1,8 @@
 package com.example.eunboard.board.adapter.in;
 
 import com.example.eunboard.board.application.port.in.*;
-import com.example.eunboard.member.application.port.in.MemberResponseDTO;
 import com.example.eunboard.board.domain.ReportBoard;
+import com.example.eunboard.member.application.port.in.MemberResponseDTO;
 import com.example.eunboard.member.application.port.in.MemberUseCase;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,37 +25,32 @@ public class ReportController {
 
 
     @GetMapping("/reports")
-    public ResponseEntity<?> selectReportForm(@AuthenticationPrincipal UserDetails userDetails) {
+    public ResponseEntity<List<ReportBoard>> selectReportForm(@AuthenticationPrincipal UserDetails userDetails) {
         long memberId = Long.parseLong(userDetails.getUsername());
         List<ReportBoard> Boards = reportBoardService.findByMemberId(memberId);
-        if(Boards.size() == 0)
-            return ResponseEntity.ok().body("null");
         return ResponseEntity.ok().body(Boards);
     }
 
     @PostMapping("/report/new")
-    public String updateReport(@AuthenticationPrincipal long memberId,
-                               @RequestBody ReportBoardDTO requestDTO) {
-
-        MemberResponseDTO member= memberService.select(memberId);
+    public ResponseEntity<String> updateReport(@AuthenticationPrincipal long memberId,
+                                               @RequestBody ReportBoardDTO requestDTO) {
+        MemberResponseDTO member = memberService.select(memberId);
         requestDTO.setWriterStudentId(member.getStudentNumber());
         requestDTO.setMemberId(memberId);
-
         reportBoardService.createReportBoard(requestDTO);
-
-        return "ReportBoard save ok";
+        return ResponseEntity.ok("ReportBoard save ok");
     }
 
     @GetMapping("/question")
-    public ResponseEntity selectQuestionForm(@AuthenticationPrincipal UserDetails userDetails) {
+    public ResponseEntity<List<QuestionBoardShowDto>> selectQuestionForm(@AuthenticationPrincipal UserDetails userDetails) {
         long memberId = Long.parseLong(userDetails.getUsername());
         memberService.checkMember(memberId);
         return ResponseEntity.ok(questionBoardService.findByMemberId(memberId));
     }
 
     @PostMapping("/question/new")
-    public ResponseEntity enrollQuestion(@AuthenticationPrincipal UserDetails userDetails,
-                                 @RequestBody QuestionBoardEnrollDTO requestDTO) {
+    public ResponseEntity<String> enrollQuestion(@AuthenticationPrincipal UserDetails userDetails,
+                                                 @RequestBody QuestionBoardEnrollDTO requestDTO) {
         long memberId = Long.parseLong(userDetails.getUsername());
         memberService.checkMember(memberId);
         requestDTO.setMemberId(memberId);
