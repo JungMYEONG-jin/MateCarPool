@@ -15,13 +15,19 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 
 @Tag(name = "유저", description = "유저 조회/수정")
 @Slf4j
@@ -139,4 +145,23 @@ public class MemberController {
         CommonResponse res = new CommonResponse("사용가능한 전화번호입니다.", HttpStatus.OK.value());
         return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(res);
     }
+
+    /**
+     * 재경님(IOS) 요청 사항 이미지 로드 백업
+     */
+    @GetMapping("/profile/{id}/{imagename}")
+    @ResponseBody
+    public ResponseEntity<byte[]> getFile(@PathVariable("id") String id, @PathVariable("imagename") String imagename){
+        ResponseEntity<byte[]> result = null;
+        try {
+            File file = new File(System.getProperty("user.dir") + "/image/profiles/" +id+ "/" + imagename);
+            HttpHeaders headers=new HttpHeaders();
+            headers.add("Content-Type", Files.probeContentType(file.toPath()));
+            result=new ResponseEntity<>(FileCopyUtils.copyToByteArray(file),headers,HttpStatus.OK );
+        }catch (IOException e) {
+            log.info("Could not file read : {}", e.getMessage());
+        }
+        return result;
+    }
+
 }
