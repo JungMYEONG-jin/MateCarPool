@@ -4,7 +4,6 @@ import com.example.eunboard.member.domain.Member;
 import com.example.eunboard.passenger.domain.Passenger;
 import com.example.eunboard.ticket.domain.Ticket;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import lombok.*;
 
 @Getter

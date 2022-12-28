@@ -1,18 +1,16 @@
 package com.example.eunboard.timetable.application.service;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import com.example.eunboard.member.domain.Member;
+import com.example.eunboard.timetable.application.port.in.MemberTimetableRequestDTO;
 import com.example.eunboard.timetable.application.port.in.MemberTimetableUseCase;
 import com.example.eunboard.timetable.application.port.out.MemberTimetableRepositoryPort;
-import org.springframework.stereotype.Service;
-
-import com.example.eunboard.timetable.application.port.in.MemberTimetableRequestDTO;
-import com.example.eunboard.member.domain.Member;
 import com.example.eunboard.timetable.domain.MemberTimetable;
-
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Slf4j
 @RequiredArgsConstructor

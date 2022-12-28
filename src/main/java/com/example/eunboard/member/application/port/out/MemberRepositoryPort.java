@@ -2,8 +2,6 @@ package com.example.eunboard.member.application.port.out;
 
 import com.example.eunboard.member.domain.Member;
 
-import javax.swing.text.html.Option;
-import java.util.List;
 import java.util.Optional;
 
 /**

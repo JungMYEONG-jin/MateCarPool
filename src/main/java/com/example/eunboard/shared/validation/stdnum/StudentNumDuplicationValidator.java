@@ -3,6 +3,7 @@ package com.example.eunboard.shared.validation.stdnum;
 import com.example.eunboard.member.adapter.out.repository.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 import java.text.MessageFormat;
