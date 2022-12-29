@@ -2,6 +2,7 @@ package com.example.eunboard.ticket.application.port.in;
 
 import com.example.eunboard.ticket.domain.DayStatus;
 import com.example.eunboard.ticket.domain.Ticket;
+import com.example.eunboard.ticket.domain.TicketStatus;
 import lombok.*;
 
 @Getter
@@ -24,6 +25,8 @@ public class TicketShortResponseDto {
     private Integer recruitPerson;
     // 현재 인원수
     private Integer currentPersonCount;
+    // 현재 티켓의 상태
+    private TicketStatus ticketStatus;
 
     public static TicketShortResponseDto toDTO(Ticket entity) {
         String startDayTime = entity.getStartDtime();
@@ -37,8 +40,7 @@ public class TicketShortResponseDto {
                 .startTime(minuteHour)
                 .recruitPerson(entity.getRecruitPerson())
                 .currentPersonCount(entity.getPassengerList().size())
+                .ticketStatus(entity.getStatus())
                 .build();
     }
-
-
 }

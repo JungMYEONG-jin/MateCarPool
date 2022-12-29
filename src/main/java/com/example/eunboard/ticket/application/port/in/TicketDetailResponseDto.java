@@ -4,6 +4,7 @@ import com.example.eunboard.member.application.port.in.MemberResponseDTO;
 import com.example.eunboard.passenger.domain.Passenger;
 import com.example.eunboard.ticket.domain.DayStatus;
 import com.example.eunboard.ticket.domain.Ticket;
+import com.example.eunboard.ticket.domain.TicketStatus;
 import com.example.eunboard.ticket.domain.TicketType;
 import lombok.*;
 
@@ -42,6 +43,8 @@ public class TicketDetailResponseDto {
     private Long ticketPrice;
     // 오픈 카톡 주소
     private String openChatUrl;
+    // 현재 티켓의 상태
+    private TicketStatus ticketStatus;
     // 탑승자 명단
     private List<MemberResponseDTO> passengers;
 
@@ -63,6 +66,7 @@ public class TicketDetailResponseDto {
                 .recruitPerson(entity.getRecruitPerson())
                 .openChatUrl(entity.getOpenChatUrl())
                 .boardingPlace(entity.getBoardingPlace())
+                .ticketStatus(entity.getStatus())
                 // 탑승자에 대한 정보를 변환해서 반환해야함.
                 .passengers(entity.getPassengerList().stream()
                         .map(Passenger::getMember)
