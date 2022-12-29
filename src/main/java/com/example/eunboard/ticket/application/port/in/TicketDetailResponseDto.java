@@ -40,6 +40,8 @@ public class TicketDetailResponseDto {
     private TicketType ticketType;
     // 추후 사용?
     private Long ticketPrice;
+    // 오픈 카톡 주소
+    private String openChatUrl;
     // 탑승자 명단
     private List<MemberResponseDTO> passengers;
 
@@ -59,6 +61,7 @@ public class TicketDetailResponseDto {
                 .startDayMonth(dayMonth)
                 .ticketType(entity.getTicketType())
                 .recruitPerson(entity.getRecruitPerson())
+                .openChatUrl(entity.getOpenChatUrl())
                 .boardingPlace(entity.getBoardingPlace())
                 // 탑승자에 대한 정보를 변환해서 반환해야함.
                 .passengers(entity.getPassengerList().stream()
