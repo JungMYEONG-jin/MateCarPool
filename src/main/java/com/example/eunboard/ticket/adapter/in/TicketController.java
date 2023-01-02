@@ -24,6 +24,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -52,7 +53,7 @@ public class TicketController {
             @ApiResponse(responseCode = "409", description = "이미 카풀을 생성한 유저", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
             @ApiResponse(responseCode = "403", description = "드라이버가 아닌 유저", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))})
     @PostMapping("/new")
-    public ResponseEntity<CommonResponse> ticketCreate(@AuthenticationPrincipal UserDetails userDetails, @RequestBody TicketCreateRequestDto requestDto) {
+    public ResponseEntity<CommonResponse> ticketCreate(@AuthenticationPrincipal UserDetails userDetails, @Validated @RequestBody TicketCreateRequestDto requestDto) {
         long memberId = Long.parseLong(userDetails.getUsername());
         if (!memberUseCase.checkRole(memberId))
             throw new CustomException(ErrorCode.MEMBER_NOT_AUTHORITY.getMessage(), ErrorCode.MEMBER_NOT_AUTHORITY);
@@ -82,7 +83,12 @@ public class TicketController {
 
     @Operation(summary = "카풀 리스트", description = "카풀 리스트를 보여줍니다.")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "리스트 조회 성공", content = @Content(array = @ArraySchema(schema = @Schema(implementation = TicketDetailResponseDto.class))))})
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "리스트 조회 성공",
+                    content = @Content(
+                            array = @ArraySchema(schema = @Schema(implementation = TicketShortResponseDto.class)))
+            )})
     @GetMapping("/list")
     public List<TicketShortResponseDto> findAll() {
         return ticketService.getCarPoolList();

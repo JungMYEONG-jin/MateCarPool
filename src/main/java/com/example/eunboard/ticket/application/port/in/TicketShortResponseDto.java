@@ -3,6 +3,7 @@ package com.example.eunboard.ticket.application.port.in;
 import com.example.eunboard.ticket.domain.DayStatus;
 import com.example.eunboard.ticket.domain.Ticket;
 import com.example.eunboard.ticket.domain.TicketStatus;
+import com.example.eunboard.ticket.domain.TicketType;
 import lombok.*;
 
 @Getter
@@ -27,6 +28,8 @@ public class TicketShortResponseDto {
     private Integer currentPersonCount;
     // 현재 티켓의 상태
     private TicketStatus ticketStatus;
+    // 현재 티켓의 유료/무료 여부
+    private TicketType ticketType;
 
     public static TicketShortResponseDto toDTO(Ticket entity) {
         String startDayTime = entity.getStartDtime();
@@ -41,6 +44,7 @@ public class TicketShortResponseDto {
                 .recruitPerson(entity.getRecruitPerson())
                 .currentPersonCount(entity.getPassengerList().size())
                 .ticketStatus(entity.getStatus())
+                .ticketType(entity.getTicketType())
                 .build();
     }
 }
