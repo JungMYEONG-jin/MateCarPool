@@ -8,6 +8,7 @@ import com.example.eunboard.ticket.domain.TicketType;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
+import javax.validation.constraints.Pattern;
 import java.time.LocalDateTime;
 
 @Getter
@@ -17,7 +18,7 @@ import java.time.LocalDateTime;
 @Builder
 @ToString
 public class TicketCreateRequestDto {
-//    멤버 번호
+    //    멤버 번호
     @JsonIgnore
     private Long memberId;
     // 출발지
@@ -26,11 +27,13 @@ public class TicketCreateRequestDto {
     private String endArea;
     // 탑승상세
     private String boardingPlace;
-    // 월일
+    // 월일 MMdd
+    @Pattern(regexp = "[0-1][0-2][0-3][0-9]")
     private String startDayMonth;
     // 오전오후
     private DayStatus dayStatus;
-    // 출발시간
+    // 출발시간 hhmm
+    @Pattern(regexp = "[0-2][0-3][0-5][0-9]")
     private String startTime;
     // 오픈채팅 url
     private String openChatUrl;
@@ -43,7 +46,7 @@ public class TicketCreateRequestDto {
 
     public static Ticket toEntity(TicketCreateRequestDto dto) {
         int year = LocalDateTime.now().getYear();
-        String dayTime = String.valueOf(year)+dto.startDayMonth+dto.startTime;
+        String dayTime = String.valueOf(year) + dto.startDayMonth + dto.startTime;
         // yyyyMMddHHmm
         return Ticket.builder()
                 .member(Member.builder().memberId(dto.memberId).build())
