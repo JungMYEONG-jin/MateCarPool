@@ -23,16 +23,18 @@ public class SecurityConfig {
     private final RedisTemplate redisTemplate;
 
     @Bean
-    public PasswordEncoder passwordEncoder(){
-       return new BCryptPasswordEncoder();
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
     }
 
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() throws Exception {
-        return (web)->web.ignoring().antMatchers("/h2-console/**", "/favicon.ico", "/css/**", "/js/**", "/img/**", "/lib/**", "/swagger-ui/**", "/api_cos/**");
+        return (web) -> web.ignoring().antMatchers("/h2-console/**", "/favicon.ico", "/css/**", "/js/**", "/img/**", "/lib/**", "/swagger-ui/**", "/api_cos/**");
     }
 
-    /** TODO: 프로덕트레벨에서 관리필요 */
+    /**
+     * TODO: 프로덕트레벨에서 관리필요
+     */
     @Bean
     protected SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.cors().and().csrf().disable()
@@ -45,7 +47,15 @@ public class SecurityConfig {
                 .sameOrigin()
                 .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                .authorizeRequests().antMatchers("/auth/signup", "/auth/login", "/member/check/**","/api-docs/**", "/swagger-ui/**","/v3/api-docs/**").permitAll()
+                .authorizeRequests()
+                .antMatchers(
+                        "/auth/signup",
+                        "/auth/login",
+                        "/auth/reissue",
+                        "/member/check/**",
+                        "/api-docs/**",
+                        "/swagger-ui/**",
+                        "/v3/api-docs/**").permitAll()
                 .antMatchers("/ride/**").authenticated()
                 .anyRequest().authenticated()
                 .and()
