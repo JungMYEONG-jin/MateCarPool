@@ -28,12 +28,12 @@ public class TicketCreateRequestDto {
     // 탑승상세
     private String boardingPlace;
     // 월일 MMdd
-    @Pattern(regexp = "[0-1][0-9][0-3][0-9]")
+    @Pattern(regexp = "(0[1-9]|1[0-2])(0[1-9]|[1-2][0-9]|3[0-1])")
     private String startDayMonth;
     // 오전오후
     private DayStatus dayStatus;
     // 출발시간 hhmm
-    @Pattern(regexp = "[0-2][0-9][0-5][0-9]")
+    @Pattern(regexp = "([0-1][0-9]|2[0-3])[0-5][0-9]")
     private String startTime;
     // 오픈채팅 url
     private String openChatUrl;
