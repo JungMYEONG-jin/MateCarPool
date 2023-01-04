@@ -27,7 +27,7 @@ public class PassengerController {
 
     private final PassengerUseCase passengerService;
 
-    @Parameter(name = "passenger create", hidden = true)
+    @Parameter(name = "userDetails", hidden = true)
     @Operation(summary = "탑승자 생성", description = "특정 카풀에 탑승자를 생성")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "탑승 성공", content = @Content(schema = @Schema(implementation = CommonResponse.class))),
@@ -47,7 +47,7 @@ public class PassengerController {
         return ResponseEntity.ok(res);
     }
 
-    @Parameter(name = "passenger delete", hidden = true)
+    @Parameter(name = "userDetails", hidden = true)
     @Operation(summary = "탑승자 삭제", description = "해당 카풀에서 특정 탑승자를 삭제합니다.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "404", description = "티켓을 찾을 수 없는 경우", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
