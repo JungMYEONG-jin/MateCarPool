@@ -1,6 +1,7 @@
 package com.example.eunboard.ticket.application.port.in;
 
 import com.example.eunboard.member.application.port.in.MemberResponseDTO;
+import com.example.eunboard.passenger.application.port.in.PassengerDetailResponseDTO;
 import com.example.eunboard.passenger.domain.Passenger;
 import com.example.eunboard.ticket.domain.DayStatus;
 import com.example.eunboard.ticket.domain.Ticket;
@@ -46,7 +47,7 @@ public class TicketDetailResponseDto {
     // 현재 티켓의 상태
     private TicketStatus ticketStatus;
     // 탑승자 명단
-    private List<MemberResponseDTO> passengers;
+    private List<PassengerDetailResponseDTO> passengers;
 
     public static TicketDetailResponseDto toDTO(Ticket entity) {
         String startDayTime = entity.getStartDtime();
@@ -69,8 +70,7 @@ public class TicketDetailResponseDto {
                 .ticketStatus(entity.getStatus())
                 // 탑승자에 대한 정보를 변환해서 반환해야함.
                 .passengers(entity.getPassengerList().stream()
-                        .map(Passenger::getMember)
-                        .map((member -> MemberResponseDTO.toDTO(member, null)))
+                        .map(PassengerDetailResponseDTO::from)
                         .collect(Collectors.toList()))
                 .build();
     }
