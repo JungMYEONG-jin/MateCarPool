@@ -41,4 +41,8 @@ public class Passenger extends BaseEntity {
     @Column(name = "is_cancel", columnDefinition = "TINYINT(1)")
     @ColumnDefault("'0'")
     private Integer isCancel;
+
+    public void cancel() {
+        isCancel = 1;
+    }
 }

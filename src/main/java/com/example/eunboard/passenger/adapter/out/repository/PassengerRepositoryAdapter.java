@@ -1,7 +1,9 @@
 package com.example.eunboard.passenger.adapter.out.repository;
 
+import com.example.eunboard.member.domain.Member;
 import com.example.eunboard.passenger.application.port.out.PassengerRepositoryPort;
 import com.example.eunboard.passenger.domain.Passenger;
+import com.example.eunboard.ticket.domain.Ticket;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -31,5 +33,20 @@ public class PassengerRepositoryAdapter implements PassengerRepositoryPort {
     @Override
     public List<Passenger> getBoardingList(Long memberId) {
         return passengerRepository.getBoardingList(memberId);
+    }
+
+    @Override
+    public boolean existBoardingStatePassenger(Long memberId) {
+        return passengerRepository.existBoardingStatePassenger(memberId);
+    }
+
+    @Override
+    public Passenger findCurrentPassengerByMember(Member member) {
+        return passengerRepository.findCurrentPassengerByMember(member);
+    }
+
+    @Override
+    public List<Passenger> findAllByTicket(Ticket ticket) {
+        return passengerRepository.findAllByTicket(ticket);
     }
 }

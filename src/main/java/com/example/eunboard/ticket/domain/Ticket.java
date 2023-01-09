@@ -85,4 +85,8 @@ public class Ticket extends BaseEntity {
     public void updateStatus(TicketStatus status) {
         this.status = status;
     }
+
+    public void delete() {
+        status = TicketStatus.CANCEL;
+    }
 }
