@@ -78,13 +78,12 @@ public class CustomPassengerRepositoryImpl implements CustomPassengerRepository 
     @Override
     public boolean existBoardingStatePassenger(Long memberId) {
         // 현재 사용자가 탑승한 티켓이 있는지 확인하는 로직
-        Long count = queryFactory.select(passenger.count())
+        return queryFactory.select(passenger)
                 .from(passenger)
+                .innerJoin(ticket).fetchJoin()
+                .on(passenger.ticket.id.eq(ticket.id)) //
                 .where(passenger.member.memberId.eq(memberId))
-                .where(passenger.ticket.status.eq(TicketStatus.BEFORE).and(passenger.ticket.status.eq(TicketStatus.ING)))
-                .fetchOne();
-        if (count == null) return false;
-        return count >= 1;
+                .where(passenger.isCancel.eq(0)).fetchOne() != null;
     }
 
     @Override

@@ -7,6 +7,7 @@ import lombok.Getter;
 @Getter
 public enum ErrorCode {
     TICKET_PASS_EXIST(400, "TICKET-PASS-ERR-401", "현재 티켓패스에 탑승중입니다."),
+    PASS_COUNT_NOT_EXIST(404, "PASS-COUNT-NOT-EXIST", "사용자의 카풀 탑승 내역을 확인하는 중에 문제가 발생하였습니다."),
     TICKET_IS_FULL(400, "TICKET_IS_FULL", "탑승 가능한 자리가 없습니다."),
     TICKET_NOT_FOUND(404,"TICKET_NOT_POUND", "티켓 정보를 찾을 수 없습니다."),
     TICKET_IS_EXIST(409, "TICKET_IS_EXIST", "이미 티켓을 생성했습니다."),

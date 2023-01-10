@@ -38,7 +38,7 @@ public class PassengerController {
     public ResponseEntity<CommonResponse> ride(@AuthenticationPrincipal UserDetails userDetails, @RequestBody PassengerCreateRequestDTO requestDTO) {
         long memberId = Long.parseLong(userDetails.getUsername());
         requestDTO.setMemberId(memberId);
-        passengerService.save(requestDTO);
+        passengerService.ride(requestDTO);
 
         CommonResponse res = CommonResponse.builder()
                 .status(HttpStatus.OK.value())
