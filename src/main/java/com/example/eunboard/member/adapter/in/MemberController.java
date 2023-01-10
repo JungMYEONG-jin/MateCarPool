@@ -28,6 +28,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.security.Principal;
 
 @Tag(name = "유저", description = "유저 조회/수정")
 @Slf4j
@@ -52,11 +53,11 @@ public class MemberController {
     })
     @PutMapping(value = "/update/profile")
     public ResponseEntity<CommonResponse> updateMember(@AuthenticationPrincipal UserDetails userDetails,
-            @RequestBody(required = true)  MemberUpdateRequestDTO memberUpdateRequestDTO) {
+                                                       @RequestBody(required = true) MemberUpdateRequestDTO memberUpdateRequestDTO) {
         Long memberId = Long.parseLong(userDetails.getUsername());
         memberService.checkMember(memberId);
         memberService.updateMember(memberId, memberUpdateRequestDTO);
-        CommonResponse res = new CommonResponse("유저 정보 수정이 완료되었습니다.",HttpStatus.OK.value());
+        CommonResponse res = new CommonResponse("유저 정보 수정이 완료되었습니다.", HttpStatus.OK.value());
         return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(res);
     }
 
@@ -69,11 +70,11 @@ public class MemberController {
     @ResponseBody
     @PutMapping(value = "/update/image", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<CommonResponse> updateMemberProfileImage(@AuthenticationPrincipal UserDetails userDetails,
-                                       @RequestPart(required = false, name = "image") MultipartFile multipartFile) {
+                                                                   @RequestPart(required = false, name = "image") MultipartFile multipartFile) {
         Long memberId = Long.parseLong(userDetails.getUsername());
         memberService.checkMember(memberId);
         memberService.updateMemberProfileImage(memberId, multipartFile);
-        CommonResponse res = new CommonResponse("프로필 이미지 변경이 완료되었습니다.",HttpStatus.OK.value());
+        CommonResponse res = new CommonResponse("프로필 이미지 변경이 완료되었습니다.", HttpStatus.OK.value());
         return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(res);
     }
 
@@ -151,17 +152,30 @@ public class MemberController {
      */
     @GetMapping("/profile/{id}/{imagename}")
     @ResponseBody
-    public ResponseEntity<byte[]> getFile(@PathVariable("id") String id, @PathVariable("imagename") String imagename){
+    public ResponseEntity<byte[]> getFile(@PathVariable("id") String id, @PathVariable("imagename") String imagename) {
         ResponseEntity<byte[]> result = null;
         try {
-            File file = new File(System.getProperty("user.dir") + "/image/profiles/" +id+ "/" + imagename);
-            HttpHeaders headers=new HttpHeaders();
+            File file = new File(System.getProperty("user.dir") + "/image/profiles/" + id + "/" + imagename);
+            HttpHeaders headers = new HttpHeaders();
             headers.add("Content-Type", Files.probeContentType(file.toPath()));
-            result=new ResponseEntity<>(FileCopyUtils.copyToByteArray(file),headers,HttpStatus.OK );
-        }catch (IOException e) {
+            result = new ResponseEntity<>(FileCopyUtils.copyToByteArray(file), headers, HttpStatus.OK);
+        } catch (IOException e) {
             log.info("Could not file read : {}", e.getMessage());
         }
         return result;
     }
 
+    @Parameter(name = "userDetails", hidden = true)
+    @Operation(summary = "회원탈퇴", description = "회워 탈퇴를 진행합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "탈퇴 성공", content = @Content(schema = @Schema(implementation = CommonResponse.class))),
+            @ApiResponse(responseCode = "404", description = "존재하지 않는 유저", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
+    })
+    @DeleteMapping("")
+    public ResponseEntity<CommonResponse> delete(@AuthenticationPrincipal UserDetails userDetails) {
+        long memberId = Long.parseLong(userDetails.getUsername());
+        memberService.delete(memberId);
+        CommonResponse res = new CommonResponse("사용자가 성공적으로 회원 탈퇴되었습니다.", HttpStatus.OK.value());
+        return ResponseEntity.ok(res);
+    }
 }

@@ -6,6 +6,7 @@ import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -80,4 +81,8 @@ public class Member extends BaseEntity {
     @Column(name = "area", length = 50)
     private String area;
 
+    public void delete(){
+        isRemoved = 1;
+        deleteDate = new Date(System.currentTimeMillis()); // localdatetime을 사용해야하는 것 아닌가?
+    }
 }

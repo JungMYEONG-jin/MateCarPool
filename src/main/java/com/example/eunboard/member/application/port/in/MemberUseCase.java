@@ -16,4 +16,5 @@ public interface MemberUseCase {
     MemberUpdateResponseDTO getUpdateView(Long memberId);
     ProfileResponseDto getMyInfoForPassenger(Long memberId);
     ProfileResponseDto getMyInfoForDriver(Long memberId);
+    void delete(Long memberId);
 }
