@@ -18,15 +18,15 @@ import static com.example.eunboard.ticket.domain.QTicket.ticket;
 @Transactional
 @RequiredArgsConstructor
 @Slf4j
-public class CustomTicketRepositoryImpl implements CustomTicketRepository{
+public class CustomTicketRepositoryImpl implements CustomTicketRepository {
 
     private final JPAQueryFactory queryFactory;
 
-    private BooleanExpression statusEq(TicketStatus ticketStatus){
+    private BooleanExpression statusEq(TicketStatus ticketStatus) {
         return ticket.status.eq(ticketStatus);
     }
 
-    private BooleanExpression statusEqNot(TicketStatus ticketStatus){
+    private BooleanExpression statusEqNot(TicketStatus ticketStatus) {
         return ticket.status.eq(ticketStatus).not();
     }
 
@@ -49,6 +49,7 @@ public class CustomTicketRepositoryImpl implements CustomTicketRepository{
      * 만약 만족 하는게 있다면 현재 시간이 만족일 오후9시 ~ 만족다음일 오전9시30까지 만족하면 값 리턴함
      * 1 현재가 9시30 이후일경우 night는 저렇게 쓰고
      * 현재가 오전9시30 이전일경우 morning -1 night -1 일씩해주자.
+     *
      * @return
      */
     @Override
@@ -58,18 +59,14 @@ public class CustomTicketRepositoryImpl implements CustomTicketRepository{
         // 전날 오전9시30~오후9시까지 생성된 티켓을 봐야하기 때문.
         LocalDateTime morning = now.toLocalDate().atTime(9, 30);
         LocalDateTime night = now.toLocalDate().atTime(21, 0);
-        if (now.isAfter(now.toLocalDate().atTime(0,0)) && now.isBefore(now.toLocalDate().atTime(9, 30))){
+        if (now.isAfter(now.toLocalDate().atTime(0, 0)) && now.isBefore(now.toLocalDate().atTime(9, 30))) {
             morning = morning.minusDays(1L);
             night = night.minusDays(1L);
         }
         // 우선 9시30 오후 9시까지 생성된 리스트를 뽑는다.
         List<Ticket> filtered = queryFactory.selectFrom(ticket)
-                .leftJoin(ticket.passengerList, passenger)
-                .fetchJoin()
-                .leftJoin(ticket.member, member)
-                .fetchJoin()
-                .where(statusEqNot(TicketStatus.AFTER).and(statusEqNot(TicketStatus.CANCEL))
-                ).fetch();
+                .where(statusEqNot(TicketStatus.AFTER).and(statusEqNot(TicketStatus.CANCEL)))
+                .fetch();
         return filtered;
         // 프론트 테스트 위해 잠시 제거
         // ticket.createDate.between(morning, night)
