@@ -70,6 +70,7 @@ public class TicketDetailResponseDto {
                 .ticketStatus(entity.getStatus())
                 // 탑승자에 대한 정보를 변환해서 반환해야함.
                 .passengers(entity.getPassengerList().stream()
+                        .filter(passenger -> !passenger.isCancel())
                         .map(PassengerDetailResponseDTO::from)
                         .collect(Collectors.toList()))
                 .build();

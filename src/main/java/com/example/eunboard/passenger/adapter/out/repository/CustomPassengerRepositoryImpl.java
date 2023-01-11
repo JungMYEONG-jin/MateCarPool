@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 import static com.example.eunboard.member.domain.QMember.member;
 import static com.example.eunboard.passenger.domain.QPassenger.passenger;
@@ -89,5 +90,15 @@ public class CustomPassengerRepositoryImpl implements CustomPassengerRepository{
             .where(passenger.ticket.status.eq(TicketStatus.BEFORE).and(passenger.ticket.status.eq(TicketStatus.ING)))
             .orderBy(passenger.ticket.createDate.desc())
             .fetchFirst();
+  }
+
+  @Override
+  public Optional<Passenger> findByTicketIdAndPassengerId(long ticketId, long passengerId) {
+    return Optional.ofNullable(queryFactory.select(passenger)
+            .from(passenger)
+            .where(passenger.ticket.id.eq(ticketId))
+            .where(passenger.id.eq(passengerId))
+            .orderBy(passenger.createDate.desc())
+            .fetchOne());
   }
 }

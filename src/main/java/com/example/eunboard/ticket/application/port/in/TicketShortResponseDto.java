@@ -1,5 +1,6 @@
 package com.example.eunboard.ticket.application.port.in;
 
+import com.example.eunboard.passenger.domain.Passenger;
 import com.example.eunboard.ticket.domain.DayStatus;
 import com.example.eunboard.ticket.domain.Ticket;
 import com.example.eunboard.ticket.domain.TicketStatus;
@@ -42,7 +43,10 @@ public class TicketShortResponseDto {
                 .dayStatus(entity.getDayStatus())
                 .startTime(minuteHour)
                 .recruitPerson(entity.getRecruitPerson())
-                .currentPersonCount(entity.getPassengerList().size())
+                .currentPersonCount(
+                        (int) entity.getPassengerList().stream()
+                                .filter(passenger -> !passenger.isCancel())
+                                .count()) // 취소 되지 않은 내용만 개수를 세야한다.
                 .ticketStatus(entity.getStatus())
                 .ticketType(entity.getTicketType())
                 .build();
