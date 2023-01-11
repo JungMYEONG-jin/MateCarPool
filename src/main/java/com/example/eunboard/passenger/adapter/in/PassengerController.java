@@ -50,13 +50,19 @@ public class PassengerController {
     @Parameter(name = "userDetails", hidden = true)
     @Operation(summary = "탑승자 삭제", description = "해당 카풀에서 특정 탑승자를 삭제합니다.")
     @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "탑승자 삭제 완료", content = @Content(schema = @Schema(implementation = CommonResponse.class))),
             @ApiResponse(responseCode = "404", description = "티켓을 찾을 수 없는 경우", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
     })
     @DeleteMapping("")
-    public ResponseEntity<String> delete(@AuthenticationPrincipal UserDetails userDetails, @RequestBody PassengerDeleteRequestDTO requestDTO) {
+    public ResponseEntity<CommonResponse> delete(@AuthenticationPrincipal UserDetails userDetails, @RequestBody PassengerDeleteRequestDTO requestDTO) {
         long memberId = Long.parseLong(userDetails.getUsername());
         requestDTO.setMemberId(memberId);
-        passengerService.takeDown(requestDTO);
-        return ResponseEntity.ok("성공적으로 삭제가 되었습니다.");
+        passengerService.takeDown(memberId, requestDTO.getPassengerId(), requestDTO.getTicketId());
+
+        CommonResponse res = CommonResponse.builder()
+                .status(HttpStatus.OK.value())
+                .message("탑승자가 성공적으로 삭제되었습니다.")
+                .build();
+        return ResponseEntity.ok(res);
     }
 }

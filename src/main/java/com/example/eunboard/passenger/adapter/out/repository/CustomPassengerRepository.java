@@ -4,6 +4,7 @@ import com.example.eunboard.member.domain.Member;
 import com.example.eunboard.passenger.domain.Passenger;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface CustomPassengerRepository {
      boolean findRide(Passenger entity);
@@ -16,4 +17,6 @@ public interface CustomPassengerRepository {
      boolean existBoardingStatePassenger(Long memberId);
 
      Passenger findCurrentPassengerByMember(Member member);
+
+     Optional<Passenger> findByTicketIdAndPassengerId(long ticketId, long passengerId);
 }
