@@ -42,6 +42,10 @@ public class Passenger extends BaseEntity {
     @ColumnDefault("'0'")
     private Integer isCancel;
 
+    public Boolean isCancel(){
+        return isCancel == 1;
+    }
+
     public void cancel() {
         isCancel = 1;
     }
