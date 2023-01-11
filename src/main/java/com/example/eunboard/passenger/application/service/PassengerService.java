@@ -48,7 +48,8 @@ public class PassengerService implements PassengerUseCase {
          * 티켓에 자리가 남았는지 체크
          */
         Ticket ticket = ticketRepositoryPort.findById(requestDTO.getTicketId()).orElseThrow(() -> new CustomException(ErrorCode.TICKET_NOT_FOUND.getMessage(), ErrorCode.TICKET_NOT_FOUND));
-        if (ticket.getPassengerList().size() == ticket.getRecruitPerson()) {
+
+        if (ticket.getPassengerList().stream().filter(passenger -> !passenger.isCancel()).count() == ticket.getRecruitPerson()) {
             throw new CustomException(ErrorCode.TICKET_IS_FULL.getMessage(), ErrorCode.TICKET_IS_FULL);
         }
         passengerRepository.save(PassengerCreateRequestDTO.toEntity(requestDTO));
@@ -67,14 +68,16 @@ public class PassengerService implements PassengerUseCase {
         Ticket ticket = ticketRepositoryPort
                 .findById(ticketId)
                 .orElseThrow(()-> new CustomException(ErrorCode.TICKET_NOT_FOUND.getMessage(), ErrorCode.TICKET_NOT_FOUND));
-        
+
         Passenger passenger = passengerRepository.findByTicketIdAndPassengerId(ticketId, targetPassengerId)
                 .orElseThrow(()-> new CustomException(ErrorCode.TICKET_PASS_NOT_FOUND.getMessage(), ErrorCode.TICKET_PASS_NOT_FOUND));
 
         switch(requestMember.getAuth()){
             case PASSENGER:
                 // 탑승자 memberId가 passengerId와 동일한지 확인
-                if(passenger.getMember().getMemberId().equals(requestMember.getMemberId())){
+                System.out.println(passenger.getMember().getMemberId());
+                System.out.println(requestMember.getMemberId());
+                if(!passenger.getMember().getMemberId().equals(requestMember.getMemberId())){
                     throw new CustomException(ErrorCode.MEMBER_NOT_AUTHORITY.getErrorCode(), ErrorCode.MEMBER_NOT_AUTHORITY);
                 }
                 passenger.cancel();
