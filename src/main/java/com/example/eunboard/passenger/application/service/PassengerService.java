@@ -75,8 +75,6 @@ public class PassengerService implements PassengerUseCase {
         switch(requestMember.getAuth()){
             case PASSENGER:
                 // 탑승자 memberId가 passengerId와 동일한지 확인
-                System.out.println(passenger.getMember().getMemberId());
-                System.out.println(requestMember.getMemberId());
                 if(!passenger.getMember().getMemberId().equals(requestMember.getMemberId())){
                     throw new CustomException(ErrorCode.MEMBER_NOT_AUTHORITY.getErrorCode(), ErrorCode.MEMBER_NOT_AUTHORITY);
                 }
