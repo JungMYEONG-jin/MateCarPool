@@ -104,5 +104,22 @@ public class CustomTicketRepositoryImpl implements CustomTicketRepository {
                         .and(ticket.member.memberId.eq(memberId)))
                 .fetchOne() != null;
     }
+
+    /**
+     * 해당 로직은 '드라이버'만 사용해야 합니다.
+     * 드라이버가 가지고 있는 카풀 중 BEFORE, ING 상태인 카풀 중 가장 최근 것을 불러옵니다.
+     * @param memberId 현재 사용자 아이디(학번과 다름)
+     * @return 만약 카풀이 존재한다면 Ticket, 없다면 null
+     * @author tianea
+     */
+    @Override
+    public Ticket findMyTicketByMemberId(Long memberId) {
+        return queryFactory.select(ticket)
+                .from(ticket)
+                .where(ticket.member.memberId.eq(memberId))
+                .where(ticket.status.in(List.of(TicketStatus.BEFORE, TicketStatus.ING)))
+                .orderBy(ticket.createDate.desc())
+                .fetchFirst();
+    }
 }
 

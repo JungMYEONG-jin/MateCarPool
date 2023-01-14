@@ -20,4 +20,6 @@ public interface PassengerRepositoryPort {
     List<Passenger> findAllByTicket(Ticket ticket);
 
     Optional<Passenger> findByTicketIdAndPassengerId(long ticketId, long passengerId);
+
+    Passenger findMyPassengerByMemberId(Long memberId);
 }

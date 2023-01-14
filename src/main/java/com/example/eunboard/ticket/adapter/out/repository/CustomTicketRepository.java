@@ -14,4 +14,6 @@ public interface CustomTicketRepository {
      List<Ticket> getAvailableList();
      List<Ticket> getRecentTickets(Long memberId);
      boolean existTicket(Long memberId);
+
+     Ticket findMyTicketByMemberId(Long memberId);
 }

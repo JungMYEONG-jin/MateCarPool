@@ -55,4 +55,9 @@ public class PassengerRepositoryAdapter implements PassengerRepositoryPort {
     public Optional<Passenger> findByTicketIdAndPassengerId(long ticketId, long passengerId) {
         return passengerRepository.findByTicketIdAndPassengerId(ticketId, passengerId);
     }
+
+    @Override
+    public Passenger findMyPassengerByMemberId(Long memberId) {
+        return passengerRepository.findMyPassengerByMemberId(memberId);
+    }
 }
