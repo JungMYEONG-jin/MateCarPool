@@ -2,10 +2,17 @@ package com.example.eunboard.board.adapter.in;
 
 import com.example.eunboard.board.application.port.in.*;
 import com.example.eunboard.board.domain.ReportBoard;
-import com.example.eunboard.member.application.port.in.MemberResponseDTO;
 import com.example.eunboard.member.application.port.in.MemberUseCase;
+import com.example.eunboard.shared.common.CommonResponse;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -31,14 +38,22 @@ public class ReportController {
         return ResponseEntity.ok().body(Boards);
     }
 
+    @Parameter(name = "userDetails", hidden = true)
+    @Operation(summary = "신고하기", description = "다른 사람을 신고할 수 있습니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "신고 완료", content = @Content(schema = @Schema(implementation = CommonResponse.class)))})
     @PostMapping("/report/new")
-    public ResponseEntity<String> updateReport(@AuthenticationPrincipal long memberId,
-                                               @RequestBody ReportBoardDTO requestDTO) {
-        MemberResponseDTO member = memberService.select(memberId);
-        requestDTO.setWriterStudentId(member.getStudentNumber());
+    public ResponseEntity<CommonResponse> createReport(@AuthenticationPrincipal UserDetails userDetails,
+                                                       @RequestBody ReportCreateRequestDTO requestDTO) {
+        long memberId = Long.parseLong(userDetails.getUsername());
         requestDTO.setMemberId(memberId);
         reportBoardService.createReportBoard(requestDTO);
-        return ResponseEntity.ok("ReportBoard save ok");
+
+        CommonResponse res = CommonResponse.builder()
+                .status(HttpStatus.OK.value())
+                .message("정상적으로 신고가 완료 되었습니다.")
+                .build();
+        return ResponseEntity.ok(res);
     }
 
     @GetMapping("/question")
