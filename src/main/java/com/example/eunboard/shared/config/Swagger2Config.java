@@ -13,7 +13,7 @@ public class Swagger2Config {
     public GroupedOpenApi groupedOpenApi(){
         return GroupedOpenApi.builder().
                 group("v1-definition").
-                pathsToMatch("/auth/**", "/member/**", "/ticket/**", "/passenger/**") .build();
+                pathsToMatch("/auth/**", "/member/**", "/ticket/**", "/passenger/**", "/report/**") .build();
     }
 
     @Bean

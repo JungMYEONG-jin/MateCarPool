@@ -5,7 +5,7 @@ import com.example.eunboard.board.domain.ReportBoard;
 import java.util.List;
 
 public interface ReportBoardUseCase {
-    void createReportBoard(ReportBoardDTO reportDto);
+    void createReportBoard(ReportCreateRequestDTO reportDto);
     //검색
     List<ReportBoard> findByMemberId(long memberId);
 }
