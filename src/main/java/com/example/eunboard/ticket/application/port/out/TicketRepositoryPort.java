@@ -16,4 +16,6 @@ public interface TicketRepositoryPort {
     /** US-10 */
     List<Ticket> getRecentList(Long memberId);
     boolean existTicket(Long memberId);
+
+    Ticket findMyTicketByMemberId(Long memberId);
 }

@@ -54,4 +54,9 @@ public class TicketRepositoryAdapter implements TicketRepositoryPort {
     public boolean existTicket(Long memberId) {
         return ticketRepository.existTicket(memberId);
     }
+
+    @Override
+    public Ticket findMyTicketByMemberId(Long memberId) {
+        return ticketRepository.findMyTicketByMemberId(memberId);
+    }
 }

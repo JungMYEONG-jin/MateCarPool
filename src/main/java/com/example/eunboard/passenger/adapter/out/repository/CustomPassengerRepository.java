@@ -19,4 +19,6 @@ public interface CustomPassengerRepository {
      Passenger findCurrentPassengerByMember(Member member);
 
      Optional<Passenger> findByTicketIdAndPassengerId(long ticketId, long passengerId);
+
+     Passenger findMyPassengerByMemberId(Long memberId);
 }

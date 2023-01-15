@@ -108,8 +108,6 @@ public class TicketController {
     @GetMapping("/promise")
     public TicketDetailResponseDto promise(@AuthenticationPrincipal UserDetails userDetails) {
         long memberId = Long.parseLong(userDetails.getUsername());
-        if (!memberUseCase.checkRole(memberId))
-            throw new CustomException(ErrorCode.MEMBER_NOT_AUTHORITY.getMessage(), ErrorCode.MEMBER_NOT_AUTHORITY);
         return ticketService.getPromise(memberId);
     }
 
