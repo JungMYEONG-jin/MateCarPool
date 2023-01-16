@@ -33,15 +33,13 @@ public class TicketShortResponseDto {
     private TicketType ticketType;
 
     public static TicketShortResponseDto toDTO(Ticket entity) {
-        String startDayTime = entity.getStartDtime();
         // yyyy mmdd hhmm
-        String minuteHour = startDayTime.substring(4);
         return TicketShortResponseDto.builder()
                 .id(entity.getId())
                 .startArea(entity.getStartArea())
                 .profileImage(entity.getMember().getProfileImage())
                 .dayStatus(entity.getDayStatus())
-                .startTime(minuteHour)
+                .startTime(entity.getStartDtime())
                 .recruitPerson(entity.getRecruitPerson())
                 .currentPersonCount(
                         (int) entity.getPassengerList().stream()

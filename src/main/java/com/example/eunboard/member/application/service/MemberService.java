@@ -135,7 +135,7 @@ public class MemberService implements MemberUseCase {
     /**
      * jmj
      * 권한 없으면 403, 정보 없으면 404 return
-     *
+     * US-10
      * @return
      */
     @Override
@@ -144,7 +144,10 @@ public class MemberService implements MemberUseCase {
         List<Ticket> tickets = passengerRepositoryPort.getBoardingList(memberId).stream().map(Passenger::getTicket).collect(Collectors.toList());
         return ProfileResponseDto.of(member, tickets);
     }
-
+    /**
+     * US-10
+     * @return
+     */
     @Override
     public ProfileResponseDto getMyInfoForDriver(Long memberId) {
         Member member = memberRepository.findById(memberId).get(); // controller 에서 존재 확인 했음.
