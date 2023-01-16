@@ -84,6 +84,7 @@ public class MemberController {
             @ApiResponse(responseCode = "200", description = "유저 정보 로드 성공", content = @Content(schema = @Schema(implementation = MemberUpdateResponseDTO.class))),
             @ApiResponse(responseCode = "404", description = "존재하지 않는 유저", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
     })
+
     @ResponseBody
     @GetMapping("/update")
     public ResponseEntity<MemberUpdateResponseDTO> updateMemberView(@AuthenticationPrincipal UserDetails userDetails) {
@@ -113,7 +114,7 @@ public class MemberController {
         // Driver
         if (memberService.checkRole(memberId)) {
             profileResponseDto = memberService.getMyInfoForDriver(memberId);
-        } else {
+        } else { // passenger
             profileResponseDto = memberService.getMyInfoForPassenger(memberId);
         }
         return ResponseEntity.ok(profileResponseDto);

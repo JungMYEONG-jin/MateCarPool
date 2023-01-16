@@ -35,7 +35,7 @@ public class TicketShortResponseDto {
     public static TicketShortResponseDto toDTO(Ticket entity) {
         String startDayTime = entity.getStartDtime();
         // yyyy mmdd hhmm
-        String minuteHour = startDayTime.substring(8);
+        String minuteHour = startDayTime.substring(4);
         return TicketShortResponseDto.builder()
                 .id(entity.getId())
                 .startArea(entity.getStartArea())

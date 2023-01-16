@@ -8,7 +8,9 @@ import com.example.eunboard.timetable.application.port.in.MemberTimetableRespons
 import lombok.*;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Getter
@@ -34,9 +36,9 @@ public class ProfileResponseDto {
                 .studentNumber(member.getStudentNumber())
                 .department(member.getDepartment())
                 .phoneNumber(member.getPhoneNumber())
-                .memberTimeTable(member.getMemberTimeTableList()!=null?member.getMemberTimeTableList().stream().map(MemberTimetableResponseDTO::toDTO).collect(Collectors.toList()):new ArrayList<>())
+                .memberTimeTable(Optional.ofNullable(member.getMemberTimeTableList()).orElseGet(Collections::emptyList).stream().map(MemberTimetableResponseDTO::toDTO).collect(Collectors.toList()))
                 .memberRole(member.getAuth())
-                .tickets(tickets!=null?tickets.stream().map(TicketShortResponseDto::toDTO).collect(Collectors.toList()):new ArrayList<>())
+                .tickets(Optional.ofNullable(tickets).orElseGet(Collections::emptyList).stream().map(TicketShortResponseDto::toDTO).collect(Collectors.toList()))
                 .build();
     }
 }
