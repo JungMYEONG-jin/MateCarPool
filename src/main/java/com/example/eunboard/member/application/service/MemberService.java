@@ -9,7 +9,6 @@ import com.example.eunboard.passenger.domain.Passenger;
 import com.example.eunboard.shared.exception.ErrorCode;
 import com.example.eunboard.shared.exception.custom.CustomException;
 import com.example.eunboard.shared.util.FileUploadUtils;
-import com.example.eunboard.shared.util.MD5Generator;
 import com.example.eunboard.ticket.application.port.out.TicketRepositoryPort;
 import com.example.eunboard.ticket.domain.Ticket;
 import com.example.eunboard.timetable.application.port.in.MemberTimetableRequestDTO;
@@ -17,7 +16,6 @@ import com.example.eunboard.timetable.application.port.out.MemberTimetableReposi
 import com.example.eunboard.timetable.domain.MemberTimetable;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -26,8 +24,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.example.eunboard.shared.util.FileUploadUtils.cleanDir;
-import static com.example.eunboard.shared.util.FileUploadUtils.saveFile;
 
 /**
  * author by jmj
@@ -118,11 +114,6 @@ public class MemberService implements MemberUseCase {
         Member member = memberRepository.findById(memberId).get();
         // 이미지 존재시 save
         if (multipartFile != null) {
-//            String originName = multipartFile.getOriginalFilename();
-//            String ext = originName.substring(originName.lastIndexOf(".") + 1); // 확장자
-//            String newFileName = new MD5Generator(originName).toString() + "." + ext; // 파일 해쉬
-//            cleanDir(String.valueOf(memberId));
-//            saveFile(String.valueOf(memberId), newFileName, multipartFile);
             String upload = fileUploadUtils.upload(multipartFile, "image/profiles/" + memberId);
             member.setProfileImage(upload);
             memberRepository.save(member);

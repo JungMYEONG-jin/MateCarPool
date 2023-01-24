@@ -13,7 +13,6 @@ import com.example.eunboard.shared.exception.ErrorCode;
 import com.example.eunboard.shared.exception.custom.CustomException;
 import com.example.eunboard.shared.security.TokenProvider;
 import com.example.eunboard.shared.util.FileUploadUtils;
-import com.example.eunboard.shared.util.MD5Generator;
 import com.example.eunboard.timetable.application.port.in.MemberTimetableRequestDTO;
 import com.example.eunboard.timetable.application.port.out.MemberTimetableRepositoryPort;
 import com.example.eunboard.timetable.domain.MemberTimetable;
@@ -69,10 +68,6 @@ public class AuthService implements TokenUseCase {
 
         // 이미지 업로드
         if (multipartFile!=null){
-//            String filename = multipartFile.getOriginalFilename();
-//            String ext = filename.substring(filename.lastIndexOf(".") + 1); // 확장자
-//            String newFileName = new MD5Generator(filename).toString() + "." + ext;
-//            FileUploadUtils.saveFile(String.valueOf(memberId), newFileName, multipartFile);
             String upload = fileUploadUtils.upload(multipartFile, "image/profiles/" + memberId);
             savedMember.setProfileImage(upload);
         }

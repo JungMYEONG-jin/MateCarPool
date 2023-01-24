@@ -92,51 +92,6 @@ public class FileUploadUtils {
         return Optional.of(file);
     }
 
-
-    /**
-     * local save
-     * @param uploadDir
-     * @param fileName
-     * @param multipartFile
-     */
-    public static void saveFile(String uploadDir, String fileName, MultipartFile multipartFile) {
-        Path uploadPath = Paths.get(fileDir + uploadDir);
-
-        if (!Files.exists(uploadPath)) {
-            try {
-                Files.createDirectories(uploadPath);
-            } catch (IOException e) {
-                log.error("Could createDirectories: " + fileName, e);
-            }
-        }
-
-        try (InputStream iStream = multipartFile.getInputStream()) {
-            Path filePath = uploadPath.resolve(fileName);
-            Files.copy(iStream, filePath, StandardCopyOption.REPLACE_EXISTING);
-
-        } catch (IOException e) {
-            log.error("Could not save file: " + fileName, e);
-        }
-    }
-
-    public static void cleanDir(String dir) {
-        Path dirPath = Paths.get(fileDir+dir);
-
-        try {
-            Files.list(dirPath).forEach(file -> {
-                if (!Files.isDirectory(file)) {
-                    try {
-                        log.info("fileName {}", file.getFileName());
-                        Files.delete(file);
-                    } catch (IOException ex) {
-                        log.error("Could not delete file: " + file, ex);
-                    }
-                }
-            });
-        } catch (IOException e) {
-            log.error("Could not list directory: ", e);
-        }
-    }
     public static void cleanAbsolutePath(String dir) {
         Path dirPath = Paths.get(dir);
 
