@@ -114,6 +114,8 @@ public class MemberService implements MemberUseCase {
         Member member = memberRepository.findById(memberId).get();
         // 이미지 존재시 save
         if (multipartFile != null) {
+            // 기존 이미지 삭제
+            fileUploadUtils.delete(member.getProfileImage());
             String upload = fileUploadUtils.upload(multipartFile, "image/profiles/" + memberId);
             member.setProfileImage(upload);
             memberRepository.save(member);

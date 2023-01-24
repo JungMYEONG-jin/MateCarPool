@@ -12,12 +12,10 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.annotation.PostConstruct;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Optional;
@@ -31,6 +29,8 @@ public class FileUploadUtils {
     private String env;
     @Value("${spring.bucket}")
     private String bucket;
+    @Value("${spring.full-bucket}")
+    private String prefix;
     private static String fileDir;
     // s3 uploader
     private final AmazonS3Client amazonS3Client;
@@ -48,6 +48,11 @@ public class FileUploadUtils {
             e.printStackTrace();
         }
         return upload(file, dirName);
+    }
+
+    public String delete(String dirName) {
+        amazonS3Client.deleteObject(bucket, dirName.substring(prefix.length()));
+        return dirName + " Delete Success";
     }
 
     private String upload(File uploadFile, String dirName) {
