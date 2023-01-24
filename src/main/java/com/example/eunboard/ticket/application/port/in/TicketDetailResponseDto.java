@@ -1,8 +1,6 @@
 package com.example.eunboard.ticket.application.port.in;
 
-import com.example.eunboard.member.application.port.in.MemberResponseDTO;
 import com.example.eunboard.passenger.application.port.in.PassengerDetailResponseDTO;
-import com.example.eunboard.passenger.domain.Passenger;
 import com.example.eunboard.ticket.domain.DayStatus;
 import com.example.eunboard.ticket.domain.Ticket;
 import com.example.eunboard.ticket.domain.TicketStatus;

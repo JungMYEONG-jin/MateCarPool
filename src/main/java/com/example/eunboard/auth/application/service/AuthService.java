@@ -45,6 +45,8 @@ public class AuthService implements TokenUseCase {
     private final MemberTimetableRepositoryPort memberTimetableRepository;
     private final RedisTemplate redisTemplate;
 
+    private final FileUploadUtils fileUploadUtils;
+
     private static String refreshTokenPrefix = "RT:";
 
     // 회원 가입
@@ -67,11 +69,12 @@ public class AuthService implements TokenUseCase {
 
         // 이미지 업로드
         if (multipartFile!=null){
-            String filename = multipartFile.getOriginalFilename();
-            String ext = filename.substring(filename.lastIndexOf(".") + 1); // 확장자
-            String newFileName = new MD5Generator(filename).toString() + "." + ext;
-            FileUploadUtils.saveFile("/image/profiles/"+memberId, newFileName, multipartFile);
-            savedMember.setProfileImage("/" + memberId + "/" + newFileName);
+//            String filename = multipartFile.getOriginalFilename();
+//            String ext = filename.substring(filename.lastIndexOf(".") + 1); // 확장자
+//            String newFileName = new MD5Generator(filename).toString() + "." + ext;
+//            FileUploadUtils.saveFile(String.valueOf(memberId), newFileName, multipartFile);
+            String upload = fileUploadUtils.upload(multipartFile, "image/profiles/" + memberId);
+            savedMember.setProfileImage(upload);
         }
 
         List<MemberTimetableRequestDTO> memberTimeTable = memberRequestDTO.getMemberTimeTable();

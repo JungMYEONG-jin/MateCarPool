@@ -8,6 +8,7 @@ import com.example.eunboard.passenger.application.port.out.PassengerRepositoryPo
 import com.example.eunboard.passenger.domain.Passenger;
 import com.example.eunboard.shared.exception.ErrorCode;
 import com.example.eunboard.shared.exception.custom.CustomException;
+import com.example.eunboard.shared.util.FileUploadUtils;
 import com.example.eunboard.shared.util.MD5Generator;
 import com.example.eunboard.ticket.application.port.out.TicketRepositoryPort;
 import com.example.eunboard.ticket.domain.Ticket;
@@ -44,6 +45,7 @@ public class MemberService implements MemberUseCase {
     private final PassengerRepositoryPort passengerRepositoryPort;
     private final MemberTimetableRepositoryPort memberTimetableRepositoryPort;
     private final TicketRepositoryPort ticketRepositoryPort;
+    private final FileUploadUtils fileUploadUtils;
 
     @Override
     public MemberResponseDTO select(final Long id) {
@@ -116,12 +118,13 @@ public class MemberService implements MemberUseCase {
         Member member = memberRepository.findById(memberId).get();
         // 이미지 존재시 save
         if (multipartFile != null) {
-            String originName = multipartFile.getOriginalFilename();
-            String ext = originName.substring(originName.lastIndexOf(".") + 1); // 확장자
-            String newFileName = new MD5Generator(originName).toString() + "." + ext; // 파일 해쉬
-            cleanDir("/image/profiles/" + memberId);
-            saveFile("/image/profiles/" + memberId, newFileName, multipartFile);
-            member.setProfileImage("/" + memberId + "/" + newFileName);
+//            String originName = multipartFile.getOriginalFilename();
+//            String ext = originName.substring(originName.lastIndexOf(".") + 1); // 확장자
+//            String newFileName = new MD5Generator(originName).toString() + "." + ext; // 파일 해쉬
+//            cleanDir(String.valueOf(memberId));
+//            saveFile(String.valueOf(memberId), newFileName, multipartFile);
+            String upload = fileUploadUtils.upload(multipartFile, "image/profiles/" + memberId);
+            member.setProfileImage(upload);
             memberRepository.save(member);
         }
     }

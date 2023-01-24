@@ -24,6 +24,7 @@
 
 spring:
   profiles:
-    active: mj
+    active: test
+  bucket: elasticbeanstalk-ap-northeast-2-629926164588
 
 
