@@ -70,6 +70,7 @@ public class FileUploadUtils {
     // local save
     private Optional<File> convert(String dirName, MultipartFile multipartFile) throws IOException {
         if (multipartFile.isEmpty()) {
+            log.info("empty {}", dirName);
             return Optional.empty();
         }
         // get real path
