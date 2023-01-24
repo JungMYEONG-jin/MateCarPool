@@ -20,6 +20,7 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class TicketDetailResponseDto {
     private Long id;
+    private String studentNumber;
     /** 드라이버 이름 */
     private String memberName;
     // 드라이버 이미지
@@ -56,6 +57,7 @@ public class TicketDetailResponseDto {
         String minuteHour = startDayTime.substring(8);
         return TicketDetailResponseDto.builder()
                 .id(entity.getId()) // 예약 하기 하려면 있어야 될듯?
+                .studentNumber(entity.getMember().getStudentNumber())
                 .startArea(entity.getStartArea())
                 .endArea(entity.getEndArea())
                 .profileImage(entity.getMember().getProfileImage())
