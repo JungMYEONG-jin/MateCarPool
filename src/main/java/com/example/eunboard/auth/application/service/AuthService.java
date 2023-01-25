@@ -12,6 +12,7 @@ import com.example.eunboard.member.domain.Member;
 import com.example.eunboard.shared.exception.ErrorCode;
 import com.example.eunboard.shared.exception.custom.CustomException;
 import com.example.eunboard.shared.security.TokenProvider;
+import com.example.eunboard.shared.util.FileUpload;
 import com.example.eunboard.shared.util.FileUploadUtils;
 import com.example.eunboard.timetable.application.port.in.MemberTimetableRequestDTO;
 import com.example.eunboard.timetable.application.port.out.MemberTimetableRepositoryPort;
@@ -45,7 +46,7 @@ public class AuthService implements TokenUseCase {
     private final MemberTimetableRepositoryPort memberTimetableRepository;
     private final RedisTemplate redisTemplate;
 
-    private final FileUploadUtils fileUploadUtils;
+    private final FileUpload fileUploadUtils;
 
     private static String refreshTokenPrefix = "RT:";
     // 회원 가입
@@ -176,7 +177,7 @@ public class AuthService implements TokenUseCase {
         // 회원 삭제 처리
         long memberId = Long.parseLong(id);
         Member member = memberRepository.findById(memberId).orElseThrow(() -> new CustomException(ErrorCode.MEMBER_NOT_FOUND.getMessage(), ErrorCode.MEMBER_NOT_FOUND));
-        fileUploadUtils.delete(member.getProfileImage());
+        fileUploadUtils.delete(memberId, member.getProfileImage());
         member.setIsRemoved(1);
         member.setDeleteDate(new Date());
         memberRepository.save(member);

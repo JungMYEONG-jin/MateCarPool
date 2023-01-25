@@ -1,9 +1,5 @@
 package com.example.eunboard.shared.util;
 
-import com.amazonaws.services.s3.AmazonS3Client;
-import com.amazonaws.services.s3.model.CannedAccessControlList;
-import com.amazonaws.services.s3.model.ObjectMetadata;
-import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.example.eunboard.shared.exception.ErrorCode;
 import com.example.eunboard.shared.exception.custom.CustomException;
 import lombok.RequiredArgsConstructor;
@@ -16,56 +12,67 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 @Slf4j
-@Profile("test")
 @Service
 @RequiredArgsConstructor
-public class FileUploadUtils implements FileUpload{
-    @Value("${spring.bucket}")
-    private String bucket;
-    @Value("${spring.full-bucket}")
-    private String prefix;
-    @Value("${spring.default-image}")
+public class FileUploadLocalUtils implements FileUpload{
+    @Value("${spring.default-image-local}")
     private String defaultImageUrl;
-    // s3 uploader
-    private final AmazonS3Client amazonS3Client;
-
+    @Value("${spring.root-dir}")
+    private String rootDir;
 
     public String getDefaultImageUrl() {
         return defaultImageUrl;
     }
 
-    /**
-     * s3 file upload
-     * @param multipartFile
-     * @param dirName
-     * @return
-     */
     public String upload(MultipartFile multipartFile, String dirName) {
-        validateFile(multipartFile);
-        String storeFileName = dirName + "/" + createStoreFileName(multipartFile.getOriginalFilename());
-        ObjectMetadata objectMetadata = new ObjectMetadata();
-        objectMetadata.setContentType(multipartFile.getContentType());
-        try(InputStream inputStream = multipartFile.getInputStream()){
-            amazonS3Client.putObject(new PutObjectRequest(bucket, storeFileName, inputStream, objectMetadata).withCannedAcl(CannedAccessControlList.PublicRead));
-        } catch (IOException e) {
-            throw new CustomException(ErrorCode.FILE_UPLOAD_FAILED.getMessage(), ErrorCode.FILE_UPLOAD_FAILED);
+        String originalFilename = multipartFile.getOriginalFilename();
+        String fileName = createStoreFileName(originalFilename);
+        log.info("i am local {}", fileName);
+        Path uploadPath = Paths.get(System.getProperty("user.dir") + "/" + dirName);
+        if (!Files.exists(uploadPath)) {
+            try {
+                Files.createDirectories(uploadPath);
+            } catch (IOException e) {
+                log.error("Could createDirectories: " + fileName, e);
+            }
         }
-        return amazonS3Client.getUrl(bucket, storeFileName).toString();
+
+        try (InputStream iStream = multipartFile.getInputStream()) {
+            Path filePath = uploadPath.resolve(fileName);
+            Files.copy(iStream, filePath, StandardCopyOption.REPLACE_EXISTING);
+
+        } catch (IOException e) {
+            log.error("Could not save file: " + fileName, e);
+        }
+        return fileName;
     }
 
-    /**
-     * s3 file delete
-     * @param dirName
-     * @return
-     */
-    public void delete(Long userId, String dirName) {
+    public void delete(Long userId, String dir) {
         // 기본 이미지가 아니라면 삭제 진행
-        if (!dirName.equals(defaultImageUrl)) {
-            amazonS3Client.deleteObject(bucket, dirName.substring(prefix.length()));
+        if (!dir.equals(defaultImageUrl)) {
+            Path dirPath = Paths.get(System.getProperty("user.dir") + rootDir + "/" + userId);
+
+            try {
+                Files.list(dirPath).forEach(file -> {
+                    if (!Files.isDirectory(file)) {
+                        try {
+                            Files.delete(file);
+                        } catch (IOException ex) {
+                            log.error("Could not delete file: " + file, ex);
+                        }
+                    }
+                });
+            } catch (IOException e) {
+                log.error("Could not list directory: ", e);
+            }
         }
     }
 
@@ -99,6 +106,4 @@ public class FileUploadUtils implements FileUpload{
         }
         return "default.png";
     }
-
-
 }

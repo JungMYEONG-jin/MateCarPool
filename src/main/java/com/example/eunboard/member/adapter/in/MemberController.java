@@ -156,7 +156,7 @@ public class MemberController {
     public ResponseEntity<byte[]> getFile(@PathVariable("id") String id, @PathVariable("imagename") String imagename) {
         ResponseEntity<byte[]> result = null;
         try {
-            File file = new File(System.getProperty("user.dir") + "/image/profiles/" + id + "/" + imagename);
+            File file = new File(System.getProperty("user.dir") + "/mate/image/profiles/" + id + "/" + imagename);
             HttpHeaders headers = new HttpHeaders();
             headers.add("Content-Type", Files.probeContentType(file.toPath()));
             result = new ResponseEntity<>(FileCopyUtils.copyToByteArray(file), headers, HttpStatus.OK);
