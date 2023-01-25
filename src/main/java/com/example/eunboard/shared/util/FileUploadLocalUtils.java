@@ -20,6 +20,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 @Slf4j
+@Profile("mj")
 @Service
 @RequiredArgsConstructor
 public class FileUploadLocalUtils implements FileUpload{
