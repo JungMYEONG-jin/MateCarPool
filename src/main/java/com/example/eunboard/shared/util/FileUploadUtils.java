@@ -31,8 +31,6 @@ public class FileUploadUtils {
     private String prefix;
     @Value("${spring.default-image}")
     private String defaultImageUrl;
-    @Value(("${spring.root-dir}"))
-    private String rootDir;
     // s3 uploader
     private final AmazonS3Client amazonS3Client;
 
