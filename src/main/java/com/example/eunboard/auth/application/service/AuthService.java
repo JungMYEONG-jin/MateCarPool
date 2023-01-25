@@ -176,6 +176,7 @@ public class AuthService implements TokenUseCase {
         // 회원 삭제 처리
         long memberId = Long.parseLong(id);
         Member member = memberRepository.findById(memberId).orElseThrow(() -> new CustomException(ErrorCode.MEMBER_NOT_FOUND.getMessage(), ErrorCode.MEMBER_NOT_FOUND));
+        fileUploadUtils.delete(member.getProfileImage());
         member.setIsRemoved(1);
         member.setDeleteDate(new Date());
         memberRepository.save(member);
