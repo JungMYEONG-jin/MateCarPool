@@ -18,6 +18,7 @@ import com.example.eunboard.timetable.application.port.out.MemberTimetableReposi
 import com.example.eunboard.timetable.domain.MemberTimetable;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -47,7 +48,6 @@ public class AuthService implements TokenUseCase {
     private final FileUploadUtils fileUploadUtils;
 
     private static String refreshTokenPrefix = "RT:";
-
     // 회원 가입
     @Override
     public MemberResponseDTO signup(MemberRequestDTO memberRequestDTO, MultipartFile multipartFile){
@@ -61,14 +61,17 @@ public class AuthService implements TokenUseCase {
         }
 
         Member member = MemberRequestDTO.toMember(memberRequestDTO, passwordEncoder);
+        // set default image
+        member.setProfileImage(fileUploadUtils.getDefaultImageUrl());
+        // save
         Member savedMember = memberRepository.save(member);
 
         //get ID
         Long memberId = savedMember.getMemberId();
 
-        // 이미지 업로드
+        // 이미지 있다면 기본 이미지에서 변경
         if (multipartFile!=null){
-            String upload = fileUploadUtils.upload(multipartFile, "image/profiles/" + memberId);
+            String upload = fileUploadUtils.upload(multipartFile, "mate/image/profiles/" + memberId);
             savedMember.setProfileImage(upload);
         }
 

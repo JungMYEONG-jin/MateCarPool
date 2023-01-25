@@ -27,5 +27,5 @@ spring:
     active: test
   bucket: elasticbeanstalk-ap-northeast-2-629926164588
   full-bucket: https://elasticbeanstalk-ap-northeast-2-629926164588.s3.ap-northeast-2.amazonaws.com/
-
+  default-image: https://elasticbeanstalk-ap-northeast-2-629926164588.s3.ap-northeast-2.amazonaws.com/mate/image/default/default.jpeg
 
