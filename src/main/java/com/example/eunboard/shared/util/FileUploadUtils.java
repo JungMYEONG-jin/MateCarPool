@@ -65,9 +65,11 @@ public class FileUploadUtils {
      * @param dirName
      * @return
      */
-    public String delete(String dirName) {
-        amazonS3Client.deleteObject(bucket, dirName.substring(prefix.length()));
-        return dirName + " Delete Success";
+    public void delete(String dirName) {
+        // 기본 이미지가 아니라면 삭제 진행
+        if (!dirName.equals(defaultImageUrl)) {
+            amazonS3Client.deleteObject(bucket, dirName.substring(prefix.length()));
+        }
     }
 
     private void validateFile(MultipartFile multipartFile) {
